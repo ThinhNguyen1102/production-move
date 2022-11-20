@@ -6,28 +6,23 @@ const productController = {
     const { productLineId, warehouseId, quantity } = req.body;
     const products = [];
     const package = {
+      package_id: generateCode("PK"),
       unit_manage_id: req.userId,
       product_line_id: productLineId,
       quantity: quantity,
-    };
-    const unsoldStatus = {
-      unit_manage_id: req.userId,
       warehouse_id: warehouseId,
       status_code: "STT-01",
     };
 
-    Promise.all([
-      db.Package.create(package),
-      db.UnSoldStatus.create(unsoldStatus),
-    ])
+    db.Package.create(package)
       .then(async (result) => {
+        console.log(result);
         for (let i = 1; i <= quantity; i++) {
           products.push({
             prod_id: generateCode("P"),
             isSold: false,
-            unsold_status_id: result[1].id,
             sold_status_id: null,
-            package_id: result[0].id,
+            package_id: result.package_id,
             product_line_id: productLineId,
           });
         }

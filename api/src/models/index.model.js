@@ -38,7 +38,6 @@ db.Package = require("./package.model")(sequelize, DataTypes);
 db.Warehouse = require("./warehouse.model")(sequelize, DataTypes);
 db.Customer = require("./customer.model")(sequelize, DataTypes);
 db.SoldStatus = require("./soldStatus.model")(sequelize, DataTypes);
-db.UnSoldStatus = require("./unsoldStatus.model")(sequelize, DataTypes);
 db.ProductLineWh = require("./productLineWh.model")(sequelize, DataTypes);
 
 // relation function create
@@ -76,6 +75,12 @@ const createManyToManyRelation = function (model1, model2, modelRelation) {
 createOneToManyRelation(db.ProductLine, db.User, "user_id", "user_productLine");
 createOneToManyRelation(db.Package, db.User, "unit_manage_id", "user_package");
 createOneToManyRelation(
+  db.Package,
+  db.Warehouse,
+  "warehouse_id",
+  "warehouse_package"
+);
+createOneToManyRelation(
   db.Warehouse,
   db.User,
   "unit_manage_id",
@@ -87,12 +92,6 @@ createOneToManyRelation(
   db.User,
   "unit_manage_id",
   "user_soldStatus"
-);
-createOneToManyRelation(
-  db.UnSoldStatus,
-  db.User,
-  "unit_manage_id",
-  "user_unsoldStatus"
 );
 createOneToManyRelation(
   db.SoldStatus,
@@ -114,19 +113,7 @@ createOneToManyRelation(
   "warehouse_id",
   "warehouse_soldStatus"
 );
-createOneToManyRelation(
-  db.UnSoldStatus,
-  db.Warehouse,
-  "warehouse_id",
-  "warehouse_unsoldStatus"
-);
 
-createOneToManyRelation(
-  db.Product,
-  db.UnSoldStatus,
-  "unsold_status_id",
-  "unsoldStatus_product"
-);
 createOneToManyRelation(
   db.Product,
   db.SoldStatus,
