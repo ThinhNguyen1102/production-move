@@ -56,6 +56,8 @@ const authController = {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
+      newUser.password = "";
+
       return res.status(201).json({
         message: "Register success.",
         success: true,
@@ -113,6 +115,7 @@ const authController = {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
+      user.password = "";
       return res.json({
         message: "Login success.",
         success: true,

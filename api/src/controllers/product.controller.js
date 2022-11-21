@@ -47,6 +47,115 @@ const productController = {
         next(err);
       });
   },
+  postSoldProduct: async (req, res, next) => {
+    const {
+      prodId,
+      customerName,
+      customerPhone,
+      customerAddress,
+      customerEmail,
+    } = req.body;
+    try {
+      const product = await db.Product.findByPk(prodId, {
+        include: {
+          model: db.Package,
+          as: "package_product",
+          attributes: ["unit_manage_id", "warehouse_id"],
+        },
+      });
+
+      if (!product) {
+        const err = new Error("Could not find product.");
+        err.statusCode = 404;
+        throw err;
+      }
+      if (product.isSold) {
+        const err = new Error("The product is already sold.");
+        err.statusCode = 400;
+        throw err;
+      }
+
+      const customer = {
+        name: customerName,
+        address: customerAddress,
+        email: customerEmail,
+        phone_number: customerPhone,
+        store_id: product.package_product.unit_manage_id,
+      };
+      const customerSaved = await db.Customer.create(customer);
+
+      const soldStatus = {
+        status_code: "STT-03",
+        guarantees: 0,
+        unit_manage_id: product.package_product.unit_manage_id,
+        customer_id: customerSaved.id,
+        warehouse_id: product.package_product.warehouse_id,
+      };
+      const soldStatusSaved = await db.SoldStatus.create(soldStatus);
+
+      product.isSold = true;
+      product.sold_status_id = soldStatusSaved.id;
+
+      const productSaved = await product.save();
+      res.status(201).json({
+        message: "ok",
+        success: true,
+        soldStatus: soldStatusSaved,
+        customer: customerSaved,
+        product: productSaved,
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+  postGuarentee: async (req, res, next) => {
+    const { prodId, errorDescription } = req.body;
+    console.log(req.body);
+
+    try {
+      const product = await db.Product.findByPk(prodId, {
+        include: {
+          model: db.SoldStatus,
+          as: "soldStatus_product",
+          attributes: ["unit_manage_id", "warehouse_id", "customer_id"],
+          include: {
+            model: db.Customer,
+            as: "customer_soldStatus",
+            attributes: ["name", "address", "phone_number"],
+          },
+        },
+      });
+
+      res.status(201).json({
+        message: "ok",
+        success: true,
+        result: product,
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
 };
 
 module.exports = productController;
+/*
+  {
+    prod_id:,
+    customerName:,
+    customerPhone:,
+    customerAddress:,
+    customerEmail:,
+  }
+*/
+/*
+  {
+    prod_id:,
+    errorDescription:,
+  }
+*/
