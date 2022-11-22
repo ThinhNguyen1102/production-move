@@ -2,7 +2,7 @@ import { Link, MenuItem, Typography } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-const MobileMenuItem = ({ navbarMenuItem }) => {
+const MobileMenuItem = ({ navbarMenuItem, handleCloseNavMenu }) => {
   return (
     <Link
       component={RouterLink}
@@ -11,6 +11,7 @@ const MobileMenuItem = ({ navbarMenuItem }) => {
         color: "#000",
         textDecoration: "none",
       }}
+      onClick={handleCloseNavMenu}
     >
       <MenuItem>
         {navbarMenuItem.icon}

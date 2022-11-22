@@ -1,9 +1,9 @@
-import { AUTH } from "../types";
+import { AUTH, ALERT } from "../types";
 import { postDataAPI } from "../../utils/fetchData";
 
 export const login = (data) => async (dispatch) => {
   try {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
     const res = await postDataAPI("auth/login", data);
     dispatch({
       type: AUTH,
@@ -14,26 +14,26 @@ export const login = (data) => async (dispatch) => {
     });
 
     localStorage.setItem("loggedIn", true);
-    // dispatch({
-    //   type: ALERT,
-    //   payload: {
-    //     success: res.message,
-    //   },
-    // });
+    dispatch({
+      type: ALERT,
+      payload: {
+        success: res.message,
+      },
+    });
   } catch (err) {
-    // dispatch({
-    //   type: ALERT,
-    //   payload: {
-    //     error: err.response.data.message,
-    //   },
-    // });
+    dispatch({
+      type: ALERT,
+      payload: {
+        error: err.response.data.message,
+      },
+    });
   }
 };
 
 export const refreshToken = () => async (dispatch) => {
   const loggedIn = localStorage.getItem("loggedIn");
   if (loggedIn) {
-    // dispatch({ type: ALERT, payload: { loading: true } });
+    dispatch({ type: ALERT, payload: { loading: true } });
 
     try {
       const res = await postDataAPI("auth/refresh_token");
@@ -45,14 +45,14 @@ export const refreshToken = () => async (dispatch) => {
         },
       });
 
-      // dispatch({ type: ALERT, payload: {} });
+      dispatch({ type: ALERT, payload: {} });
     } catch (err) {
-      // dispatch({
-      //   type: ALERT,
-      //   payload: {
-      //     error: err.response.data.message,
-      //   },
-      // });
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
     }
   }
 };
@@ -63,12 +63,12 @@ export const logout = () => async (dispatch) => {
     await postDataAPI("auth/logout");
     window.location.href = "/";
   } catch (err) {
-    // dispatch({
-    //   type: ALERT,
-    //   payload: {
-    //     error: err.response.data.message,
-    //   },
-    // });
+    dispatch({
+      type: ALERT,
+      payload: {
+        error: err.response.data.message,
+      },
+    });
   }
 };
 
@@ -81,24 +81,24 @@ export const changePassword =
     //   return dispatch({ type: ALERT, payload: isCheck.errMsg });
     // }
     try {
-      // dispatch({ type: ALERT, payload: { loading: true } });
+      dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(
         "auth/change_password",
         changePasswordData,
         auth.token
       );
-      // dispatch({
-      //   type: ALERT,
-      //   payload: {
-      //     success: res.message,
-      //   },
-      // });
+      dispatch({
+        type: ALERT,
+        payload: {
+          success: res.message,
+        },
+      });
     } catch (err) {
-      // dispatch({
-      //   type: ALERT,
-      //   payload: {
-      //     error: err.response.data.message,
-      //   },
-      // });
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
     }
   };

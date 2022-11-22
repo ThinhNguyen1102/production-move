@@ -51,6 +51,7 @@ function NavbarMenu() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const handleClickOpenDialog = () => {
+    handleCloseUserMenu();
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
@@ -141,7 +142,11 @@ function NavbarMenu() {
                 }}
               >
                 {navbarMenuItems.map((navbarMenuItem, index) => (
-                  <MobileMenuItem key={index} navbarMenuItem={navbarMenuItem} />
+                  <MobileMenuItem
+                    key={index}
+                    navbarMenuItem={navbarMenuItem}
+                    handleCloseNavMenu={handleCloseNavMenu}
+                  />
                 ))}
               </Menu>
             </Box>
