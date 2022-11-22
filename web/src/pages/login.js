@@ -48,7 +48,7 @@ const Login = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Sign in
+        ログイン
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
@@ -56,7 +56,7 @@ const Login = () => {
           required
           fullWidth
           id="email"
-          label="Email Address"
+          label="メールアドレス"
           autoComplete="email"
           autoFocus
           name="email"
@@ -67,7 +67,7 @@ const Login = () => {
           margin="normal"
           required
           fullWidth
-          label="Password"
+          label="パスワード"
           type="password"
           id="password"
           autoComplete="current-password"
@@ -82,7 +82,7 @@ const Login = () => {
           sx={{ mt: 3, mb: 2 }}
           disabled={email && password ? false : true}
         >
-          Sign In
+          ログイン
         </Button>
       </Box>
     </Box>
