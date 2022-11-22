@@ -56,8 +56,6 @@ const authController = {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
-      newUser.password = "";
-
       return res.status(201).json({
         message: "Register success.",
         success: true,
@@ -115,7 +113,6 @@ const authController = {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
-      user.password = "";
       return res.json({
         message: "Login success.",
         success: true,
@@ -195,7 +192,7 @@ const authController = {
     const { newPassword, oldPassword } = req.body;
 
     try {
-      const user = await db.User.findBypk(req.userId);
+      const user = await db.User.findByPk(req.userId);
       if (!user) {
         const err = new Error("Please login again");
         err.statusCode = 401;
