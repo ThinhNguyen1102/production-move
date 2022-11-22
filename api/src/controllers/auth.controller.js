@@ -39,29 +39,13 @@ const authController = {
         password: hashedPw,
       };
 
-      await db.User.create(newUser);
-
-      const access_token = createAccessToken({
-        id: newUser.id,
-        role: newUser.role,
-      });
-      const refresh_token = createRefreshToken({
-        id: newUser.id,
-        role: newUser.role,
-      });
-
-      res.cookie("refreshtoken", refresh_token, {
-        httpOnly: true,
-        path: "/api/v1/auth/refresh_token",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+      const createdUser = await db.User.create(newUser);
 
       return res.status(201).json({
         message: "Register success.",
         success: true,
         data: {
-          access_token,
-          user: newUser,
+          user: createdUser,
         },
       });
     } catch (err) {

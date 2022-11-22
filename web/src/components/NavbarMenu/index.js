@@ -28,12 +28,12 @@ import MobileMenuItem from "./MobileMenuItem";
 
 const navbarMenuItems = [
   {
-    icon: <PrecisionManufacturingIcon fontSize="large" />,
+    icon: <PrecisionManufacturingIcon />,
     text: "商品ライン",
     pageLink: "/product_line",
   },
   {
-    icon: <ManageAccountsIcon fontSize="large" />,
+    icon: <ManageAccountsIcon />,
     text: "アカウント管理",
     pageLink: "/accounts",
   },
