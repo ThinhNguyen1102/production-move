@@ -1,7 +1,156 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Button, Typography } from "@mui/material";
+import ProductLineCard from "../../components/ProductLineCard";
+import AddIcon from "@mui/icons-material/Add";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createProductLine,
+  getAllProductLine,
+} from "../../redux/actions/productLineAction";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { TextField } from "@mui/material";
 
+const initialState = {
+  model: "",
+  ram: "",
+  memory: "",
+  color: "",
+  description: "",
+  price: 0,
+};
 const ProductLine = () => {
-  return <div>ProductLine</div>;
+  const { auth, productLine } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProductLine({ auth }));
+  }, [dispatch]);
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const handleSubmit = () => {
+    dispatch(createProductLine({ data: productLineData, auth }));
+    handleCloseDialog();
+  };
+
+  const [productLineData, setProductLineData] = useState(initialState);
+  const { model, ram, memory, color, description, price } = productLineData;
+  const onChangeDataInput = (e) => {
+    setProductLineData({
+      ...productLineData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  return (
+    <>
+      <Box p={3}>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{ marginBottom: 3 }}
+          onClick={handleClickOpenDialog}
+        >
+          商品ライン追加
+        </Button>
+
+        <Grid container spacing={3}>
+          {productLine.productLines.map((productLineElement) => (
+            <Grid sm={6} md={4} lg={3} xl={2} key={productLineElement.id}>
+              <ProductLineCard productLine={productLineElement} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      {/* dialog */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>商品ライン追加</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="model"
+            label="モデル"
+            fullWidth
+            variant="standard"
+            name="model"
+            value={model}
+            onChange={onChangeDataInput}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="ram"
+            label="RAM"
+            fullWidth
+            variant="standard"
+            type="number"
+            name="ram"
+            value={ram}
+            onChange={onChangeDataInput}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="memory"
+            label="メモリー"
+            fullWidth
+            type="number"
+            variant="standard"
+            name="memory"
+            value={memory}
+            onChange={onChangeDataInput}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="color"
+            label="色"
+            fullWidth
+            variant="standard"
+            name="color"
+            value={color}
+            onChange={onChangeDataInput}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="description"
+            label="説明"
+            fullWidth
+            variant="standard"
+            name="description"
+            value={description}
+            onChange={onChangeDataInput}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="price"
+            label="価格"
+            fullWidth
+            variant="standard"
+            name="price"
+            type="number"
+            value={price}
+            onChange={onChangeDataInput}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>キャンセル</Button>
+          <Button onClick={handleSubmit}>保存</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 };
 
 export default ProductLine;

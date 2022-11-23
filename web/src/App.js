@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PageRender from "./PageRender";
 import Login from "./pages/login";
-import Home from "./pages/home";
 import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
 import PrivateRouter from "./customRouter/PrivateRouter";
 import NavbarMenu from "./components/NavbarMenu";
 import GlobalAlert from "./components/GlobalAlert";
+import Product from "./components/product";
 
 function App() {
   const { auth } = useSelector((state) => state);
@@ -23,7 +23,7 @@ function App() {
       <GlobalAlert />
       {auth.token && <NavbarMenu />}
       <Routes>
-        <Route path="/" element={auth.token ? <Home /> : <Login />} />
+        <Route path="/" element={auth.token ? <Product /> : <Login />} />
         <Route
           path="/:page"
           element={
