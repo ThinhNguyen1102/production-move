@@ -25,8 +25,14 @@ import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturi
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CustomMenuItem from "./CustomMenuItem";
 import MobileMenuItem from "./MobileMenuItem";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 const navbarMenuItems = [
+  {
+    icon: <BarChartIcon />,
+    text: "商品統計",
+    pageLink: "/",
+  },
   {
     icon: <PrecisionManufacturingIcon />,
     text: "商品ライン",

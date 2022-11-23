@@ -42,7 +42,7 @@ const productLineController = {
       res.status(200).json({
         success: true,
         message: "create new productLine successfully",
-        reault: {
+        data: {
           newProductLine: productLineSaved,
         },
       });
@@ -60,7 +60,7 @@ const productLineController = {
       res.status(200).json({
         message: "get all productLine successfully",
         success: true,
-        result: productLines,
+        data: { productLines },
       });
     } catch (err) {
       if (!err.statusCode) {
