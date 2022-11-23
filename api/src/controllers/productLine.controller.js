@@ -1,4 +1,5 @@
 const db = require("../models/index.model");
+const sequelize = require("sequelize");
 const { validationResult } = require("express-validator/check");
 
 const productLineController = {
@@ -61,6 +62,84 @@ const productLineController = {
         message: "get all productLine successfully",
         success: true,
         result: productLines,
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+  getProductLineOwn: async (req, res, next) => {
+    const unitId = req.userId;
+
+    try {
+      const productLines = await db.Package.findAll({
+        where: {
+          unit_manage_id: unitId,
+        },
+        attributes: [
+          // "product_line_id",
+          [sequelize.fn("SUM", sequelize.col("quantity_in_stock")), "amount"],
+        ],
+        group: ["product_line_id"],
+        include: {
+          model: db.ProductLine,
+          as: "productLine",
+        },
+      });
+
+      const result = productLines.map((val) => {
+        return {
+          productLine: val.dataValues.productLine,
+          amount: +val.dataValues.amount,
+        };
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "edit productLine successfully",
+        result: result,
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+  getProductLineOwnWh: async (req, res, next) => {
+    const unitId = req.userId;
+    const warehouseId = req.params.warehouseId;
+
+    try {
+      const productLines = await db.Package.findAll({
+        where: {
+          unit_manage_id: unitId,
+          warehouse_id: warehouseId,
+        },
+        attributes: [
+          "product_line_id",
+          [sequelize.fn("sum", sequelize.col("quantity_in_stock")), "amount"],
+        ],
+        group: ["product_line_id"],
+        include: {
+          model: db.ProductLine,
+          as: "productLine",
+        },
+      });
+
+      const result = productLines.map((val) => {
+        return {
+          productLine: val.dataValues.productLine,
+          amount: +val.dataValues.amount,
+        };
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "edit productLine successfully",
+        result: result,
       });
     } catch (err) {
       if (!err.statusCode) {

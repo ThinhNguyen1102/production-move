@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const generateCode = require("../helpers/generateCode");
 const db = require("../models/index.model");
 
@@ -10,6 +11,7 @@ const productController = {
       unit_manage_id: req.userId,
       product_line_id: productLineId,
       quantity: quantity,
+      quantity_in_stock: quantity,
       warehouse_id: warehouseId,
       status_code: "STT-01",
     };
@@ -47,6 +49,7 @@ const productController = {
         next(err);
       });
   },
+
   postSoldProduct: async (req, res, next) => {
     const {
       prodId,
@@ -75,6 +78,12 @@ const productController = {
         throw err;
       }
 
+      // update package
+      const package = await db.Package.findByPk(product.package_id);
+      package.quantity_in_stock -= 1;
+      await package.save();
+
+      // create customer
       const customer = {
         name: customerName,
         address: customerAddress,
@@ -84,6 +93,7 @@ const productController = {
       };
       const customerSaved = await db.Customer.create(customer);
 
+      // create status
       const soldStatus = {
         status_code: "STT-03",
         guarantees: 0,
@@ -111,28 +121,107 @@ const productController = {
       next(err);
     }
   },
+
   postGuarentee: async (req, res, next) => {
     const { prodId, errorDescription } = req.body;
     console.log(req.body);
 
     try {
-      const product = await db.Product.findByPk(prodId, {
-        include: {
-          model: db.SoldStatus,
-          as: "soldStatus_product",
-          attributes: ["unit_manage_id", "warehouse_id", "customer_id"],
-          include: {
-            model: db.Customer,
-            as: "customer_soldStatus",
-            attributes: ["name", "address", "phone_number"],
-          },
-        },
-      });
+      const product = await db.Product.findByPk(prodId);
+      const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
+      const error = {
+        error_code: generateCode("ERR"),
+        description: errorDescription,
+      };
+      const errorSaved = await db.Error.create(error);
+
+      soldStatus.status_code = "STT-04";
+      soldStatus.guarantees = 1;
+      soldStatus.unit_manage_id = req.userId;
+      soldStatus.error_id = errorSaved.id;
+
+      const soldStatusSaved = await soldStatus.save();
 
       res.status(201).json({
         message: "ok",
         success: true,
-        result: product,
+        result: soldStatusSaved,
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  moveProduct: async (req, res, next) => {
+    const { unitId, productId, warehouseId, statusCode } = req.body;
+    try {
+      const warehouse = await db.Warehouse.findByPk(warehouseId);
+      if (warehouse.unit_manage_id !== +unitId) {
+        const err = new Error("Unit and warehouse are not the same.");
+        err.statusCode = 400;
+        throw err;
+      }
+      const product = await db.Product.findByPk(productId);
+      const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
+
+      if (soldStatus.unit_manage_id !== req.userId) {
+        const err = new Error("product is not owned.");
+        err.statusCode = 404;
+        throw err;
+      }
+
+      soldStatus.status_code = statusCode;
+      soldStatus.unit_manage_id = unitId;
+      soldStatus.warehouse_id = warehouseId;
+      const soldStatusSaved = await soldStatus.save();
+
+      res.status(201).json({
+        message: "ok",
+        success: true,
+        result: soldStatusSaved,
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  getProductByPl: async (req, res, next) => {
+    const unitId = req.userId;
+    const productLineId = req.params.prodLineId;
+
+    try {
+      const packages = await db.Package.findAll({
+        where: {
+          unit_manage_id: unitId,
+          product_line_id: productLineId,
+        },
+      });
+
+      const packageCodes = [];
+      packages.forEach((val) => {
+        packageCodes.push(val.package_id);
+      });
+
+      const products = await db.Product.findAll({
+        where: {
+          package_id: { [Op.in]: packageCodes },
+        },
+        include: {
+          model: db.Package,
+          as: "package",
+          attributes: ["status_code", "warehouse_id"],
+        },
+      });
+      res.status(200).json({
+        success: true,
+        message: "edit productLine successfully",
+        result: products,
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -144,18 +233,14 @@ const productController = {
 };
 
 module.exports = productController;
-/*
-  {
-    prod_id:,
-    customerName:,
-    customerPhone:,
-    customerAddress:,
-    customerEmail:,
-  }
-*/
-/*
-  {
-    prod_id:,
-    errorDescription:,
-  }
-*/
+
+// include: {
+//   model: db.SoldStatus,
+//   as: "soldStatus_product",
+//   attributes: ["unit_manage_id", "warehouse_id", "customer_id"],
+// include: {
+//   model: db.Customer,
+//   as: "customer_soldStatus",
+//   attributes: ["name", "address", "phone_number"],
+// },
+// },

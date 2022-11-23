@@ -121,17 +121,12 @@ createOneToManyRelation(
   "sold_status_id",
   "soldStatus_product"
 );
-createOneToManyRelation(
-  db.Product,
-  db.Package,
-  "package_id",
-  "package_product"
-);
+createOneToManyRelation(db.Product, db.Package, "package_id", "package");
 createOneToManyRelation(
   db.Package,
   db.ProductLine,
   "product_line_id",
-  "productLine_package"
+  "productLine"
 );
 
 createOneToManyRelation(

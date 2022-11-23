@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     quantity: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    quantity_in_stock: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     status_code: {

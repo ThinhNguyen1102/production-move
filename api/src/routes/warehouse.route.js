@@ -6,11 +6,16 @@ const isAuth = require("../middlewares/isAuth");
 
 router.get("/", isAuth, isAdmin, warehouseController.getAllWH);
 
+router.get("/own", isAuth, warehouseController.getAllOwnWH);
+
 router.get("/:warehouseId", isAuth, warehouseController.getWHwithId);
 
-router.get("/:unitId", isAuth, isAdmin, warehouseController.getAllWHwithUnitId);
-
-router.get("/own", isAuth, warehouseController.getAllOwnWH);
+router.get(
+  "/unit/:unitId",
+  isAuth,
+  isAdmin,
+  warehouseController.getAllWHwithUnitId
+);
 
 router.post("/", isAuth, warehouseController.postWH);
 

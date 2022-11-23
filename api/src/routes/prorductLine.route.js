@@ -6,6 +6,14 @@ const isAuth = require("../middlewares/isAuth");
 
 router.get("/", isAuth, productLineController.getAllProdLine);
 
+router.get("/own", isAuth, productLineController.getProductLineOwn);
+
+router.get(
+  "/own/:warehouseId",
+  isAuth,
+  productLineController.getProductLineOwnWh
+);
+
 router.get("/:prodLineId", isAuth, productLineController.getProdLine);
 
 router.post("/", isAuth, isAdmin, productLineController.postProdLine);

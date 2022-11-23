@@ -195,7 +195,7 @@ const authController = {
     const { newPassword, oldPassword } = req.body;
 
     try {
-      const user = await db.User.findBypk(req.userId);
+      const user = await db.User.findByPk(req.userId);
       if (!user) {
         const err = new Error("Please login again");
         err.statusCode = 401;

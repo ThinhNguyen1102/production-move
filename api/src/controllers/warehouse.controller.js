@@ -66,10 +66,11 @@ const warehouseController = {
     }
   },
   getAllOwnWH: async (req, res, next) => {
+    console.log(req.userId);
     try {
       const warehouses = await db.Warehouse.findAll({
         where: {
-          unit_manage_id: req.userId,
+          unit_manage_id: +req.userId,
         },
       });
 
