@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
+const cookieParser = require("cookie-parser");
 
 const db = require("./models/index.model");
 const appRoute = require("./routes/router");
@@ -39,6 +40,7 @@ const fileFilter = (req, file, cb) => {
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+app.use(cookieParser());
 app.use(morgan("common"));
 
 app.use(

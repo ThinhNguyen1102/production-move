@@ -1,0 +1,8 @@
+export const AUTH = "AUTH";
+export const ALERT = "ALERT";
+export const USER = {
+  CREATE_USER: "CREATE_USER",
+  GET_ALL_USER: "GET_ALL_USER",
+  GET_USER_BY_ROLE: "GET_USER_BY_ROLE",
+  DELETE_USER_BY_ID: "DELETE_USER_BY_ID",
+};
