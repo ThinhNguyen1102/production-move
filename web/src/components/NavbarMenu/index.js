@@ -26,6 +26,8 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CustomMenuItem from "./CustomMenuItem";
 import MobileMenuItem from "./MobileMenuItem";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import WarehouseIcon from "@mui/icons-material/Warehouse";
 
 const navbarMenuItems = [
   {
@@ -42,6 +44,11 @@ const navbarMenuItems = [
     icon: <ManageAccountsIcon />,
     text: "アカウント管理",
     pageLink: "/accounts",
+  },
+  {
+    icon: <WarehouseIcon />,
+    text: "倉庫",
+    pageLink: "/warehouses",
   },
 ];
 const initialState = {
@@ -97,7 +104,7 @@ function NavbarMenu() {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -187,6 +194,9 @@ function NavbarMenu() {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
+              <IconButton sx={{ mr: 2, color: "#fff" }}>
+                <NotificationsNoneOutlinedIcon />
+              </IconButton>
               <Button
                 onClick={handleOpenUserMenu}
                 variant="text"

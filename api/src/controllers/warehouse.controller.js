@@ -77,7 +77,7 @@ const warehouseController = {
       res.status(200).json({
         message: "get all warehouse with unitId successfully",
         success: true,
-        result: warehouses,
+        data: { warehouses },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -105,7 +105,7 @@ const warehouseController = {
       res.status(200).json({
         success: true,
         message: "create new productLine successfully",
-        reault: {
+        data: {
           newWarehouse: warehouseSaved,
         },
       });
