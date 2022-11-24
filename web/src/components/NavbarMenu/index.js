@@ -21,36 +21,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
-import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import CustomMenuItem from "./CustomMenuItem";
 import MobileMenuItem from "./MobileMenuItem";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import WarehouseIcon from "@mui/icons-material/Warehouse";
+import navbarMenuItems from "./navbarMenuItems";
 
-const navbarMenuItems = [
-  {
-    icon: <BarChartIcon />,
-    text: "商品統計",
-    pageLink: "/",
-  },
-  {
-    icon: <PrecisionManufacturingIcon />,
-    text: "商品ライン",
-    pageLink: "/product_line",
-  },
-  {
-    icon: <ManageAccountsIcon />,
-    text: "アカウント管理",
-    pageLink: "/accounts",
-  },
-  {
-    icon: <WarehouseIcon />,
-    text: "倉庫",
-    pageLink: "/warehouses",
-  },
-];
 const initialState = {
   oldPassword: "",
   newPassword: "",
@@ -154,13 +128,15 @@ function NavbarMenu() {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {navbarMenuItems.map((navbarMenuItem, index) => (
-                  <MobileMenuItem
-                    key={index}
-                    navbarMenuItem={navbarMenuItem}
-                    handleCloseNavMenu={handleCloseNavMenu}
-                  />
-                ))}
+                {navbarMenuItems[[auth.user.role - 1]].map(
+                  (navbarMenuItem, index) => (
+                    <MobileMenuItem
+                      key={index}
+                      navbarMenuItem={navbarMenuItem}
+                      handleCloseNavMenu={handleCloseNavMenu}
+                    />
+                  )
+                )}
               </Menu>
             </Box>
             <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -188,15 +164,14 @@ function NavbarMenu() {
                 borderLeft: "1px solid rgba(255, 255, 255, 0.2)",
               }}
             >
-              {navbarMenuItems.map((navbarMenuItem, index) => (
-                <CustomMenuItem key={index} navbarMenuItem={navbarMenuItem} />
-              ))}
+              {navbarMenuItems[auth.user.role - 1].map(
+                (navbarMenuItem, index) => (
+                  <CustomMenuItem key={index} navbarMenuItem={navbarMenuItem} />
+                )
+              )}
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton sx={{ mr: 2, color: "#fff" }}>
-                <NotificationsNoneOutlinedIcon />
-              </IconButton>
               <Button
                 onClick={handleOpenUserMenu}
                 variant="text"
