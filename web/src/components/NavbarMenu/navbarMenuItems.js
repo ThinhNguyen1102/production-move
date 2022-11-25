@@ -28,6 +28,11 @@ const navbarMenuItems = [
       pageLink: "/",
     },
     {
+      icon: <PrecisionManufacturingIcon />,
+      text: "商品ライン",
+      pageLink: "/product_line",
+    },
+    {
       icon: <WarehouseIcon />,
       text: "倉庫",
       pageLink: "/warehouses",
