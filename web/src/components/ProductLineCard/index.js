@@ -12,9 +12,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { MenuItem, TextField } from "@mui/material";
+import { Link, MenuItem, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createPackage } from "../../redux/actions/packageAction";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 export default function ProductLineCard({ productLine, warehouses }) {
   const { auth } = useSelector((state) => state);
@@ -88,7 +89,18 @@ export default function ProductLineCard({ productLine, warehouses }) {
             </>
           )}
           {auth.user.role === 2 && (
-            <Button onClick={handleClickOpenDialog}>パッケージ作成</Button>
+            <>
+              <Button onClick={handleClickOpenDialog}>パッケージ作成</Button>
+              <Button>
+                <Link
+                  component={RouterLink}
+                  to={`/product_line_packages/${productLine.id}`}
+                  sx={{ textDecoration: "none" }}
+                >
+                  詳細
+                </Link>
+              </Button>
+            </>
           )}
         </CardActions>
       </Card>
