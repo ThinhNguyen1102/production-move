@@ -13,7 +13,7 @@ const columns = [
     width: 150,
   },
 ];
-const ProductLinePackage = () => {
+const ProductLinePackages = () => {
   const { id } = useParams();
   const { auth, packageReducer } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -35,4 +35,4 @@ const ProductLinePackage = () => {
   );
 };
 
-export default ProductLinePackage;
+export default ProductLinePackages;

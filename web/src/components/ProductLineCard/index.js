@@ -22,7 +22,6 @@ export default function ProductLineCard({ productLine, warehouses }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isPackageCreate, setIsPackageCreate] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleClickOpenDialog = () => {
@@ -102,10 +101,44 @@ export default function ProductLineCard({ productLine, warehouses }) {
               </Button>
             </>
           )}
+          {auth.user.role === 3 && (
+            <Button>
+              <Link
+                component={RouterLink}
+                to={`/product_line_products/${productLine.id}`}
+                sx={{ textDecoration: "none" }}
+              >
+                詳細
+              </Link>
+            </Button>
+          )}
         </CardActions>
       </Card>
       {/* Dialog */}
-      {isPackageCreate ? (
+      {auth.user.role === 1 && (
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            削除してもよろしいですか。
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              この操作は元に戻せません。
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>キャンセル</Button>
+            <Button autoFocus onClick={handleDeleteProductLine}>
+              削除
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+      {auth.user.role === 2 && (
         <Dialog open={openDialog} onClose={handleCloseDialog}>
           <DialogTitle>パッケージ作成</DialogTitle>
           <DialogContent>
@@ -144,28 +177,6 @@ export default function ProductLineCard({ productLine, warehouses }) {
           <DialogActions>
             <Button onClick={handleCloseDialog}>キャンセル</Button>
             <Button onClick={handleCreatePackage}>作成</Button>
-          </DialogActions>
-        </Dialog>
-      ) : (
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            削除してもよろしいですか。
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              この操作は元に戻せません。
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>キャンセル</Button>
-            <Button autoFocus onClick={handleDeleteProductLine}>
-              削除
-            </Button>
           </DialogActions>
         </Dialog>
       )}

@@ -109,8 +109,8 @@ const Accounts = () => {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={12}
-          rowsPerPageOptions={[12]}
+          pageSize={11}
+          rowsPerPageOptions={[11]}
         />
       </Box>
 

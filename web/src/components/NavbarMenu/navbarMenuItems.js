@@ -2,6 +2,7 @@ import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturi
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
+import DevicesIcon from "@mui/icons-material/Devices";
 
 const navbarMenuItems = [
   [
@@ -11,7 +12,7 @@ const navbarMenuItems = [
       pageLink: "/",
     },
     {
-      icon: <PrecisionManufacturingIcon />,
+      icon: <DevicesIcon />,
       text: "商品ライン",
       pageLink: "/product_line",
     },
@@ -28,7 +29,7 @@ const navbarMenuItems = [
       pageLink: "/",
     },
     {
-      icon: <PrecisionManufacturingIcon />,
+      icon: <DevicesIcon />,
       text: "商品ライン",
       pageLink: "/product_line",
     },
@@ -36,6 +37,30 @@ const navbarMenuItems = [
       icon: <WarehouseIcon />,
       text: "倉庫",
       pageLink: "/warehouses",
+    },
+  ],
+  [
+    {
+      icon: <BarChartIcon />,
+      text: "商品統計",
+      pageLink: "/",
+    },
+    {
+      icon: <DevicesIcon />,
+      text: "商品ライン",
+      pageLink: "/product_line",
+    },
+  ],
+  [
+    {
+      icon: <BarChartIcon />,
+      text: "商品統計",
+      pageLink: "/",
+    },
+    {
+      icon: <PrecisionManufacturingIcon />,
+      text: "商品保証",
+      pageLink: "/product_guarantee",
     },
   ],
 ];
