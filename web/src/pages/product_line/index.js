@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
+import { getAllOwnWarehouse } from "../../redux/actions/warehouseAction";
 
 const initialState = {
   model: "",
@@ -23,10 +24,11 @@ const initialState = {
   price: 0,
 };
 const ProductLine = () => {
-  const { auth, productLine } = useSelector((state) => state);
+  const { auth, productLine, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProductLine({ auth }));
+    dispatch(getAllOwnWarehouse({ auth }));
   }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -53,19 +55,24 @@ const ProductLine = () => {
   return (
     <>
       <Box p={3}>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          sx={{ marginBottom: 3 }}
-          onClick={handleClickOpenDialog}
-        >
-          商品ライン追加
-        </Button>
+        {auth.user.role === 1 && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            sx={{ marginBottom: 3 }}
+            onClick={handleClickOpenDialog}
+          >
+            商品ライン追加
+          </Button>
+        )}
 
         <Grid container spacing={3}>
           {productLine.productLines.map((productLineElement) => (
             <Grid sm={6} md={4} lg={3} xl={2} key={productLineElement.id}>
-              <ProductLineCard productLine={productLineElement} />
+              <ProductLineCard
+                productLine={productLineElement}
+                warehouses={warehouse.warehouses}
+              />
             </Grid>
           ))}
         </Grid>

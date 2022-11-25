@@ -4,6 +4,7 @@ import alertReducer from "./alertReducer";
 import userReducer from "./userReducer";
 import productLineReducer from "./productLineReducer";
 import warehouseReducer from "./warehouseReducer";
+import packageReducer from "./packageReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   user: userReducer,
   productLine: productLineReducer,
   warehouse: warehouseReducer,
+  package: packageReducer,
 });
