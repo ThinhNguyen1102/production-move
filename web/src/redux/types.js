@@ -20,5 +20,6 @@ export const WAREHOUSE = {
 };
 
 export const PACKAGE = {
+  GET_ALL_PACKAGE_BY_UNIT: "GET_ALL_PACKAGE_BY_UNIT",
   CREATE_PACKAGE: "CREATE_PACKAGE",
 };

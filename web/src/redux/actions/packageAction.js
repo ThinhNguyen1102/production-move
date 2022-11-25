@@ -28,3 +28,27 @@ export const createPackage =
       });
     }
   };
+
+export const getAllPackageByUnit =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(
+        `packages/own/${data.productLineId}`,
+        auth.token
+      );
+      dispatch({
+        type: PACKAGE.GET_ALL_PACKAGE_BY_UNIT,
+        payload: res.result,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };

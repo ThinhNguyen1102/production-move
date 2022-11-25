@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import NotFound from "./components/NotFound";
-import navbarMenuItems from "./components/NavbarMenu/navbarMenuItems";
+import defineRoutesByRole from "./utils/defineRoutesByRole";
 
 const generatePage = (pageName) => {
   const component = () => require(`./pages/${pageName}`).default;
@@ -17,12 +17,10 @@ const generatePage = (pageName) => {
 const PageRender = () => {
   const { page, id } = useParams();
   const { auth } = useSelector((state) => state);
-  const navbarMenuItemsByRole = navbarMenuItems[auth.user?.role - 1];
+  const urlListByRole = defineRoutesByRole[auth.user?.role - 1];
 
-  const isCheck = navbarMenuItemsByRole?.some(
-    (item) => `/${page}` === item.pageLink
-  );
-  if (!isCheck) {
+  const isContains = urlListByRole?.some((url) => `/${page}` === url);
+  if (!isContains) {
     return <NotFound />;
   }
 
