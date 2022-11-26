@@ -49,6 +49,29 @@ export const getAllProductLine =
       });
     }
   };
+export const getAllOwnProductLine =
+  ({ auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(`productlines/own`, auth.token);
+      dispatch({
+        type: PRODUCT_LINE.GET_ALL_OWN_PRODUCT_LINE,
+        payload: res.result.map((item) => ({
+          ...item.productLine,
+          quantity: item.amount,
+        })),
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
 
 export const deleteProductLineById =
   ({ id, auth }) =>

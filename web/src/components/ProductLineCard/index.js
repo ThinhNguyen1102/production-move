@@ -77,6 +77,11 @@ export default function ProductLineCard({ productLine, warehouses }) {
           <Typography variant="body2" color="text.secondary">
             Color: {productLine.color}
           </Typography>
+          {auth.user.role === 3 && (
+            <Typography variant="body2" color="text.secondary">
+              Quantity: {productLine.quantity}
+            </Typography>
+          )}
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
           {auth.user.role === 1 && (
@@ -90,27 +95,23 @@ export default function ProductLineCard({ productLine, warehouses }) {
           {auth.user.role === 2 && (
             <>
               <Button onClick={handleClickOpenDialog}>パッケージ作成</Button>
-              <Button>
-                <Link
-                  component={RouterLink}
-                  to={`/product_line_packages/${productLine.id}`}
-                  sx={{ textDecoration: "none" }}
-                >
-                  詳細
-                </Link>
-              </Button>
+              <Link
+                component={RouterLink}
+                to={`/product_line_packages/${productLine.id}`}
+                sx={{ textDecoration: "none" }}
+              >
+                <Button>詳細</Button>
+              </Link>
             </>
           )}
           {auth.user.role === 3 && (
-            <Button>
-              <Link
-                component={RouterLink}
-                to={`/product_line_products/${productLine.id}`}
-                sx={{ textDecoration: "none" }}
-              >
-                詳細
-              </Link>
-            </Button>
+            <Link
+              component={RouterLink}
+              to={`/product_line_products/${productLine.id}`}
+              sx={{ textDecoration: "none" }}
+            >
+              <Button>詳細</Button>
+            </Link>
           )}
         </CardActions>
       </Card>

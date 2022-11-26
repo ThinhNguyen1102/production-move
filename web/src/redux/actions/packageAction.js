@@ -52,3 +52,31 @@ export const getAllPackageByUnit =
       });
     }
   };
+
+export const movePackage =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    console.log("PACKAGE: ", data);
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await postDataAPI("packages/move", data, auth.token);
+      dispatch({
+        type: PACKAGE.MOVE_PACKAGE,
+        payload: res.result,
+      });
+
+      dispatch({
+        type: ALERT,
+        payload: {
+          success: res.message,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };

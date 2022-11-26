@@ -51,23 +51,18 @@ export const getAllUser =
   };
 
 export const getUserByRole =
-  ({ role, auth }) =>
+  ({ data, auth }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await getDataAPI(`users/role/${role}`, auth.token);
+      const res = await getDataAPI(`users/role/${data.role}`, auth.token);
 
       dispatch({
         type: USER.GET_USER_BY_ROLE,
-        payload: res.data.quiz,
+        payload: res.users,
       });
 
-      dispatch({
-        type: ALERT,
-        payload: {
-          success: res.message,
-        },
-      });
+      dispatch({ type: ALERT, payload: { loading: false } });
     } catch (err) {
       dispatch({
         type: ALERT,

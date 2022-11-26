@@ -49,6 +49,29 @@ export const getAllOwnWarehouse =
       });
     }
   };
+export const getAllWarehouseByUnit =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(
+        `warehouses/unit/${data.unitId}`,
+        auth.token
+      );
+      dispatch({
+        type: WAREHOUSE.GET_ALL_WAREHOUSE_BY_UNIT,
+        payload: res.data.warehouses,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
 
 export const deleteWarehouseById =
   ({ id, auth }) =>

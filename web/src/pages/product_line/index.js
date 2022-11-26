@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProductLine,
+  getAllOwnProductLine,
   getAllProductLine,
 } from "../../redux/actions/productLineAction";
 import Dialog from "@mui/material/Dialog";
@@ -27,7 +28,11 @@ const ProductLine = () => {
   const { auth, productLine, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllProductLine({ auth }));
+    if (auth.user.role === 3) {
+      dispatch(getAllOwnProductLine({ auth }));
+    } else {
+      dispatch(getAllProductLine({ auth }));
+    }
     dispatch(getAllOwnWarehouse({ auth }));
   }, [dispatch]);
 
@@ -67,8 +72,8 @@ const ProductLine = () => {
         )}
 
         <Grid container spacing={3}>
-          {productLine.productLines.map((productLineElement) => (
-            <Grid sm={6} md={4} lg={3} xl={2} key={productLineElement.id}>
+          {productLine.productLines.map((productLineElement, index) => (
+            <Grid sm={6} md={4} lg={3} xl={2} key={index}>
               <ProductLineCard
                 productLine={productLineElement}
                 warehouses={warehouse.warehouses}

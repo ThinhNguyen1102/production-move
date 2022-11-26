@@ -11,6 +11,11 @@ const productLineReducer = (state = initialState, action) => {
         ...state,
         warehouses: action.payload,
       };
+    case WAREHOUSE.GET_ALL_WAREHOUSE_BY_UNIT:
+      return {
+        ...state,
+        warehouses: action.payload,
+      };
     case WAREHOUSE.CREATE_WAREHOUSE:
       return {
         ...state,
@@ -23,6 +28,7 @@ const productLineReducer = (state = initialState, action) => {
           (item) => item.id !== action.payload
         ),
       };
+
     default:
       return state;
   }

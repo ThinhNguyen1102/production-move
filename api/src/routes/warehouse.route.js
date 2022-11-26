@@ -10,12 +10,7 @@ router.get("/own", isAuth, warehouseController.getAllOwnWH);
 
 router.get("/:warehouseId", isAuth, warehouseController.getWHwithId);
 
-router.get(
-  "/unit/:unitId",
-  isAuth,
-  isAdmin,
-  warehouseController.getAllWHwithUnitId
-);
+router.get("/unit/:unitId", isAuth, warehouseController.getAllWHwithUnitId);
 
 router.post("/", isAuth, warehouseController.postWH);
 

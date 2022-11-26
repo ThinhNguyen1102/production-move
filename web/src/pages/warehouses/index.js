@@ -12,18 +12,45 @@ import {
   createWarehouses,
   getAllOwnWarehouse,
 } from "../../redux/actions/warehouseAction";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
   {
     field: "address",
     headerName: "住所",
-    width: 300,
+    width: 350,
   },
   {
     field: "phone_number",
     headerName: "電話番号",
     width: 130,
+  },
+  {
+    field: "edit_warehouse",
+    headerName: "編集",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <IconButton color="primary">
+          <EditIcon />
+        </IconButton>
+      );
+    },
+  },
+  {
+    field: "delete_warehouse",
+    headerName: "削除",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <IconButton color="error">
+          <DeleteIcon />
+        </IconButton>
+      );
+    },
   },
 ];
 const initialState = {
@@ -62,7 +89,7 @@ const Warehouse = () => {
   const rows = warehouse.warehouses;
   return (
     <>
-      <Box p={3} sx={{ height: 600, width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
@@ -80,7 +107,7 @@ const Warehouse = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>商品ライン追加</DialogTitle>
+        <DialogTitle>倉庫追加</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

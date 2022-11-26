@@ -10,6 +10,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -37,6 +40,30 @@ const columns = [
     field: "address",
     headerName: "住所",
     width: 280,
+  },
+  {
+    field: "edit_account",
+    headerName: "編集",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <IconButton color="primary">
+          <EditIcon />
+        </IconButton>
+      );
+    },
+  },
+  {
+    field: "delete_account",
+    headerName: "削除",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <IconButton color="error">
+          <DeleteIcon />
+        </IconButton>
+      );
+    },
   },
 ];
 const roles = [
@@ -96,7 +123,7 @@ const Accounts = () => {
 
   return (
     <>
-      <Box p={3} sx={{ height: 600, width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
         <Button
           variant="contained"
           startIcon={<PersonAddAlt1Icon />}

@@ -50,6 +50,11 @@ const navbarMenuItems = [
       text: "商品ライン",
       pageLink: "/product_line",
     },
+    {
+      icon: <WarehouseIcon />,
+      text: "倉庫",
+      pageLink: "/warehouses",
+    },
   ],
   [
     {
@@ -61,6 +66,11 @@ const navbarMenuItems = [
       icon: <PrecisionManufacturingIcon />,
       text: "商品保証",
       pageLink: "/product_guarantee",
+    },
+    {
+      icon: <WarehouseIcon />,
+      text: "倉庫",
+      pageLink: "/warehouses",
     },
   ],
 ];

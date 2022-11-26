@@ -56,7 +56,7 @@ const warehouseController = {
       res.status(200).json({
         message: "get all warehouse with unitId successfully",
         success: true,
-        result: warehouses,
+        data: { warehouses },
       });
     } catch (err) {
       if (!err.statusCode) {
