@@ -122,3 +122,35 @@ const packageController = {
 };
 
 module.exports = packageController;
+
+const acceptRecievedPackage = async (req, res, next) => {
+  const { transportId } = req.body;
+  try {
+    const transport = await db.PackageTransport.findByPk(transportId);
+    if (transport.new_unit_id !== unitId) {
+      const err = new Error("transport is not owned");
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const package = await db.Package.findByPk(transport.package_id);
+    package.unit_manage_id = transport.new_unit_id;
+    package.warehouse_id = transport.new_WH_id;
+    package.status_code = transport.new_STT_code;
+
+    const packageSaved = await package.save();
+
+    res.status(201).json({
+      message: "Move package success.",
+      success: true,
+      data: {
+        packageSaved,
+      },
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};

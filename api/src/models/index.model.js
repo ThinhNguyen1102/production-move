@@ -207,6 +207,12 @@ createOneToManyRelation(
   "new_WH_id",
   "newWH_pTransport"
 );
+createOneToManyRelation(
+  db.ProductTransport,
+  db.SoldStatus,
+  "soldStatus_id",
+  "soldStatus_pTransport"
+);
 
 // package request model relation
 createOneToManyRelation(

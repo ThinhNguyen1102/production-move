@@ -95,7 +95,7 @@ const productController = {
       if (oldCustomerId) {
         customer = await db.Customer.findByPk(oldCustomerId);
       } else {
-        const customer = {
+        customer = {
           name: customerName,
           address: customerAddress,
           email: customerEmail,
@@ -155,6 +155,7 @@ const productController = {
       soldStatus.error_id = errorSaved.id;
 
       const soldStatusSaved = await soldStatus.save();
+      soldStatusSaved.dataValues.error_soldStatus = error;
 
       res.status(201).json({
         message: "ok",
@@ -180,18 +181,70 @@ const productController = {
         err.statusCode = 400;
         throw err;
       }
-      const product = await db.Product.findByPk(productId);
-      const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
+      const product = await db.Product.findByPk(productId, {
+        include: {
+          model: db.SoldStatus,
+          as: "soldStatus_product",
+          attributes: ["unit_manage_id", "status_code", "warehouse_id"],
+        },
+      });
+      if (!product) {
+        const err = new Error("Could not find product.");
+        err.statusCode = 404;
+        throw err;
+      }
+      // const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
 
-      if (soldStatus.unit_manage_id !== req.userId) {
+      if (product.soldStatus_product.unit_manage_id !== req.userId) {
         const err = new Error("product is not owned.");
         err.statusCode = 404;
         throw err;
       }
 
-      soldStatus.status_code = statusCode;
-      soldStatus.unit_manage_id = unitId;
-      soldStatus.warehouse_id = warehouseId;
+      const transport = {
+        product_id: product.prod_id,
+        old_STT_code: product.soldStatus_product.status_code,
+        new_STT_code: statusCode,
+        old_unit_id: req.userId,
+        new_unit_id: +unitId,
+        old_WH_id: product.soldStatus_product.warehouse_id,
+        new_WH_id: +warehouseId,
+        soldStatus_id: product.sold_status_id,
+      };
+
+      const transportSaved = await db.ProductTransport.create(transport);
+      res.status(201).json({
+        message: "ok",
+        success: true,
+        data: {
+          transportSaved,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  acceptReceiveProduct: async (req, res, next) => {
+    const unitId = req.userId;
+    const { transportId } = req.body;
+
+    try {
+      const transport = await db.ProductTransport.findByPk(transportId);
+      if (transport.new_unit_id !== unitId) {
+        const err = new Error("transport is not owned");
+        err.statusCode = 400;
+        throw err;
+      }
+
+      const soldStatus = await db.SoldStatus.findByPk(transport.soldStatus_id);
+      soldStatus.unit_manage_id = transport.new_unit_id;
+      soldStatus.status_code = transport.new_STT_code;
+      soldStatus.warehouse_id = transport.new_WH_id;
+
       const soldStatusSaved = await soldStatus.save();
 
       res.status(201).json({

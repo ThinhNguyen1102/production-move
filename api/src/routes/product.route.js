@@ -11,6 +11,8 @@ router.post("/guarentee", isAuth, productController.postGuarentee);
 
 router.post("/move", isAuth, productController.moveProduct);
 
+router.post("/accept", isAuth, productController.acceptReceiveProduct);
+
 router.get(
   "/productline/:prodLineId",
   isAuth,
