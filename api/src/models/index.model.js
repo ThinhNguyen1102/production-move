@@ -39,6 +39,8 @@ db.Package = require("./package.model")(sequelize, DataTypes);
 db.Warehouse = require("./warehouse.model")(sequelize, DataTypes);
 db.Customer = require("./customer.model")(sequelize, DataTypes);
 db.SoldStatus = require("./soldStatus.model")(sequelize, DataTypes);
+db.ProductTransport = require("./productTransport.model")(sequelize, DataTypes);
+db.PackageTransport = require("./packageTransport.model")(sequelize, DataTypes);
 
 // relation function create
 const createOneToManyRelation = function (manyModel, oneModel, foreignKey, as) {
@@ -138,6 +140,70 @@ createOneToManyRelation(
   db.Error,
   "error_id",
   "error_soldStatus"
+);
+
+// Package transport relation
+createOneToManyRelation(
+  db.PackageTransport,
+  db.Package,
+  "package_id",
+  "package_pkTransport"
+);
+createOneToManyRelation(
+  db.PackageTransport,
+  db.User,
+  "old_unit_id",
+  "oldUnit_pkTransport"
+);
+createOneToManyRelation(
+  db.PackageTransport,
+  db.User,
+  "new_unit_id",
+  "newUnit_pkTransport"
+);
+createOneToManyRelation(
+  db.PackageTransport,
+  db.Warehouse,
+  "old_WH_id",
+  "oldWH_pkTransport"
+);
+createOneToManyRelation(
+  db.PackageTransport,
+  db.Warehouse,
+  "new_WH_id",
+  "newWH_pkTransport"
+);
+
+// Product transport relation
+createOneToManyRelation(
+  db.ProductTransport,
+  db.Product,
+  "product_id",
+  "product_pTransport"
+);
+createOneToManyRelation(
+  db.ProductTransport,
+  db.User,
+  "old_unit_id",
+  "oldUnit_pTransport"
+);
+createOneToManyRelation(
+  db.ProductTransport,
+  db.User,
+  "new_unit_id",
+  "newUnit_pTransport"
+);
+createOneToManyRelation(
+  db.ProductTransport,
+  db.Warehouse,
+  "old_WH_id",
+  "oldWH_pTransport"
+);
+createOneToManyRelation(
+  db.ProductTransport,
+  db.Warehouse,
+  "new_WH_id",
+  "newWH_pTransport"
 );
 
 db.sequelize.sync({ alter: true }).then(() => {

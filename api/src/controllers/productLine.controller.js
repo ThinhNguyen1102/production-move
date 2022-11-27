@@ -91,7 +91,7 @@ const productLineController = {
 
       const result = productLines.map((val) => {
         return {
-          productLine: val.dataValues.productLine,
+          productLine: val.dataValues.productLine_package,
           amount: +val.dataValues.amount,
         };
       });
@@ -131,7 +131,7 @@ const productLineController = {
 
       const result = productLines.map((val) => {
         return {
-          productLine: val.dataValues.productLine,
+          productLine: val.dataValues.productLine_package,
           amount: +val.dataValues.amount,
         };
       });

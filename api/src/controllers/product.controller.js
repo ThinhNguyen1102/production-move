@@ -214,7 +214,7 @@ const productController = {
         },
         include: {
           model: db.Package,
-          as: "package",
+          as: "package_product",
           attributes: ["status_code", "warehouse_id"],
         },
       });
