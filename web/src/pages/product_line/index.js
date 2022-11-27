@@ -56,7 +56,7 @@ const ProductLine = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  console.log("productLine:", productLine);
   return (
     <>
       <Box p={3}>
