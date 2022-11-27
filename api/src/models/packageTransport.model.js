@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     is_shipping: {
       type: DataTypes.BOOLEAN,
+      defaultValue: true,
       allowNull: false,
     },
     old_STT_code: {

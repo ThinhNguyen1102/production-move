@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     is_shipping: {
       type: DataTypes.BOOLEAN,
+      defaultValue: true,
       allowNull: false,
     },
     new_STT_code: {

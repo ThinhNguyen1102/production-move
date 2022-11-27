@@ -263,6 +263,11 @@ const productController = {
         include: {
           model: db.SoldStatus,
           as: "soldStatus_product",
+          include: {
+            model: db.Error,
+            as: "error_soldStatus",
+            attributes: ["description", "error_code"],
+          },
         },
       });
 
