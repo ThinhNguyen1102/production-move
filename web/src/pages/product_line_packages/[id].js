@@ -34,7 +34,7 @@ const columns = [
           endIcon={<LocalShippingIcon />}
           onClick={params.value.onClick}
         >
-          Move
+          発送
         </Button>
       );
     },

@@ -70,7 +70,7 @@ const roles = [
   { roleValue: 1, text: "管理者" },
   { roleValue: 2, text: "工場" },
   { roleValue: 3, text: "エージェント" },
-  { roleValue: 4, text: "保険センター" },
+  { roleValue: 4, text: "保証センター" },
 ];
 const initialState = {
   name: "",

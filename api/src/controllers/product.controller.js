@@ -228,6 +228,7 @@ const productController = {
 
       const products = await db.Product.findAll({
         where: {
+          isSold: false,
           package_id: { [Op.in]: packageCodes },
         },
         include: {

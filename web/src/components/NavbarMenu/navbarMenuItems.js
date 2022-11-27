@@ -3,6 +3,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import DevicesIcon from "@mui/icons-material/Devices";
+import PaidIcon from "@mui/icons-material/Paid";
 
 const navbarMenuItems = [
   [
@@ -49,6 +50,11 @@ const navbarMenuItems = [
       icon: <DevicesIcon />,
       text: "商品ライン",
       pageLink: "/product_line",
+    },
+    {
+      icon: <PaidIcon />,
+      text: "販売した商品",
+      pageLink: "/products_sold",
     },
     {
       icon: <WarehouseIcon />,
