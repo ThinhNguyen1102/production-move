@@ -19,7 +19,7 @@ const columns = [
   { field: "package_id", headerName: "Package_ID", width: 160 },
   {
     field: "sell_product",
-    headerName: "削除",
+    headerName: "販売商品",
     width: 130,
     renderCell: (params) => {
       return (
