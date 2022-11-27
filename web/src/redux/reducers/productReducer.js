@@ -11,6 +11,11 @@ const productReducer = (state = initialState, action) => {
         ...state,
         products: action.payload,
       };
+    case PRODUCT.GET_ALL_OWN_PRODUCT_SOLD:
+      return {
+        ...state,
+        products: action.payload,
+      };
     case PRODUCT.SELL_PRODUCT:
       return {
         ...state,
@@ -19,8 +24,15 @@ const productReducer = (state = initialState, action) => {
         ),
       };
     case PRODUCT.REPORT_PRODUCT:
+      console.log("action.payload", action.payload);
       return {
         ...state,
+        products: state.products.map((prod) => {
+          if (prod.soldStatus_product.id === action.payload.id) {
+            prod.soldStatus_product = { ...action.payload };
+          }
+          return prod;
+        }),
       };
     default:
       return state;
