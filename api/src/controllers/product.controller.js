@@ -95,14 +95,14 @@ const productController = {
       if (oldCustomerId) {
         customer = await db.Customer.findByPk(oldCustomerId);
       } else {
-        const customer = {
+        const customerData = {
           name: customerName,
           address: customerAddress,
           email: customerEmail,
           phone_number: customerPhone,
           store_id: product.package_product.unit_manage_id,
         };
-        customer = await db.Customer.create(customer);
+        customer = await db.Customer.create(customerData);
       }
 
       // create status
@@ -155,6 +155,7 @@ const productController = {
       soldStatus.error_id = errorSaved.id;
 
       const soldStatusSaved = await soldStatus.save();
+      soldStatusSaved.dataValues.error_soldStatus = error;
 
       res.status(201).json({
         message: "ok",

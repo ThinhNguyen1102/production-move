@@ -10,6 +10,7 @@ router.get("/own", isAuth, packageController.getPackageWithUnit);
 router.get("/own/:prodLineId", isAuth, packageController.getPackageWithPLUnit);
 router.delete("/:packageId", isAuth, packageController.deletePackageWithId);
 
+router.post("/acceptRecieved", isAuth, packageController.acceptRecievedPackage);
 router.post("/move", isAuth, packageController.movePackage);
 
 module.exports = router;
