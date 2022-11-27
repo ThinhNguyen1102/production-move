@@ -41,6 +41,8 @@ db.Customer = require("./customer.model")(sequelize, DataTypes);
 db.SoldStatus = require("./soldStatus.model")(sequelize, DataTypes);
 db.ProductTransport = require("./productTransport.model")(sequelize, DataTypes);
 db.PackageTransport = require("./packageTransport.model")(sequelize, DataTypes);
+db.PackageRequest = require("./packageRequest.model")(sequelize, DataTypes);
+db.ProductRequest = require("./productRequest.model")(sequelize, DataTypes);
 
 // relation function create
 const createOneToManyRelation = function (manyModel, oneModel, foreignKey, as) {
@@ -204,6 +206,45 @@ createOneToManyRelation(
   db.Warehouse,
   "new_WH_id",
   "newWH_pTransport"
+);
+
+// package request model relation
+createOneToManyRelation(
+  db.PackageRequest,
+  db.User,
+  "sender_id",
+  "sender_pkRequest"
+);
+createOneToManyRelation(
+  db.PackageRequest,
+  db.User,
+  "receiver_id",
+  "receiver_pkRequest"
+);
+createOneToManyRelation(
+  db.PackageRequest,
+  db.ProductLine,
+  "product_line_id",
+  "productLine_pkRequest"
+);
+// product request model relation
+createOneToManyRelation(
+  db.ProductRequest,
+  db.User,
+  "sender_id",
+  "sender_pRequest"
+);
+createOneToManyRelation(
+  db.ProductRequest,
+  db.User,
+  "receiver_id",
+  "receiver_pRequest"
+);
+createOneToManyRelation(
+  db.ProductRequest,
+  db.Product,
+  "product_id",
+  "productLine_pRequest"
 );
 
 db.sequelize.sync({ alter: true }).then(() => {
