@@ -7,8 +7,8 @@ const isAuth = require("../middlewares/isAuth");
 
 router.post(
   "/register",
-  isAuth,
-  isAdmin,
+  // isAuth,
+  // isAdmin,
   authValidation,
   authController.register
 );

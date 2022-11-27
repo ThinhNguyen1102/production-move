@@ -33,7 +33,9 @@ const productController = {
           const productsSaved = await db.Product.bulkCreate(products);
           res.status(201).json({
             message: "ok",
-            result: productsSaved,
+            data: {
+              productsSaved,
+            },
           });
         } catch (err) {
           if (!err.statusCode) {
@@ -51,19 +53,20 @@ const productController = {
   },
 
   postSoldProduct: async (req, res, next) => {
+    const unitId = req.userId;
     const {
       prodId,
       customerName,
       customerPhone,
       customerAddress,
       customerEmail,
+      oldCustomerId,
     } = req.body;
     try {
       const product = await db.Product.findByPk(prodId, {
         include: {
           model: db.Package,
           as: "package_product",
-          attributes: ["unit_manage_id", "warehouse_id"],
         },
       });
 
@@ -77,28 +80,37 @@ const productController = {
         err.statusCode = 400;
         throw err;
       }
+      if (product.package_product.unit_manage_id !== unitId) {
+        const err = new Error("The product not in this unit.");
+        err.statusCode = 400;
+        throw err;
+      }
 
       // update package
       const package = await db.Package.findByPk(product.package_id);
       package.quantity_in_stock -= 1;
       await package.save();
+      let customer;
 
-      // create customer
-      const customer = {
-        name: customerName,
-        address: customerAddress,
-        email: customerEmail,
-        phone_number: customerPhone,
-        store_id: product.package_product.unit_manage_id,
-      };
-      const customerSaved = await db.Customer.create(customer);
+      if (oldCustomerId) {
+        customer = await db.Customer.findByPk(oldCustomerId);
+      } else {
+        const customer = {
+          name: customerName,
+          address: customerAddress,
+          email: customerEmail,
+          phone_number: customerPhone,
+          store_id: product.package_product.unit_manage_id,
+        };
+        customer = await db.Customer.create(customer);
+      }
 
       // create status
       const soldStatus = {
         status_code: "STT-03",
         guarantees: 0,
         unit_manage_id: product.package_product.unit_manage_id,
-        customer_id: customerSaved.id,
+        customer_id: customer.id,
         warehouse_id: product.package_product.warehouse_id,
       };
       const soldStatusSaved = await db.SoldStatus.create(soldStatus);
@@ -110,9 +122,11 @@ const productController = {
       res.status(201).json({
         message: "ok",
         success: true,
-        soldStatus: soldStatusSaved,
-        customer: customerSaved,
-        product: productSaved,
+        data: {
+          soldStatus: soldStatusSaved,
+          customer: customer,
+          product: productSaved,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -145,7 +159,9 @@ const productController = {
       res.status(201).json({
         message: "ok",
         success: true,
-        result: soldStatusSaved,
+        data: {
+          soldStatusSaved,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -181,7 +197,9 @@ const productController = {
       res.status(201).json({
         message: "ok",
         success: true,
-        result: soldStatusSaved,
+        data: {
+          soldStatusSaved,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -221,7 +239,39 @@ const productController = {
       res.status(200).json({
         success: true,
         message: "edit productLine successfully",
-        result: products,
+        data: {
+          products,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  getSoldProductOwn: async (req, res, next) => {
+    const unitId = req.userId;
+
+    try {
+      const products = await db.Product.findAll({
+        where: {
+          isSold: true,
+          "$soldStatus_product.unit_manage_id$": unitId,
+        },
+        include: {
+          model: db.SoldStatus,
+          as: "soldStatus_product",
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "edit productLine successfully",
+        data: {
+          products,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -233,14 +283,3 @@ const productController = {
 };
 
 module.exports = productController;
-
-// include: {
-//   model: db.SoldStatus,
-//   as: "soldStatus_product",
-//   attributes: ["unit_manage_id", "warehouse_id", "customer_id"],
-// include: {
-//   model: db.Customer,
-//   as: "customer_soldStatus",
-//   attributes: ["name", "address", "phone_number"],
-// },
-// },

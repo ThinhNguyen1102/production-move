@@ -19,7 +19,9 @@ const packageController = {
       res.status(201).json({
         message: "Move package success.",
         success: true,
-        result: packages,
+        data: {
+          packages,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -55,12 +57,14 @@ const packageController = {
       package.warehouse_id = warehouseId;
       package.status_code = statusCode;
 
-      const result = await package.save();
+      const packageSaved = await package.save();
 
       res.status(201).json({
         message: "Move package success.",
         success: true,
-        result: result,
+        data: {
+          packageSaved,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -70,13 +74,5 @@ const packageController = {
     }
   },
 };
-
-/*
-{
-  unitId,
-  packageId,
-  warehouseId,
-}
-*/
 
 module.exports = packageController;

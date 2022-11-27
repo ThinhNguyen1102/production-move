@@ -40,6 +40,7 @@ const authController = {
       };
 
       const createdUser = await db.User.create(newUser);
+      createdUser.password = "";
 
       return res.status(201).json({
         message: "Register success.",

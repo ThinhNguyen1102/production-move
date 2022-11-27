@@ -17,4 +17,6 @@ router.get(
   productController.getProductByPl
 );
 
+router.get("/sold/own", isAuth, productController.getSoldProductOwn);
+
 module.exports = router;
