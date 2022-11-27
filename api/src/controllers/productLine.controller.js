@@ -85,7 +85,7 @@ const productLineController = {
         group: ["product_line_id"],
         include: {
           model: db.ProductLine,
-          as: "productLine",
+          as: "productLine_package",
         },
       });
 
@@ -125,7 +125,7 @@ const productLineController = {
         group: ["product_line_id"],
         include: {
           model: db.ProductLine,
-          as: "productLine",
+          as: "productLine_package",
         },
       });
 

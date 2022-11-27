@@ -39,7 +39,6 @@ db.Package = require("./package.model")(sequelize, DataTypes);
 db.Warehouse = require("./warehouse.model")(sequelize, DataTypes);
 db.Customer = require("./customer.model")(sequelize, DataTypes);
 db.SoldStatus = require("./soldStatus.model")(sequelize, DataTypes);
-db.ProductLineWh = require("./productLineWh.model")(sequelize, DataTypes);
 
 // relation function create
 const createOneToManyRelation = function (manyModel, oneModel, foreignKey, as) {
@@ -121,12 +120,17 @@ createOneToManyRelation(
   "sold_status_id",
   "soldStatus_product"
 );
-createOneToManyRelation(db.Product, db.Package, "package_id", "package");
+createOneToManyRelation(
+  db.Product,
+  db.Package,
+  "package_id",
+  "package_product"
+);
 createOneToManyRelation(
   db.Package,
   db.ProductLine,
   "product_line_id",
-  "productLine"
+  "productLine_package"
 );
 
 createOneToManyRelation(
@@ -135,8 +139,6 @@ createOneToManyRelation(
   "error_id",
   "error_soldStatus"
 );
-
-createManyToManyRelation(db.ProductLine, db.Warehouse, db.ProductLineWh);
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log("yes re-sync done!");
