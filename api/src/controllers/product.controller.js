@@ -95,14 +95,14 @@ const productController = {
       if (oldCustomerId) {
         customer = await db.Customer.findByPk(oldCustomerId);
       } else {
-        customer = {
+        const customerData = {
           name: customerName,
           address: customerAddress,
           email: customerEmail,
           phone_number: customerPhone,
           store_id: product.package_product.unit_manage_id,
         };
-        customer = await db.Customer.create(customer);
+        customer = await db.Customer.create(customerData);
       }
 
       // create status
@@ -193,7 +193,6 @@ const productController = {
         err.statusCode = 404;
         throw err;
       }
-      // const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
 
       if (product.soldStatus_product.unit_manage_id !== req.userId) {
         const err = new Error("product is not owned.");

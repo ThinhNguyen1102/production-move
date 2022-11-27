@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, DialogContentText, MenuItem } from "@mui/material";
+import {
+  Box,
+  Button,
+  DialogContentText,
+  MenuItem,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOwnProductByPl,
+  getAllOwnProductSold,
   reportErrorProduct,
 } from "../../redux/actions/productAction";
 import ReportIcon from "@mui/icons-material/Report";
@@ -15,6 +23,7 @@ import { TextField } from "@mui/material";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
+import FeedbackIcon from "@mui/icons-material/Feedback";
 
 const columns = [
   { field: "prod_id", headerName: "Product_ID", width: 160 },
@@ -23,34 +32,13 @@ const columns = [
     field: "error_report",
     headerName: "エラー報告",
     width: 130,
-    renderCell: (params) => {
-      return (
-        <Button
-          color="primary"
-          startIcon={<ReportIcon />}
-          onClick={params.value.onClick}
-        >
-          報告
-        </Button>
-      );
-    },
+    renderCell: (params) => params.value,
   },
   {
     field: "move_to_center",
     headerName: "保証センターへの発送",
     width: 180,
-    renderCell: (params) => {
-      return (
-        <Button
-          color="primary"
-          endIcon={<LocalShippingIcon />}
-          onClick={params.value.onClick}
-          disabled
-        >
-          発送
-        </Button>
-      );
-    },
+    renderCell: (params) => params.value,
   },
 ];
 
@@ -69,7 +57,7 @@ const ProductsSold = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllOwnProductByPl({ data: { productLineId: 11 }, auth })); // change to api: get own products sold
+    dispatch(getAllOwnProductSold({ auth }));
     dispatch(getUserByRole({ data: { role: 4 }, auth }));
   }, [dispatch]);
 
@@ -128,12 +116,34 @@ const ProductsSold = () => {
 
   const rows = product.products.map((prod) => ({
     ...prod,
-    error_report: {
-      onClick: () => handleClickOpenDialog(prod.prod_id, true),
-    },
-    move_to_center: {
-      onClick: () => handleClickOpenDialog(prod.prod_id, false),
-    },
+    error_report:
+      prod.soldStatus_product?.status_code === "STT-04" ? (
+        <Tooltip
+          title={`エラーの説明： ${prod.soldStatus_product?.error_soldStatus?.description}`}
+        >
+          <FeedbackIcon color="error" />
+        </Tooltip>
+      ) : (
+        <Button
+          color="primary"
+          startIcon={<ReportIcon />}
+          onClick={() => handleClickOpenDialog(prod.prod_id, true)}
+        >
+          報告
+        </Button>
+      ),
+    move_to_center: (
+      <Button
+        color="primary"
+        endIcon={<LocalShippingIcon />}
+        onClick={() => handleClickOpenDialog(prod.prod_id, false)}
+        disabled={
+          prod.soldStatus_product?.status_code === "STT-04" ? false : true
+        }
+      >
+        発送
+      </Button>
+    ),
   }));
   return (
     <>
@@ -155,7 +165,7 @@ const ProductsSold = () => {
               autoFocus
               margin="dense"
               id="errorDescription"
-              label="エラー説明"
+              label="エラーの説明"
               fullWidth
               variant="standard"
               name="errorDescription"
