@@ -2,11 +2,86 @@ const db = require("../models/index.model");
 
 const packageController = {
   getAllPackage: async (req, res, next) => {},
-  getPackageWithUnit: async (req, res, next) => {},
-  getPackageWithPL: async (req, res, next) => {},
+  getPackageWithUnit: async (req, res, next) => {
+    const unitId = req.userId;
+    try {
+      const packages = await db.Package.findAll({
+        where: {
+          unit_manage_id: unitId,
+        },
+        include: [
+          {
+            model: db.ProductLine,
+            as: "productLine_package",
+          },
+          {
+            model: db.Warehouse,
+            as: "warehouse_package",
+          },
+          {
+            model: db.User,
+            as: "user_package",
+            attributes: { exclude: ["password"] },
+          },
+        ],
+      });
+
+      res.status(201).json({
+        message: "Move package success.",
+        success: true,
+        data: {
+          packages,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+  getPackageWithPL: async (req, res, next) => {
+    const productLineId = +req.params.prodLineId;
+
+    try {
+      const packages = await db.Package.findAll({
+        where: {
+          product_line_id: productLineId,
+        },
+        include: [
+          {
+            model: db.ProductLine,
+            as: "productLine_package",
+          },
+          {
+            model: db.Warehouse,
+            as: "warehouse_package",
+          },
+          {
+            model: db.User,
+            as: "user_package",
+            attributes: { exclude: ["password"] },
+          },
+        ],
+      });
+
+      res.status(201).json({
+        message: "Move package success.",
+        success: true,
+        data: {
+          packages,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
   getPackageWithPLUnit: async (req, res, next) => {
     const unitId = req.userId;
-    const productLineId = req.params.prodLineId;
+    const productLineId = +req.params.prodLineId;
 
     try {
       const packages = await db.Package.findAll({
@@ -14,6 +89,21 @@ const packageController = {
           unit_manage_id: unitId,
           product_line_id: productLineId,
         },
+        include: [
+          {
+            model: db.ProductLine,
+            as: "productLine_package",
+          },
+          {
+            model: db.Warehouse,
+            as: "warehouse_package",
+          },
+          {
+            model: db.User,
+            as: "user_package",
+            attributes: { exclude: ["password"] },
+          },
+        ],
       });
 
       res.status(201).json({
@@ -32,29 +122,23 @@ const packageController = {
   },
   deletePackageWithId: async (req, res, next) => {},
   acceptRecievedPackage: async (req, res, next) => {
-    const { unitId, packageId, warehouseId, statusCode } = req.body;
+    const unitId = req.userId;
+    const { transportId } = req.body;
     try {
-      const warehouse = await db.Warehouse.findByPk(warehouseId);
-      if (warehouse.unit_manage_id !== +unitId) {
-        const err = new Error("Unit and warehouse are not the same.");
+      const transport = await db.PackageTransport.findByPk(transportId);
+      if (transport.new_unit_id !== unitId) {
+        const err = new Error("transport is not owned");
         err.statusCode = 400;
         throw err;
       }
-      const package = await db.Package.findByPk(packageId);
-      if (!package) {
-        const err = new Error("Could not find package.");
-        err.statusCode = 404;
-        throw err;
-      }
-      if (package.unit_manage_id !== +req.userId) {
-        const err = new Error("package is not owned.");
-        err.statusCode = 404;
-        throw err;
-      }
 
-      package.unit_manage_id = unitId;
-      package.warehouse_id = warehouseId;
-      package.status_code = statusCode;
+      transport.is_shipping = false;
+      await db.PackageTransport.save();
+
+      const package = await db.Package.findByPk(transport.package_id);
+      package.unit_manage_id = transport.new_unit_id;
+      package.warehouse_id = transport.new_WH_id;
+      package.status_code = transport.new_STT_code;
 
       const packageSaved = await package.save();
 
@@ -122,35 +206,3 @@ const packageController = {
 };
 
 module.exports = packageController;
-
-const acceptRecievedPackage = async (req, res, next) => {
-  const { transportId } = req.body;
-  try {
-    const transport = await db.PackageTransport.findByPk(transportId);
-    if (transport.new_unit_id !== unitId) {
-      const err = new Error("transport is not owned");
-      err.statusCode = 400;
-      throw err;
-    }
-
-    const package = await db.Package.findByPk(transport.package_id);
-    package.unit_manage_id = transport.new_unit_id;
-    package.warehouse_id = transport.new_WH_id;
-    package.status_code = transport.new_STT_code;
-
-    const packageSaved = await package.save();
-
-    res.status(201).json({
-      message: "Move package success.",
-      success: true,
-      data: {
-        packageSaved,
-      },
-    });
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  }
-};

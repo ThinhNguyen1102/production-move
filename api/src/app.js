@@ -70,6 +70,12 @@ app.use((error, req, res, next) => {
   });
 });
 
+app.use("*", (req, res, next) => {
+  res.status(404).json({
+    message: "Page not found 404!!!",
+  });
+});
+
 app.listen(port, () => {
   console.log(`Sever is listenning on port: ${port}`);
 });

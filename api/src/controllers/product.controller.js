@@ -239,6 +239,9 @@ const productController = {
         throw err;
       }
 
+      transport.is_shipping = false;
+      await db.PackageTransport.save();
+
       const soldStatus = await db.SoldStatus.findByPk(transport.soldStatus_id);
       soldStatus.unit_manage_id = transport.new_unit_id;
       soldStatus.status_code = transport.new_STT_code;
