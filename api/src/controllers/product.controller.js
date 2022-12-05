@@ -146,6 +146,7 @@ const productController = {
       const error = {
         error_code: generateCode("ERR"),
         description: errorDescription,
+        type_code: "ERR-SC",
       };
       const errorSaved = await db.Error.create(error);
 
@@ -185,7 +186,7 @@ const productController = {
         include: {
           model: db.SoldStatus,
           as: "soldStatus_product",
-          attributes: ["unit_manage_id", "status_code", "warehouse_id"],
+          attributes: ["id", "unit_manage_id", "status_code", "warehouse_id"],
         },
       });
       if (!product) {
@@ -199,6 +200,10 @@ const productController = {
         err.statusCode = 404;
         throw err;
       }
+
+      product.soldStatus_product.status_code = "STT_SHIP";
+
+      await product.soldStatus_product.save();
 
       const transport = {
         product_id: product.prod_id,

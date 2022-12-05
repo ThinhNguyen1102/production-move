@@ -188,6 +188,9 @@ const packageController = {
         new_WH_id: +warehouseId,
       };
 
+      package.status_code = "STT-SHIP";
+      await package.save();
+
       const transportSaved = await db.PackageTransport.create(transport);
       res.status(201).json({
         message: "Move package success.",
