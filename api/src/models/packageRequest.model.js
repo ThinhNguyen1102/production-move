@@ -8,13 +8,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
     isDone: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+    isAccept: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false,

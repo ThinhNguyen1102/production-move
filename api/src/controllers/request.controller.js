@@ -1,16 +1,15 @@
 const db = require("../models/index.model");
 
-const RequestPackageController = {
-  createRequest: async (req, res, next) => {
+const RequestController = {
+  createPackRequest: async (req, res, next) => {
     const unitId = req.userId;
-    const { receiverId, productLineId, quantity, description } = req.body;
+    const { receiverId, productLineId, description } = req.body;
 
     try {
       const packageRequest = {
         sender_id: +unitId,
         receiver_id: +receiverId,
         product_line_id: +productLineId,
-        quantity: +quantity,
         description: description,
       };
 
@@ -33,24 +32,30 @@ const RequestPackageController = {
     }
   },
 
-  acceptRequest: async (req, res, next) => {
+  acceptPackRequest: async (req, res, next) => {
     const unitId = req.userId;
-    const requestId = req.params.packageId;
+    let { requestId, isAccept } = req.body;
 
     try {
-      const packageRequest = await db.PackageRequest.findByPk(requestId, {
+      const packageRequest = await db.PackageRequest.findOne({
         where: {
+          id: requestId,
           receiver_id: unitId,
+          isDone: false,
         },
       });
-
       if (!packageRequest) {
-        const err = new Error("Could not find request.");
+        const err = new Error(
+          "Could not find request or request not own, request is done."
+        );
         err.statusCode = 404;
         throw err;
       }
 
       packageRequest.isDone = true;
+      if (isAccept === "true") {
+        packageRequest.isAccept = true;
+      }
       const packageRequestSaved = await packageRequest.save();
 
       res.status(200).json({
@@ -68,7 +73,7 @@ const RequestPackageController = {
     }
   },
 
-  getSendRequestOwn: async (req, res, next) => {
+  getSendPackRequestOwn: async (req, res, next) => {
     const unitId = req.userId;
     try {
       const requests = await db.PackageRequest.findAll({
@@ -109,7 +114,7 @@ const RequestPackageController = {
     }
   },
 
-  getReceiveRequestOwn: async (req, res, next) => {
+  getReceivePackRequestOwn: async (req, res, next) => {
     const unitId = req.userId;
 
     try {
@@ -150,6 +155,11 @@ const RequestPackageController = {
       next(err);
     }
   },
+
+  createProdRequest: async (req, res, next) => {},
+  acceptProdRequest: async (req, res, next) => {},
+  getSendProdRequestOwn: async (req, res, next) => {},
+  getReceiveProdRequestOwn: async (req, res, next) => {},
 };
 
-module.exports = RequestPackageController;
+module.exports = RequestController;
