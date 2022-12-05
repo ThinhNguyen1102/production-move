@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   getAllPackageByUnit,
-  acceptRecievedPackage,
+  movePackage,
 } from "../../redux/actions/packageAction";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, MenuItem, TextField } from "@mui/material";
@@ -92,7 +92,7 @@ const ProductLinePackages = () => {
   };
 
   const handleMoveToAgent = () => {
-    dispatch(acceptRecievedPackage({ data: shippingData, auth }));
+    dispatch(movePackage({ data: shippingData, auth }));
     handleCloseDialog();
   };
 

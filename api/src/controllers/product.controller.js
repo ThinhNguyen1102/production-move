@@ -173,7 +173,7 @@ const productController = {
   },
 
   moveProduct: async (req, res, next) => {
-    const { unitId, productId, warehouseId, statusCode } = req.body;
+    const { unitId, prodId, warehouseId, statusCode } = req.body;
     try {
       const warehouse = await db.Warehouse.findByPk(warehouseId);
       if (warehouse.unit_manage_id !== +unitId) {
@@ -181,7 +181,7 @@ const productController = {
         err.statusCode = 400;
         throw err;
       }
-      const product = await db.Product.findByPk(productId, {
+      const product = await db.Product.findByPk(prodId, {
         include: {
           model: db.SoldStatus,
           as: "soldStatus_product",
@@ -240,7 +240,7 @@ const productController = {
       }
 
       transport.is_shipping = false;
-      await db.PackageTransport.save();
+      await transport.save();
 
       const soldStatus = await db.SoldStatus.findByPk(transport.soldStatus_id);
       soldStatus.unit_manage_id = transport.new_unit_id;
@@ -253,7 +253,7 @@ const productController = {
         message: "ok",
         success: true,
         data: {
-          soldStatusSaved,
+          transport,
         },
       });
     } catch (err) {

@@ -6,6 +6,7 @@ import productLineReducer from "./productLineReducer";
 import warehouseReducer from "./warehouseReducer";
 import packageReducer from "./packageReducer";
 import productReducer from "./productReducer";
+import transportReducer from "./transportReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   warehouse: warehouseReducer,
   packageReducer: packageReducer,
   product: productReducer,
+  transport: transportReducer,
 });
