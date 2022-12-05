@@ -53,22 +53,17 @@ export const getAllPackageByUnit =
     }
   };
 
-export const acceptRecievedPackage =
+export const movePackage =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("PACKAGE: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await postDataAPI(
-        "packages/acceptRecieved",
-        data,
-        auth.token
-      );
+      const res = await postDataAPI(`packages/move`, data, auth.token);
+      console.log("res.data.transportSaved: ", res.data.transportSaved);
       dispatch({
         type: PACKAGE.MOVE_PACKAGE,
-        payload: res.data.packageSaved,
+        payload: res.data.transportSaved,
       });
-
       dispatch({
         type: ALERT,
         payload: {

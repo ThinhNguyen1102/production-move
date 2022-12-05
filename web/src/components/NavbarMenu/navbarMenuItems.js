@@ -4,6 +4,7 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import DevicesIcon from "@mui/icons-material/Devices";
 import PaidIcon from "@mui/icons-material/Paid";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 const navbarMenuItems = [
   [
@@ -39,6 +40,11 @@ const navbarMenuItems = [
       text: "倉庫",
       pageLink: "/warehouses",
     },
+    {
+      icon: <LocalShippingIcon />,
+      text: "運送管理",
+      pageLink: "/shipping",
+    },
   ],
   [
     {
@@ -61,6 +67,11 @@ const navbarMenuItems = [
       text: "倉庫",
       pageLink: "/warehouses",
     },
+    {
+      icon: <LocalShippingIcon />,
+      text: "運送管理",
+      pageLink: "/shipping",
+    },
   ],
   [
     {
@@ -77,6 +88,11 @@ const navbarMenuItems = [
       icon: <WarehouseIcon />,
       text: "倉庫",
       pageLink: "/warehouses",
+    },
+    {
+      icon: <LocalShippingIcon />,
+      text: "運送管理",
+      pageLink: "/shipping",
     },
   ],
 ];

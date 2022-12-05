@@ -34,6 +34,15 @@ const productReducer = (state = initialState, action) => {
           return prod;
         }),
       };
+    case PRODUCT.MOVE_PRODUCT:
+      console.log("action.payload", action.payload);
+      console.log("action.payload.product_id", action.payload.product_id);
+      return {
+        ...state,
+        // products: state.products.filter(
+        //   (prod) => prod.prod_id !== action.payload.product_id
+        // ),
+      };
     default:
       return state;
   }

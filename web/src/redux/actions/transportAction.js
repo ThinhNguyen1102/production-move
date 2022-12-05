@@ -1,39 +1,25 @@
+import { ALERT, TRANSPORT } from "../types";
 import { getDataAPI, postDataAPI } from "../../utils/fetchData";
-import { ALERT, PRODUCT } from "../types";
 
-export const getAllOwnProductByPl =
-  ({ data, auth }) =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await getDataAPI(
-        `products/productline/${data.productLineId}`,
-        auth.token
-      );
-      dispatch({
-        type: PRODUCT.GET_ALL_OWN_PRODUCT_BY_PL,
-        payload: res.data.products,
-      });
-      dispatch({ type: ALERT, payload: { loading: false } });
-    } catch (err) {
-      dispatch({
-        type: ALERT,
-        payload: {
-          error: err.response.data.message,
-        },
-      });
-    }
-  };
-
-export const getAllOwnProductSold =
+export const getAllTransportReceive =
   ({ auth }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await getDataAPI(`products/sold/own`, auth.token);
+      const productResponse = await getDataAPI(
+        `transports/product/own/receive`,
+        auth.token
+      );
+      const packageResponse = await getDataAPI(
+        `transports/package/own/receive`,
+        auth.token
+      );
       dispatch({
-        type: PRODUCT.GET_ALL_OWN_PRODUCT_SOLD,
-        payload: res.data.products,
+        type: TRANSPORT.GET_ALL_TRANSPORT_RECEIVE,
+        payload: [
+          ...productResponse.data.transports,
+          ...packageResponse.data.transports,
+        ],
       });
       dispatch({ type: ALERT, payload: { loading: false } });
     } catch (err) {
@@ -46,15 +32,47 @@ export const getAllOwnProductSold =
     }
   };
 
-export const sellProduct =
+export const getAllTransportSend =
+  ({ auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const productResponse = await getDataAPI(
+        `transports/product/own/send`,
+        auth.token
+      );
+      const packageResponse = await getDataAPI(
+        `transports/package/own/send`,
+        auth.token
+      );
+      dispatch({
+        type: TRANSPORT.GET_ALL_TRANSPORT_SEND,
+        payload: [
+          ...productResponse.data.transports,
+          ...packageResponse.data.transports,
+        ],
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
+
+export const acceptProduct =
   ({ data, auth }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await postDataAPI(`products/sell`, data, auth.token);
+      const res = await postDataAPI(`products/accept`, data, auth.token);
+      console.log("res.data.transport: ", res.data.transport);
       dispatch({
-        type: PRODUCT.SELL_PRODUCT,
-        payload: res.data.product,
+        type: TRANSPORT.ACCEPT_PRODUCT,
+        payload: res.data.transport,
       });
       dispatch({
         type: ALERT,
@@ -72,43 +90,16 @@ export const sellProduct =
     }
   };
 
-export const reportErrorProduct =
+export const acceptPackage =
   ({ data, auth }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await postDataAPI(`products/guarentee`, data, auth.token);
-      console.log("res.data.soldStatusSaved: ", res.data.soldStatusSaved);
+      const res = await postDataAPI(`packages/accept`, data, auth.token);
+      console.log("res.data.transport: ", res.data.transport);
       dispatch({
-        type: PRODUCT.REPORT_PRODUCT,
-        payload: res.data.soldStatusSaved,
-      });
-      dispatch({
-        type: ALERT,
-        payload: {
-          success: res.message,
-        },
-      });
-    } catch (err) {
-      dispatch({
-        type: ALERT,
-        payload: {
-          error: err.response.data.message,
-        },
-      });
-    }
-  };
-
-export const moveProduct =
-  ({ data, auth }) =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: ALERT, payload: { loading: true } });
-      const res = await postDataAPI(`products/move`, data, auth.token);
-      console.log("res.data.soldStatusSaved: ", res.data.soldStatusSaved);
-      dispatch({
-        type: PRODUCT.MOVE_PRODUCT,
-        payload: res.data.transportSaved,
+        type: TRANSPORT.ACCEPT_PACKAGE,
+        payload: res.data.transport,
       });
       dispatch({
         type: ALERT,
