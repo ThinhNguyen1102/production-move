@@ -144,7 +144,10 @@ const ProductsSold = () => {
         endIcon={<SendIcon />}
         onClick={() => handleClickOpenDialog(prod.prod_id, false)}
         disabled={
-          prod.soldStatus_product?.status_code === "STT-04" ? false : true
+          prod.soldStatus_product?.status_code === "STT-04" ||
+          prod.soldStatus_product?.status_code === "STT-SHIP"
+            ? false
+            : true
         }
       >
         運送

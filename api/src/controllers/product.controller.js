@@ -201,7 +201,7 @@ const productController = {
         throw err;
       }
 
-      product.soldStatus_product.status_code = "STT_SHIP";
+      product.soldStatus_product.status_code = "STT-SHIP";
 
       await product.soldStatus_product.save();
 
