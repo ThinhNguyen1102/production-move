@@ -146,7 +146,7 @@ const packageController = {
         message: "Move package success.",
         success: true,
         data: {
-          packageSaved,
+          transport,
         },
       });
     } catch (err) {

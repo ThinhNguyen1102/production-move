@@ -18,9 +18,6 @@ const packageReducer = (state = initialState, action) => {
     case PACKAGE.MOVE_PACKAGE:
       return {
         ...state,
-        packages: state.packages.filter(
-          (pk) => pk.package_id !== action.payload.package_id
-        ),
       };
     default:
       return state;

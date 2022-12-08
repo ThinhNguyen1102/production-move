@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOwnProductByPl,
   getAllOwnProductSold,
+  moveProduct,
   reportErrorProduct,
 } from "../../redux/actions/productAction";
 import ReportIcon from "@mui/icons-material/Report";
@@ -24,6 +25,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import SendIcon from "@mui/icons-material/Send";
 
 const columns = [
   { field: "prod_id", headerName: "Product_ID", width: 160 },
@@ -36,7 +38,7 @@ const columns = [
   },
   {
     field: "move_to_center",
-    headerName: "保証センターへの発送",
+    headerName: "保証センターへの運送",
     width: 180,
     renderCell: (params) => params.value,
   },
@@ -77,6 +79,10 @@ const ProductsSold = () => {
       ...errorReportData,
       prodId,
     });
+    setShippingData({
+      ...shippingData,
+      prodId,
+    });
   };
 
   const [errorReportData, setErrorReportData] = useState(initialReportState);
@@ -110,7 +116,7 @@ const ProductsSold = () => {
   };
 
   const handleMoveToCenter = () => {
-    console.log("SHIPPING");
+    dispatch(moveProduct({ data: shippingData, auth }));
     handleCloseDialog();
   };
 
@@ -135,13 +141,16 @@ const ProductsSold = () => {
     move_to_center: (
       <Button
         color="primary"
-        endIcon={<LocalShippingIcon />}
+        endIcon={<SendIcon />}
         onClick={() => handleClickOpenDialog(prod.prod_id, false)}
         disabled={
-          prod.soldStatus_product?.status_code === "STT-04" ? false : true
+          prod.soldStatus_product?.status_code === "STT-04" ||
+          prod.soldStatus_product?.status_code === "STT-SHIP"
+            ? false
+            : true
         }
       >
-        発送
+        運送
       </Button>
     ),
   }));
@@ -180,7 +189,7 @@ const ProductsSold = () => {
         </Dialog>
       ) : (
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>保証センターへの発送</DialogTitle>
+          <DialogTitle>保証センターへの運送</DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
@@ -220,7 +229,7 @@ const ProductsSold = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>キャンセル</Button>
-            <Button onClick={handleMoveToCenter}>発送</Button>
+            <Button onClick={handleMoveToCenter}>運送</Button>
           </DialogActions>
         </Dialog>
       )}
