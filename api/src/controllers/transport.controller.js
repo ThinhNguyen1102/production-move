@@ -5,7 +5,7 @@ const TransportController = {
     const unitId = req.userId;
 
     try {
-      const transports = await db.ProductTransport.findAll({
+      const rawTransports = await db.ProductTransport.findAll({
         where: {
           old_unit_id: unitId,
         },
@@ -22,10 +22,12 @@ const TransportController = {
           {
             model: db.User,
             as: "oldUnit_pTransport",
+            attributes: { exclude: ["password"] },
           },
           {
             model: db.User,
             as: "newUnit_pTransport",
+            attributes: { exclude: ["password"] },
           },
           {
             model: db.Warehouse,
@@ -41,6 +43,8 @@ const TransportController = {
           },
         ],
       });
+
+      const transports = fomatProductTransport(rawTransports);
 
       res.status(201).json({
         message: "Move package success.",
@@ -60,7 +64,7 @@ const TransportController = {
     const unitId = req.userId;
 
     try {
-      const transports = await db.ProductTransport.findAll({
+      const rawTransports = await db.ProductTransport.findAll({
         where: {
           new_unit_id: unitId,
         },
@@ -96,6 +100,7 @@ const TransportController = {
           },
         ],
       });
+      const transports = fomatProductTransport(rawTransports);
 
       res.status(201).json({
         message: "Move package success.",
@@ -115,7 +120,7 @@ const TransportController = {
     const unitId = req.userId;
 
     try {
-      const transports = await db.PackageTransport.findAll({
+      const rawTransports = await db.PackageTransport.findAll({
         where: {
           old_unit_id: unitId,
         },
@@ -147,6 +152,8 @@ const TransportController = {
         ],
       });
 
+      const transports = fomatPackageTransport(rawTransports);
+
       res.status(201).json({
         message: "Move package success.",
         success: true,
@@ -165,7 +172,7 @@ const TransportController = {
     const unitId = req.userId;
 
     try {
-      const transports = await db.PackageTransport.findAll({
+      const rawTransports = await db.PackageTransport.findAll({
         where: {
           new_unit_id: unitId,
         },
@@ -197,6 +204,8 @@ const TransportController = {
         ],
       });
 
+      const transports = fomatPackageTransport(rawTransports);
+
       res.status(201).json({
         message: "Move package success.",
         success: true,
@@ -211,6 +220,55 @@ const TransportController = {
       next(err);
     }
   },
+};
+
+const fomatProductTransport = (rawTransports) => {
+  const transports = [];
+  rawTransports.forEach((val) => {
+    oldUnit = val.dataValues.oldUnit_pTransport.dataValues;
+    newUnit = val.dataValues.newUnit_pTransport.dataValues;
+    oldWH = val.dataValues.oldWH_pTransport.dataValues;
+    newWH = val.dataValues.oldWH_pTransport.dataValues;
+    soldStatus = val.dataValues.soldStatus_pTransport.dataValues;
+    const { id, old_STT_code, new_STT_code, is_shipping, ...rest } =
+      val.dataValues;
+    const transport = {
+      id,
+      old_STT_code,
+      new_STT_code,
+      is_shipping,
+      oldUnit,
+      newUnit,
+      oldWH,
+      newWH,
+      soldStatus,
+    };
+    transports.push(transport);
+  });
+  return transports;
+};
+const fomatPackageTransport = (rawTransports) => {
+  const transports = [];
+  rawTransports.forEach((val) => {
+    oldUnit = val.dataValues.oldUnit_pkTransport.dataValues;
+    newUnit = val.dataValues.newUnit_pkTransport.dataValues;
+    oldWH = val.dataValues.oldWH_pkTransport.dataValues;
+    newWH = val.dataValues.oldWH_pkTransport.dataValues;
+    const { id, old_STT_code, new_STT_code, is_shipping, ...rest } =
+      val.dataValues;
+    const transport = {
+      id,
+      old_STT_code,
+      new_STT_code,
+      is_shipping,
+      oldUnit,
+      newUnit,
+      oldWH,
+      newWH,
+    };
+    transports.push(transport);
+  });
+  return transports;
 };
 
 module.exports = TransportController;

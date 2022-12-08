@@ -133,7 +133,7 @@ const packageController = {
       }
 
       transport.is_shipping = false;
-      await db.PackageTransport.save();
+      await transport.save();
 
       const package = await db.Package.findByPk(transport.package_id);
       package.unit_manage_id = transport.new_unit_id;

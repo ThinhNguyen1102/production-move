@@ -80,6 +80,12 @@ createOneToManyRelation(db.ProductLine, db.User, "user_id", "user_productLine");
 createOneToManyRelation(db.Package, db.User, "unit_manage_id", "user_package");
 createOneToManyRelation(
   db.Package,
+  db.User,
+  "unit_created_id",
+  "userCreated_package"
+);
+createOneToManyRelation(
+  db.Package,
   db.Warehouse,
   "warehouse_id",
   "warehouse_package"
@@ -96,6 +102,12 @@ createOneToManyRelation(
   db.User,
   "unit_manage_id",
   "user_soldStatus"
+);
+createOneToManyRelation(
+  db.SoldStatus,
+  db.User,
+  "sold_store_id",
+  "store_soldStatus"
 );
 createOneToManyRelation(
   db.SoldStatus,

@@ -14,6 +14,7 @@ const productController = {
       quantity_in_stock: quantity,
       warehouse_id: warehouseId,
       status_code: "STT-01",
+      unit_created_id: req.userId,
     };
 
     db.Package.create(package)
@@ -112,6 +113,7 @@ const productController = {
         unit_manage_id: product.package_product.unit_manage_id,
         customer_id: customer.id,
         warehouse_id: product.package_product.warehouse_id,
+        sold_store_id: product.package_product.unit_manage_id,
       };
       const soldStatusSaved = await db.SoldStatus.create(soldStatus);
 
@@ -245,7 +247,7 @@ const productController = {
       }
 
       transport.is_shipping = false;
-      await db.PackageTransport.save();
+      await transport.save();
 
       const soldStatus = await db.SoldStatus.findByPk(transport.soldStatus_id);
       soldStatus.unit_manage_id = transport.new_unit_id;
