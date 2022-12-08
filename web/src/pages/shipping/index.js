@@ -15,6 +15,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import {
+  acceptPackage,
   acceptProduct,
   getAllTransportReceive,
   getAllTransportSend,
@@ -27,14 +28,12 @@ const Shipping = () => {
   const [showShippingState, setShowShippingState] = useState("receive");
   const [openDialog, setOpenDialog] = useState(false);
   const [transportId, setTransportId] = useState("");
+  const [isPackageOrProduct, setIsPackageOrProduct] = useState("");
 
   const columns = [
     { field: "id", headerName: "ID", width: 60 },
     {
-      field:
-        showShippingState === "receive"
-          ? "oldUnit_pTransport"
-          : "newUnit_pTransport",
+      field: showShippingState === "receive" ? "oldUnit" : "newUnit",
       headerName:
         showShippingState === "receive" ? "前のユニット" : "次のユニット",
       width: 150,
@@ -66,12 +65,24 @@ const Shipping = () => {
       field: "description",
       headerName: "説明",
       width: 320,
-      renderCell: (params) => {
-        const productTransport = params.row.product_pTransport;
+      renderCell: ({ row }) => {
+        let id,
+          model,
+          quantity = "";
+        if (row.product_transport && !row.package_transport) {
+          id = row.product_transport.prod_id;
+          model = row.product_transport.productLine_product.model;
+        } else if (!row.product_transport && row.package_transport) {
+          id = row.package_transport.package_id;
+          model = row.package_transport.productLine_package.model;
+          quantity = row.package_transport.quantity;
+        }
+
         return (
           <Box>
-            <Typography>{`ID: ${productTransport.prod_id}`}</Typography>
-            <Typography>{`Model: ${productTransport.productLine_product.model}`}</Typography>
+            <Typography>{id}</Typography>
+            <Typography>{`モデル: ${model}`}</Typography>
+            {quantity && <Typography>{`数量: ${quantity}`}</Typography>}
           </Box>
         );
       },
@@ -83,12 +94,21 @@ const Shipping = () => {
       renderCell: (params) => params.value,
     },
   ];
-  const rows = transport.transports.map((tran) => ({
+  const rows = transport?.transports?.map((tran) => ({
     ...tran,
     accept_action:
       showShippingState === "receive" &&
       (tran?.is_shipping ? (
-        <Button color="primary" onClick={() => handleClickOpenDialog(tran?.id)}>
+        <Button
+          color="primary"
+          onClick={() =>
+            handleClickOpenDialog(
+              tran?.id,
+              tran?.package_transport?.package_id,
+              tran?.product_transport?.prod_id
+            )
+          }
+        >
           受け入れる
         </Button>
       ) : (
@@ -109,7 +129,13 @@ const Shipping = () => {
     setShowShippingState(e.target.value);
   };
 
-  const handleClickOpenDialog = (tranId) => {
+  const handleClickOpenDialog = (tranId, packageId, prodId) => {
+    console.log(packageId, prodId);
+    if (packageId && !prodId) {
+      setIsPackageOrProduct("package");
+    } else if (!packageId && prodId) {
+      setIsPackageOrProduct("product");
+    }
     setTransportId(tranId);
     setOpenDialog(true);
   };
@@ -117,7 +143,12 @@ const Shipping = () => {
     setOpenDialog(false);
   };
   const handleAccept = () => {
-    dispatch(acceptProduct({ data: { transportId }, auth }));
+    console.log("isPackageOrProduct", isPackageOrProduct);
+    if (isPackageOrProduct === "package") {
+      dispatch(acceptPackage({ data: { transportId }, auth }));
+    } else if (isPackageOrProduct === "product") {
+      dispatch(acceptProduct({ data: { transportId }, auth }));
+    }
     handleCloseDialog();
   };
 
