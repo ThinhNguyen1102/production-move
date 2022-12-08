@@ -223,7 +223,7 @@ const productController = {
         message: "ok",
         success: true,
         data: {
-          transportSaved,
+          product,
         },
       });
     } catch (err) {
@@ -391,7 +391,7 @@ const productController = {
 
       res.status(200).json({
         success: true,
-        message: "edit productLine successfully",
+        message: "fix product successfully",
         data: {
           product,
         },

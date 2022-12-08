@@ -126,6 +126,7 @@ const packageController = {
     const { transportId } = req.body;
     try {
       const transport = await db.PackageTransport.findByPk(transportId);
+      console.log(transport.new_unit_id, unitId);
       if (transport.new_unit_id !== unitId) {
         const err = new Error("transport is not owned");
         err.statusCode = 400;
