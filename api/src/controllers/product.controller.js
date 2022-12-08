@@ -323,15 +323,33 @@ const productController = {
           isSold: true,
           "$soldStatus_product.unit_manage_id$": unitId,
         },
-        include: {
-          model: db.SoldStatus,
-          as: "soldStatus_product",
-          include: {
-            model: db.Error,
-            as: "error_soldStatus",
-            attributes: ["description", "error_code"],
+        include: [
+          {
+            model: db.SoldStatus,
+            as: "soldStatus_product",
+            include: [
+              {
+                model: db.Error,
+                as: "error_soldStatus",
+                attributes: ["description", "error_code"],
+              },
+              {
+                model: db.User,
+                as: "store_soldStatus",
+                attributes: { exclude: ["password"] },
+              },
+            ],
           },
-        },
+          {
+            model: db.Package,
+            as: "package_product",
+            include: {
+              model: db.User,
+              as: "userCreated_package",
+              attributes: { exclude: ["password"] },
+            },
+          },
+        ],
       });
 
       res.status(200).json({
@@ -339,6 +357,43 @@ const productController = {
         message: "edit productLine successfully",
         data: {
           products,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  postProductFixed: async (req, res, next) => {
+    const unitId = req.userId;
+    const { productId } = req.body;
+    try {
+      const product = await db.Product.findByPk(productId, {
+        where: {
+          isSold: true,
+          "$soldStatus_product.unit_manage_id$": unitId,
+        },
+        include: {
+          model: db.SoldStatus,
+          as: "soldStatus_product",
+          include: {
+            model: db.Error,
+            as: "error_soldStatus",
+          },
+        },
+      });
+
+      product.soldStatus_product.error_id = null;
+      await product.soldStatus_product.save();
+
+      res.status(200).json({
+        success: true,
+        message: "edit productLine successfully",
+        data: {
+          product,
         },
       });
     } catch (err) {

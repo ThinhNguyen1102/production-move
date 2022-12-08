@@ -21,4 +21,6 @@ router.get(
 
 router.get("/sold/own", isAuth, productController.getSoldProductOwn);
 
+router.post("/guarentee/fixed", isAuth, productController.postProductFixed);
+
 module.exports = router;
