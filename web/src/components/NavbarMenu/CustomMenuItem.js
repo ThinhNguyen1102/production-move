@@ -12,7 +12,7 @@ const CustomMenuItem = ({ navbarMenuItem }) => {
       to={navbarMenuItem.pageLink}
       sx={{
         padding: "12px 8px",
-        width: "110px",
+        width: "100px",
         color: "#fff",
         textDecoration: "none",
         display: "flex",
