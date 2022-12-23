@@ -123,7 +123,8 @@ const ProductsSold = () => {
   const rows = product.products.map((prod) => ({
     ...prod,
     error_report:
-      prod.soldStatus_product?.status_code === "STT-04" ? (
+      prod.soldStatus_product?.status_code === "STT-04" ||
+      prod.soldStatus_product?.status_code === "STT-SHIP" ? (
         <Tooltip
           title={`エラーの説明： ${prod.soldStatus_product?.error_soldStatus?.description}`}
         >
@@ -144,10 +145,7 @@ const ProductsSold = () => {
         endIcon={<SendIcon />}
         onClick={() => handleClickOpenDialog(prod.prod_id, false)}
         disabled={
-          prod.soldStatus_product?.status_code === "STT-04" ||
-          prod.soldStatus_product?.status_code === "STT-SHIP"
-            ? false
-            : true
+          prod.soldStatus_product?.status_code === "STT-04" ? false : true
         }
       >
         運送

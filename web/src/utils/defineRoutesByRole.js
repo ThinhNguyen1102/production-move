@@ -1,6 +1,13 @@
 const defineRoutesByRole = [
   ["/", "/product_line", "/accounts"],
-  ["/", "/product_line", "/warehouses", "/product_line_packages", "/shipping"],
+  [
+    "/",
+    "/product_line",
+    "/warehouses",
+    "/error_products",
+    "/product_line_packages",
+    "/shipping",
+  ],
   [
     "/",
     "/product_line",

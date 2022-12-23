@@ -19,7 +19,12 @@ const transportReducer = (state = initialState, action) => {
     case TRANSPORT.ACCEPT_PACKAGE:
       return {
         ...state,
-        transports: action.payload,
+        transports: state.transports.map((tran) => {
+          if (tran.id === action.payload.id) {
+            tran.is_shipping = action.payload.is_shipping;
+          }
+          return tran;
+        }),
       };
     case TRANSPORT.ACCEPT_PRODUCT:
       return {

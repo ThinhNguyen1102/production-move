@@ -108,7 +108,38 @@ export const moveProduct =
       console.log("res.data.soldStatusSaved: ", res.data.soldStatusSaved);
       dispatch({
         type: PRODUCT.MOVE_PRODUCT,
-        payload: res.data.transportSaved,
+        payload: res.data.product,
+      });
+      dispatch({
+        type: ALERT,
+        payload: {
+          success: res.message,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
+
+export const fixProduct =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    try {
+      console.log(data);
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await postDataAPI(
+        `products/guarentee/fixed`,
+        data,
+        auth.token
+      );
+      dispatch({
+        type: PRODUCT.FIX_PRODUCT,
+        payload: res.data.product,
       });
       dispatch({
         type: ALERT,

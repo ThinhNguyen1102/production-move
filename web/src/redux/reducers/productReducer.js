@@ -39,9 +39,22 @@ const productReducer = (state = initialState, action) => {
       console.log("action.payload.product_id", action.payload.product_id);
       return {
         ...state,
-        // products: state.products.filter(
-        //   (prod) => prod.prod_id !== action.payload.product_id
-        // ),
+        products: state.products.map((prod) => {
+          if (prod.prod_id === action.payload.prod_id) {
+            prod = { ...action.payload };
+          }
+          return prod;
+        }),
+      };
+    case PRODUCT.FIX_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map((prod) => {
+          if (prod.prod_id === action.payload.prod_id) {
+            prod.soldStatus_product.error_id = null;
+          }
+          return prod;
+        }),
       };
     default:
       return state;
