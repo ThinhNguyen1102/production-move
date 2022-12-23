@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const db = require("../models/index.model");
 
 const packageController = {
@@ -8,6 +9,9 @@ const packageController = {
       const packages = await db.Package.findAll({
         where: {
           unit_manage_id: unitId,
+          status_code: {
+            [Op.ne]: "STT_SHIP",
+          },
         },
         include: [
           {
@@ -47,6 +51,9 @@ const packageController = {
       const packages = await db.Package.findAll({
         where: {
           product_line_id: productLineId,
+          status_code: {
+            [Op.ne]: "STT_SHIP",
+          },
         },
         include: [
           {
@@ -88,6 +95,9 @@ const packageController = {
         where: {
           unit_manage_id: unitId,
           product_line_id: productLineId,
+          status_code: {
+            [Op.ne]: "STT_SHIP",
+          },
         },
         include: [
           {
