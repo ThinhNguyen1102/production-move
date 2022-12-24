@@ -7,7 +7,7 @@ import { refreshToken } from "./redux/actions/authAction";
 import PrivateRouter from "./customRouter/PrivateRouter";
 import NavbarMenu from "./components/NavbarMenu";
 import GlobalAlert from "./components/GlobalAlert";
-import Product from "./components/product";
+import Home from "./components/home";
 
 function App() {
   const { auth } = useSelector((state) => state);
@@ -23,7 +23,7 @@ function App() {
       <GlobalAlert />
       {auth.token && <NavbarMenu />}
       <Routes>
-        <Route path="/" element={auth.token ? <Product /> : <Login />} />
+        <Route path="/" element={auth.token ? <Home /> : <Login />} />
         <Route
           path="/:page"
           element={
