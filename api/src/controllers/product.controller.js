@@ -323,7 +323,7 @@ const productController = {
           isSold: true,
           "$soldStatus_product.unit_manage_id$": unitId,
           "$soldStatus_product.status_code$": {
-            [Op.ne]: "STT_SHIP",
+            [Op.ne]: "STT-SHIP",
           },
         },
         include: [

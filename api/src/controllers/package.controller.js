@@ -10,7 +10,7 @@ const packageController = {
         where: {
           unit_manage_id: unitId,
           status_code: {
-            [Op.ne]: "STT_SHIP",
+            [Op.ne]: "STT-SHIP",
           },
         },
         include: [
@@ -52,7 +52,7 @@ const packageController = {
         where: {
           product_line_id: productLineId,
           status_code: {
-            [Op.ne]: "STT_SHIP",
+            [Op.ne]: "STT-SHIP",
           },
         },
         include: [
@@ -96,7 +96,7 @@ const packageController = {
           unit_manage_id: unitId,
           product_line_id: productLineId,
           status_code: {
-            [Op.ne]: "STT_SHIP",
+            [Op.ne]: "STT-SHIP",
           },
         },
         include: [
