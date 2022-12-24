@@ -154,9 +154,17 @@ const Shipping = () => {
 
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
+      <Box
+        p={3}
+        sx={{
+          height: "calc(100vh - 144px)",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <ToggleButtonGroup
-          sx={{ marginBottom: 3 }}
+          sx={{ marginBottom: 3, alignSelf: "end" }}
           color="primary"
           exclusive
           value={showShippingState}

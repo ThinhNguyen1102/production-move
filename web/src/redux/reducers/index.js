@@ -7,6 +7,7 @@ import warehouseReducer from "./warehouseReducer";
 import packageReducer from "./packageReducer";
 import productReducer from "./productReducer";
 import transportReducer from "./transportReducer";
+import requestReducer from "./requestReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   packageReducer: packageReducer,
   product: productReducer,
   transport: transportReducer,
+  request: requestReducer,
 });
