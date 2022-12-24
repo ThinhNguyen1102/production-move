@@ -1,27 +1,24 @@
 const db = require("../models/index.model");
 
 const RequestController = {
-  createPackRequest: async (req, res, next) => {
+  createRequest: async (req, res, next) => {
     const unitId = req.userId;
-    const { receiverId, productLineId, description } = req.body;
+    const { receiverId, content } = req.body;
 
     try {
-      const packageRequest = {
+      const request = {
         sender_id: +unitId,
         receiver_id: +receiverId,
-        product_line_id: +productLineId,
-        description: description,
+        content: content,
       };
 
-      const packageRequestSaved = await db.PackageRequest.create(
-        packageRequest
-      );
+      const requestSaved = await db.Request.create(request);
 
       res.status(200).json({
         success: true,
-        message: "create package request successfully",
+        message: "create request successfully",
         data: {
-          packageRequestSaved,
+          requestSaved,
         },
       });
     } catch (err) {
@@ -32,19 +29,19 @@ const RequestController = {
     }
   },
 
-  acceptPackRequest: async (req, res, next) => {
+  acceptRequest: async (req, res, next) => {
     const unitId = req.userId;
     let { requestId, isAccept } = req.body;
 
     try {
-      const packageRequest = await db.PackageRequest.findOne({
+      const request = await db.Request.findOne({
         where: {
           id: requestId,
           receiver_id: unitId,
           isDone: false,
         },
       });
-      if (!packageRequest) {
+      if (!request) {
         const err = new Error(
           "Could not find request or request not own, request is done."
         );
@@ -52,17 +49,17 @@ const RequestController = {
         throw err;
       }
 
-      packageRequest.isDone = true;
+      request.isDone = true;
       if (isAccept === "true") {
-        packageRequest.isAccept = true;
+        request.isAccept = true;
       }
-      const packageRequestSaved = await packageRequest.save();
+      const requestSaved = await request.save();
 
       res.status(200).json({
         success: true,
-        message: "create package request successfully",
+        message: "accepted.",
         data: {
-          packageRequestSaved,
+          requestSaved,
         },
       });
     } catch (err) {
@@ -73,28 +70,23 @@ const RequestController = {
     }
   },
 
-  getSendPackRequestOwn: async (req, res, next) => {
+  getSendRequestOwn: async (req, res, next) => {
     const unitId = req.userId;
     try {
-      const requests = await db.PackageRequest.findAll({
+      const requests = await db.Request.findAll({
         where: {
           sender_id: unitId,
         },
         include: [
           {
             model: db.User,
-            as: "sender_pkRequest",
+            as: "sender_request",
             attributes: ["name", "address", "email"],
           },
           {
             model: db.User,
-            as: "receiver_pkRequest",
+            as: "receiver_request",
             attributes: ["name", "address", "email"],
-          },
-          {
-            model: db.ProductLine,
-            as: "productLine_pkRequest",
-            attributes: ["id", "model", "color", "ram", "memory", "price"],
           },
         ],
       });
@@ -114,29 +106,24 @@ const RequestController = {
     }
   },
 
-  getReceivePackRequestOwn: async (req, res, next) => {
+  getReceiveRequestOwn: async (req, res, next) => {
     const unitId = req.userId;
 
     try {
-      const requests = await db.PackageRequest.findAll({
+      const requests = await db.Request.findAll({
         where: {
           receiver_id: unitId,
         },
         include: [
           {
             model: db.User,
-            as: "sender_pkRequest",
+            as: "sender_request",
             attributes: ["name", "address", "email"],
           },
           {
             model: db.User,
-            as: "receiver_pkRequest",
+            as: "receiver_request",
             attributes: ["name", "address", "email"],
-          },
-          {
-            model: db.ProductLine,
-            as: "productLine_pkRequest",
-            attributes: ["id", "model", "color", "ram", "memory", "price"],
           },
         ],
       });
@@ -155,11 +142,6 @@ const RequestController = {
       next(err);
     }
   },
-
-  createProdRequest: async (req, res, next) => {},
-  acceptProdRequest: async (req, res, next) => {},
-  getSendProdRequestOwn: async (req, res, next) => {},
-  getReceiveProdRequestOwn: async (req, res, next) => {},
 };
 
 module.exports = RequestController;

@@ -1,15 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-  const PackageRequest = sequelize.define("package_request", {
+  const Request = sequelize.define("request", {
     id: {
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
       type: DataTypes.INTEGER,
     },
-    quantity: {
-      type: DataTypes.INTEGER,
-    },
-    description: {
+    content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
@@ -33,5 +30,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  return PackageRequest;
+  return Request;
 };

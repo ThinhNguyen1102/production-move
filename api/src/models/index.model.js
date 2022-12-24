@@ -41,8 +41,8 @@ db.Customer = require("./customer.model")(sequelize, DataTypes);
 db.SoldStatus = require("./soldStatus.model")(sequelize, DataTypes);
 db.ProductTransport = require("./productTransport.model")(sequelize, DataTypes);
 db.PackageTransport = require("./packageTransport.model")(sequelize, DataTypes);
-db.PackageRequest = require("./packageRequest.model")(sequelize, DataTypes);
-db.ProductRequest = require("./productRequest.model")(sequelize, DataTypes);
+db.Request = require("./request.model")(sequelize, DataTypes);
+db.ErrorSoldStatus = require("./errorSoldStatus.model")(sequelize, DataTypes);
 
 // relation function create
 const createOneToManyRelation = function (manyModel, oneModel, foreignKey, as) {
@@ -156,6 +156,20 @@ createOneToManyRelation(
   "error_soldStatus"
 );
 
+createOneToManyRelation(
+  db.ErrorSoldStatus,
+  db.Error,
+  "error_id",
+  "err_errSoldStt"
+);
+
+createOneToManyRelation(
+  db.ErrorSoldStatus,
+  db.SoldStatus,
+  "soldStatus_id",
+  "soldStt_errSoldStt"
+);
+
 // Package transport relation
 createOneToManyRelation(
   db.PackageTransport,
@@ -227,43 +241,8 @@ createOneToManyRelation(
 );
 
 // package request model relation
-createOneToManyRelation(
-  db.PackageRequest,
-  db.User,
-  "sender_id",
-  "sender_pkRequest"
-);
-createOneToManyRelation(
-  db.PackageRequest,
-  db.User,
-  "receiver_id",
-  "receiver_pkRequest"
-);
-createOneToManyRelation(
-  db.PackageRequest,
-  db.ProductLine,
-  "product_line_id",
-  "productLine_pkRequest"
-);
-// product request model relation
-createOneToManyRelation(
-  db.ProductRequest,
-  db.User,
-  "sender_id",
-  "sender_pRequest"
-);
-createOneToManyRelation(
-  db.ProductRequest,
-  db.User,
-  "receiver_id",
-  "receiver_pRequest"
-);
-createOneToManyRelation(
-  db.ProductRequest,
-  db.Product,
-  "product_id",
-  "productLine_pRequest"
-);
+createOneToManyRelation(db.Request, db.User, "sender_id", "sender_request");
+createOneToManyRelation(db.Request, db.User, "receiver_id", "receiver_request");
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log("yes re-sync done!");

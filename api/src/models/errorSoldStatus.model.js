@@ -1,21 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-  const ProductRequest = sequelize.define("product_request", {
+  const ErrorSoldStatus = sequelize.define("error_soldStt", {
     id: {
       allowNull: false,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
     isDone: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    },
-    isAccept: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false,
@@ -30,5 +21,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  return ProductRequest;
+  return ErrorSoldStatus;
 };
