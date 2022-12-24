@@ -21,6 +21,16 @@ const requestReducer = (state = initialState, action) => {
         ...state,
         requests: [...state.requests, action.payload],
       };
+    case REQUEST.ACCEPT_REQUEST:
+      return {
+        ...state,
+        requests: state.requests.map((req) => {
+          if (req.id === action.payload.id) {
+            req = action.payload;
+          }
+          return req;
+        }),
+      };
     default:
       return state;
   }

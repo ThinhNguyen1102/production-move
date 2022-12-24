@@ -12,7 +12,12 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import DataProvider from "./redux/store";
 
 const customTheme = createTheme({
-  palette: {},
+  palette: {
+    neutral: {
+      main: "#64748B",
+      contrastText: "#fff",
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
