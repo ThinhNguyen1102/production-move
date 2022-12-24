@@ -72,3 +72,31 @@ export const createRequest =
       });
     }
   };
+
+export const acceptRequest =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    console.log("data: ", data);
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await postDataAPI("requests/accept", data, auth.token);
+      dispatch({
+        type: REQUEST.ACCEPT_REQUEST,
+        payload: res.data.requestSaved,
+      });
+
+      dispatch({
+        type: ALERT,
+        payload: {
+          success: res.message,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
