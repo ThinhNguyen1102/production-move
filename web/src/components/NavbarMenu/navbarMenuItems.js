@@ -10,11 +10,6 @@ import SystemSecurityUpdateWarningIcon from "@mui/icons-material/SystemSecurityU
 const navbarMenuItems = [
   [
     {
-      icon: <BarChartIcon />,
-      text: "商品統計",
-      pageLink: "/",
-    },
-    {
       icon: <DevicesIcon />,
       text: "商品ライン",
       pageLink: "/product_line",
@@ -26,11 +21,6 @@ const navbarMenuItems = [
     },
   ],
   [
-    {
-      icon: <BarChartIcon />,
-      text: "商品統計",
-      pageLink: "/",
-    },
     {
       icon: <DevicesIcon />,
       text: "商品ライン",
@@ -54,11 +44,6 @@ const navbarMenuItems = [
   ],
   [
     {
-      icon: <BarChartIcon />,
-      text: "商品統計",
-      pageLink: "/",
-    },
-    {
       icon: <DevicesIcon />,
       text: "商品ライン",
       pageLink: "/product_line",
@@ -80,11 +65,6 @@ const navbarMenuItems = [
     },
   ],
   [
-    {
-      icon: <BarChartIcon />,
-      text: "商品統計",
-      pageLink: "/",
-    },
     {
       icon: <PrecisionManufacturingIcon />,
       text: "商品保証",
