@@ -24,6 +24,8 @@ import { TextField } from "@mui/material";
 import CustomMenuItem from "./CustomMenuItem";
 import MobileMenuItem from "./MobileMenuItem";
 import navbarMenuItems from "./navbarMenuItems";
+import { Link as RouterLink } from "react-router-dom";
+import { Link } from "@mui/material";
 
 const initialState = {
   oldPassword: "",
@@ -80,26 +82,33 @@ function NavbarMenu() {
     <>
       <AppBar position="sticky">
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
+          <Toolbar
+            disableGutters
+            sx={{
+              justifyContent: { xs: "space-between" },
+            }}
+          >
+            <Link
+              component={RouterLink}
+              to={"/"}
               sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
+                padding: "4px",
+                color: "#fff",
                 textDecoration: "none",
+                display: "flex",
+                gap: "4px",
+                alignItems: "center",
+                display: { xs: "none", md: "flex" },
+                marginRight: "12px",
               }}
             >
-              LOGO
-            </Typography>
+              <AdbIcon />
+              <Typography variant="h6" sx={{ fontSize: "18px" }}>
+                LOGO
+              </Typography>
+            </Link>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -139,24 +148,24 @@ function NavbarMenu() {
                 )}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
+            <Link
+              component={RouterLink}
+              to={"/"}
               sx={{
-                mr: 2,
-                display: { xs: "flex", md: "none" },
-                flexGrow: 1,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
+                padding: "4px",
+                color: "#fff",
                 textDecoration: "none",
+                gap: "4px",
+                alignItems: "center",
+                display: { xs: "flex", md: "none" },
               }}
             >
-              LOGO
-            </Typography>
+              <AdbIcon />
+              <Typography variant="h6" sx={{ fontSize: "18px" }}>
+                LOGO
+              </Typography>
+            </Link>
+
             <Box
               sx={{
                 flexGrow: 1,
