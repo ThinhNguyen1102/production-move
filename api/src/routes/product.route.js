@@ -23,4 +23,6 @@ router.get("/sold/own", isAuth, productController.getSoldProductOwn);
 
 router.post("/guarentee/fixed", isAuth, productController.postProductFixed);
 
+router.get("/errors/:prodId", isAuth, productController.getErrorProduct);
+
 module.exports = router;

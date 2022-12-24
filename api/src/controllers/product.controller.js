@@ -139,23 +139,29 @@ const productController = {
   },
 
   postGuarentee: async (req, res, next) => {
-    const { prodId, errorDescription } = req.body;
-    console.log(req.body);
+    const { prodId, errorDescription, typeErrorCode } = req.body;
 
     try {
       const product = await db.Product.findByPk(prodId);
       const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
       const error = {
-        error_code: generateCode("ERR"),
+        error_id: generateCode("ERR"),
         description: errorDescription,
-        type_code: "ERR-SC",
+        type_code: typeErrorCode,
       };
       const errorSaved = await db.Error.create(error);
+
+      const errorSoldStt = {
+        error_id: errorSaved.error_id,
+        soldStatus_id: soldStatus.id,
+      };
+
+      await db.ErrorSoldStatus.create(errorSoldStt);
 
       soldStatus.status_code = "STT-04";
       soldStatus.guarantees = 1;
       soldStatus.unit_manage_id = req.userId;
-      soldStatus.error_id = errorSaved.id;
+      soldStatus.currError_id = errorSaved.error_id;
 
       const soldStatusSaved = await soldStatus.save();
       soldStatusSaved.dataValues.error_soldStatus = error;
@@ -164,6 +170,7 @@ const productController = {
         message: "ok",
         success: true,
         data: {
+          errorSaved,
           soldStatusSaved,
         },
       });
@@ -176,7 +183,7 @@ const productController = {
   },
 
   moveProduct: async (req, res, next) => {
-    const { unitId, prodId, warehouseId, statusCode } = req.body;
+    const { unitId, productId, warehouseId, statusCode } = req.body;
     try {
       const warehouse = await db.Warehouse.findByPk(warehouseId);
       if (warehouse.unit_manage_id !== +unitId) {
@@ -184,7 +191,7 @@ const productController = {
         err.statusCode = 400;
         throw err;
       }
-      const product = await db.Product.findByPk(prodId, {
+      const product = await db.Product.findByPk(productId, {
         include: {
           model: db.SoldStatus,
           as: "soldStatus_product",
@@ -223,7 +230,7 @@ const productController = {
         message: "ok",
         success: true,
         data: {
-          product,
+          transportSaved,
         },
       });
     } catch (err) {
@@ -334,7 +341,7 @@ const productController = {
               {
                 model: db.Error,
                 as: "error_soldStatus",
-                attributes: ["description", "error_code"],
+                attributes: ["error_id", "type_code", "description"],
               },
               {
                 model: db.User,
@@ -397,6 +404,45 @@ const productController = {
         message: "fix product successfully",
         data: {
           product,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  getErrorProduct: async (req, res, next) => {
+    const productId = req.params.prodId;
+
+    try {
+      const product = await db.Product.findByPk(productId, {
+        where: {
+          isSold: true,
+        },
+        include: {
+          model: db.SoldStatus,
+          as: "soldStatus_product",
+        },
+      });
+
+      const errors = await db.ErrorSoldStatus.findAll({
+        where: {
+          soldStatus_id: product.soldStatus_product.id,
+        },
+        include: {
+          model: db.Error,
+          as: "err_errSoldStt",
+        },
+      });
+
+      res.status(201).json({
+        message: "get errors success.",
+        success: true,
+        data: {
+          errors,
         },
       });
     } catch (err) {

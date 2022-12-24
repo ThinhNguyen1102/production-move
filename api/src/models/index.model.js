@@ -152,7 +152,7 @@ createOneToManyRelation(
 createOneToManyRelation(
   db.SoldStatus,
   db.Error,
-  "error_id",
+  "currError_id",
   "error_soldStatus"
 );
 

@@ -35,7 +35,7 @@ const TransportController = {
           },
           {
             model: db.Warehouse,
-            as: "oldWH_pTransport",
+            as: "newWH_pTransport",
           },
           {
             model: db.SoldStatus,
@@ -92,7 +92,7 @@ const TransportController = {
           },
           {
             model: db.Warehouse,
-            as: "oldWH_pTransport",
+            as: "newWH_pTransport",
           },
           {
             model: db.SoldStatus,
@@ -224,11 +224,12 @@ const TransportController = {
 
 const fomatProductTransport = (rawTransports) => {
   const transports = [];
+  console.log(rawTransports);
   rawTransports.forEach((val) => {
     oldUnit = val.dataValues.oldUnit_pTransport.dataValues;
     newUnit = val.dataValues.newUnit_pTransport.dataValues;
     oldWH = val.dataValues.oldWH_pTransport.dataValues;
-    newWH = val.dataValues.oldWH_pTransport.dataValues;
+    newWH = val.dataValues.newWH_pTransport.dataValues;
     soldStatus = val.dataValues.soldStatus_pTransport.dataValues;
     product_transport = val.dataValues.product_pTransport.dataValues;
 
@@ -256,7 +257,7 @@ const fomatPackageTransport = (rawTransports) => {
     oldUnit = val.dataValues.oldUnit_pkTransport.dataValues;
     newUnit = val.dataValues.newUnit_pkTransport.dataValues;
     oldWH = val.dataValues.oldWH_pkTransport.dataValues;
-    newWH = val.dataValues.oldWH_pkTransport.dataValues;
+    newWH = val.dataValues.newWH_pkTransport.dataValues;
     package_transport = val.dataValues.package_pkTransport.dataValues;
     const { id, old_STT_code, new_STT_code, is_shipping, ...rest } =
       val.dataValues;

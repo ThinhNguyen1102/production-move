@@ -1,14 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Error = sequelize.define("error", {
-    id: {
+    error_id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
-    },
-    error_code: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
