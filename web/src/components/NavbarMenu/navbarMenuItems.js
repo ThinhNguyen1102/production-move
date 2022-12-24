@@ -6,6 +6,7 @@ import DevicesIcon from "@mui/icons-material/Devices";
 import PaidIcon from "@mui/icons-material/Paid";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SystemSecurityUpdateWarningIcon from "@mui/icons-material/SystemSecurityUpdateWarning";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 const navbarMenuItems = [
   [
@@ -41,6 +42,11 @@ const navbarMenuItems = [
       text: "運送管理",
       pageLink: "/shipping",
     },
+    {
+      icon: <AssignmentIcon />,
+      text: "要求",
+      pageLink: "/requests",
+    },
   ],
   [
     {
@@ -63,6 +69,11 @@ const navbarMenuItems = [
       text: "運送管理",
       pageLink: "/shipping",
     },
+    {
+      icon: <AssignmentIcon />,
+      text: "要求",
+      pageLink: "/requests",
+    },
   ],
   [
     {
@@ -79,6 +90,11 @@ const navbarMenuItems = [
       icon: <LocalShippingIcon />,
       text: "運送管理",
       pageLink: "/shipping",
+    },
+    {
+      icon: <AssignmentIcon />,
+      text: "要求",
+      pageLink: "/requests",
     },
   ],
 ];
