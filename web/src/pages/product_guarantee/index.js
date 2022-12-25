@@ -113,7 +113,7 @@ const ProductGuarantee = () => {
 
   const rows = product.products.map((prod) => ({
     ...prod,
-    fix: prod.soldStatus_product?.error_id ? (
+    fix: prod.soldStatus_product?.currError_id ? (
       <Tooltip
         title={`エラーの説明： ${prod.soldStatus_product?.error_soldStatus?.description}`}
       >
@@ -135,12 +135,7 @@ const ProductGuarantee = () => {
         color="primary"
         endIcon={<SendIcon />}
         onClick={() => handleClickOpenDialog(prod, "STT-06")}
-        disabled={
-          prod.soldStatus_product?.error_id ||
-          prod.soldStatus_product?.status_code === "STT-SHIP"
-            ? true
-            : false
-        }
+        disabled={prod.soldStatus_product?.currError_id ? true : false}
       >
         運送
       </Button>
@@ -150,12 +145,7 @@ const ProductGuarantee = () => {
         color="primary"
         endIcon={<SendIcon />}
         onClick={() => handleClickOpenDialog(prod, "STT-08")}
-        disabled={
-          !prod.soldStatus_product?.error_id ||
-          prod.soldStatus_product?.status_code === "STT-SHIP"
-            ? true
-            : false
-        }
+        disabled={!prod.soldStatus_product?.currError_id ? true : false}
       >
         運送
       </Button>

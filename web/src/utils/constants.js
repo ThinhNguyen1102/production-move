@@ -1,4 +1,13 @@
-const defineRoutesByRole = [
+export const roles = [
+  { roleValue: 1, text: "管理者" },
+  { roleValue: 2, text: "工場" },
+  { roleValue: 3, text: "エージェント" },
+  { roleValue: 4, text: "保証センター" },
+];
+
+export const typeErrorCodeList = ["ERR-SC", "ERR-HE", "ERR-CH"];
+
+export const defineRoutesByRole = [
   ["/", "/product_line", "/accounts"],
   [
     "/",
@@ -20,5 +29,3 @@ const defineRoutesByRole = [
   ],
   ["/", "/warehouses", "/product_guarantee", "/shipping", "/requests"],
 ];
-
-export default defineRoutesByRole;

@@ -26,6 +26,7 @@ import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import SendIcon from "@mui/icons-material/Send";
+import { typeErrorCodeList } from "../../utils/constants";
 
 const columns = [
   { field: "prod_id", headerName: "Product_ID", width: 160 },
@@ -47,6 +48,7 @@ const columns = [
 const initialReportState = {
   prodId: "",
   errorDescription: "",
+  typeErrorCode: "",
 };
 const initialShippingState = {
   prodId: "",
@@ -89,7 +91,7 @@ const ProductsSold = () => {
   const [shippingData, setShippingData] = useState(initialShippingState);
   const { unitId, warehouseId } = shippingData;
 
-  const { errorDescription } = errorReportData;
+  const { errorDescription, typeErrorCode } = errorReportData;
 
   const onChangeErrorReportDataInput = (e) => {
     setErrorReportData({
@@ -123,8 +125,7 @@ const ProductsSold = () => {
   const rows = product.products.map((prod) => ({
     ...prod,
     error_report:
-      prod.soldStatus_product?.status_code === "STT-04" ||
-      prod.soldStatus_product?.status_code === "STT-SHIP" ? (
+      prod.soldStatus_product?.status_code === "STT-04" ? (
         <Tooltip
           title={`エラーの説明： ${prod.soldStatus_product?.error_soldStatus?.description}`}
         >
@@ -168,6 +169,24 @@ const ProductsSold = () => {
         <Dialog open={openDialog} onClose={handleCloseDialog}>
           <DialogTitle>エラー報告</DialogTitle>
           <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="typeErrorCode"
+              select
+              label="Type Error Code"
+              fullWidth
+              variant="standard"
+              name="typeErrorCode"
+              value={typeErrorCode}
+              onChange={onChangeErrorReportDataInput}
+            >
+              {typeErrorCodeList.map((typeErrCode) => (
+                <MenuItem key={typeErrCode} value={typeErrCode}>
+                  {typeErrCode}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
               autoFocus
               margin="dense"

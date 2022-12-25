@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import NotFound from "./components/NotFound";
-import defineRoutesByRole from "./utils/defineRoutesByRole";
+import { defineRoutesByRole } from "./utils/constants";
 
 const generatePage = (pageName) => {
   const component = () => require(`./pages/${pageName}`).default;

@@ -17,7 +17,7 @@ const navbarMenuItems = [
     },
     {
       icon: <ManageAccountsIcon />,
-      text: "アカウント管理",
+      text: "アカウント",
       pageLink: "/accounts",
     },
   ],
