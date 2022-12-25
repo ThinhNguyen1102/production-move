@@ -31,7 +31,7 @@ const Shipping = () => {
   const [isPackageOrProduct, setIsPackageOrProduct] = useState("");
 
   const columns = [
-    { field: "id", headerName: "ID", width: 60 },
+    { field: "id", headerName: "ID", width: 70 },
     {
       field: showShippingState === "receive" ? "oldUnit" : "newUnit",
       headerName:
@@ -98,6 +98,7 @@ const Shipping = () => {
   ];
   const rows = transport?.transports?.map((tran) => ({
     ...tran,
+    id: tran?.product_transport ? `P-${tran.id}` : `PK-${tran.id}`,
     accept_action:
       showShippingState === "receive" &&
       (tran?.is_shipping ? (
