@@ -13,6 +13,7 @@ import { TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
+import { roles } from "../../utils/constants";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -66,12 +67,7 @@ const columns = [
     },
   },
 ];
-const roles = [
-  { roleValue: 1, text: "管理者" },
-  { roleValue: 2, text: "工場" },
-  { roleValue: 3, text: "エージェント" },
-  { roleValue: 4, text: "保証センター" },
-];
+
 const initialState = {
   name: "",
   email: "",

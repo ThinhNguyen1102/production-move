@@ -24,13 +24,8 @@ import {
   getAllRequestSend,
 } from "../../redux/actions/requestAction";
 import { getUserByRole } from "../../redux/actions/userAction";
+import { roles } from "../../utils/constants";
 
-const roles = [
-  { roleValue: 1, text: "管理者" },
-  { roleValue: 2, text: "工場" },
-  { roleValue: 3, text: "エージェント" },
-  { roleValue: 4, text: "保証センター" },
-];
 const initialRequestState = {
   receiverId: "",
   content: "",
@@ -43,7 +38,7 @@ const Requests = () => {
   const { auth, request, user } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [showRequestState, setShowRequestState] = useState("receive");
+  const [showRequestState, setShowRequestState] = useState("send");
   const [openDialog, setOpenDialog] = useState(false);
   const [openAcceptDialog, setOpenAcceptDialog] = useState(false);
   const [role, setRole] = useState("");
@@ -171,27 +166,29 @@ const Requests = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "start",
+            justifyContent:
+              showRequestState === "send" ? "space-between" : "end",
             marginBottom: 3,
           }}
         >
-          <Button
-            variant="contained"
-            sx={{ alignSelf: "end" }}
-            startIcon={<AddIcon />}
-            onClick={handleClickOpenDialog}
-          >
-            要求作成
-          </Button>
+          {showRequestState === "send" && (
+            <Button
+              variant="contained"
+              sx={{ alignSelf: "end" }}
+              startIcon={<AddIcon />}
+              onClick={handleClickOpenDialog}
+            >
+              要求作成
+            </Button>
+          )}
           <ToggleButtonGroup
             color="primary"
             exclusive
             value={showRequestState}
             onChange={onChangeRequestState}
           >
-            <ToggleButton value="receive">到着</ToggleButton>
-            <ToggleButton value="send">運送中</ToggleButton>
+            <ToggleButton value="send">Send</ToggleButton>
+            <ToggleButton value="receive">Receive</ToggleButton>
           </ToggleButtonGroup>
         </Box>
 
