@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  getAllPackageByUnit,
+  getAllPackageByProductLineUnit,
   movePackage,
 } from "../../redux/actions/packageAction";
 import { DataGrid } from "@mui/x-data-grid";
@@ -54,7 +54,9 @@ const ProductLinePackages = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllPackageByUnit({ data: { productLineId: id }, auth }));
+    dispatch(
+      getAllPackageByProductLineUnit({ data: { productLineId: id }, auth })
+    );
     dispatch(getUserByRole({ data: { role: 3 }, auth }));
   }, [dispatch]);
 

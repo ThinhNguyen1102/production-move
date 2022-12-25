@@ -7,6 +7,7 @@ import PaidIcon from "@mui/icons-material/Paid";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import SystemSecurityUpdateWarningIcon from "@mui/icons-material/SystemSecurityUpdateWarning";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const navbarMenuItems = [
   [
@@ -53,6 +54,11 @@ const navbarMenuItems = [
       icon: <DevicesIcon />,
       text: "商品ライン",
       pageLink: "/product_line",
+    },
+    {
+      icon: <InventoryIcon />,
+      text: "パッケージ",
+      pageLink: "/package_management",
     },
     {
       icon: <PaidIcon />,

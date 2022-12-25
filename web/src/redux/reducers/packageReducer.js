@@ -10,6 +10,11 @@ const packageReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case PACKAGE.GET_ALL_PACKAGE_BY_PL_UNIT:
+      return {
+        ...state,
+        packages: action.payload,
+      };
     case PACKAGE.GET_ALL_PACKAGE_BY_UNIT:
       return {
         ...state,
