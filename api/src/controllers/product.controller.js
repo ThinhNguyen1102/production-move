@@ -379,7 +379,7 @@ const productController = {
 
   postProductFixed: async (req, res, next) => {
     const unitId = req.userId;
-    const { prodId } = req.body;
+    const { prodId, isFixed } = req.body;
     try {
       const product = await db.Product.findByPk(prodId, {
         where: {
@@ -396,14 +396,32 @@ const productController = {
         },
       });
 
-      product.soldStatus_product.error_id = null;
-      await product.soldStatus_product.save();
+      const errorSoldStt = await db.ErrorSoldStatus.findOne({
+        where: {
+          soldStatus_id: product.soldStatus_product.id,
+        },
+        include: {
+          model: db.Error,
+          as: "err_errSoldStt",
+        },
+      });
+
+      if (isFixed) {
+        product.soldStatus_product.currError_id = null;
+        product.soldStatus_product.error_soldStatus = null;
+        await product.soldStatus_product.save();
+      }
+
+      errorSoldStt.isDone = true;
+      errorSoldStt.isFixed = isFixed;
+      const errorSoldSttSaved = await errorSoldStt.save();
 
       res.status(200).json({
         success: true,
         message: "fix product successfully",
         data: {
           product,
+          errorSoldSttSaved,
         },
       });
     } catch (err) {
