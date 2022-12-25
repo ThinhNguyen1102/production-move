@@ -68,21 +68,23 @@ const Shipping = () => {
       renderCell: ({ row }) => {
         let id,
           model,
-          quantity = "";
+          quantity_in_stock = "";
         if (row.product_transport && !row.package_transport) {
           id = row.product_transport.prod_id;
           model = row.product_transport.productLine_product.model;
         } else if (!row.product_transport && row.package_transport) {
           id = row.package_transport.package_id;
           model = row.package_transport.productLine_package.model;
-          quantity = row.package_transport.quantity;
+          quantity_in_stock = row.package_transport.quantity_in_stock;
         }
 
         return (
           <Box>
             <Typography>{id}</Typography>
             <Typography>{`モデル: ${model}`}</Typography>
-            {quantity && <Typography>{`数量: ${quantity}`}</Typography>}
+            {quantity_in_stock && (
+              <Typography>{`Quantity in Stock: ${quantity_in_stock}`}</Typography>
+            )}
           </Box>
         );
       },
