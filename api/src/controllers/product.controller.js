@@ -152,8 +152,8 @@ const productController = {
       const errorSaved = await db.Error.create(error);
 
       const errorSoldStt = {
-        error_id: errorSaved.error_id,
-        soldStatus_id: soldStatus.id,
+        errorErrorId: errorSaved.error_id,
+        soldStatusId: soldStatus.id,
       };
 
       await db.ErrorSoldStatus.create(errorSoldStt);
@@ -161,7 +161,6 @@ const productController = {
       soldStatus.status_code = "STT-04";
       soldStatus.guarantees = 1;
       soldStatus.unit_manage_id = req.userId;
-      soldStatus.currError_id = errorSaved.error_id;
 
       const soldStatusSaved = await soldStatus.save();
       soldStatusSaved.dataValues.error_soldStatus = error;
@@ -333,20 +332,26 @@ const productController = {
             [Op.ne]: "STT-SHIP",
           },
         },
+        order: [
+          [
+            { model: db.SoldStatus, as: "soldStatus_product" },
+            db.Error,
+            "createdAt",
+            "desc",
+          ],
+        ],
         include: [
           {
             model: db.SoldStatus,
             as: "soldStatus_product",
             include: [
               {
-                model: db.Error,
-                as: "error_soldStatus",
-                attributes: ["error_id", "type_code", "description"],
-              },
-              {
                 model: db.User,
                 as: "store_soldStatus",
                 attributes: { exclude: ["password"] },
+              },
+              {
+                model: db.Error,
               },
             ],
           },
@@ -386,31 +391,24 @@ const productController = {
           isSold: true,
           "$soldStatus_product.unit_manage_id$": unitId,
         },
+        order: [
+          [
+            { model: db.SoldStatus, as: "soldStatus_product" },
+            db.Error,
+            "createdAt",
+            "desc",
+          ],
+        ],
         include: {
           model: db.SoldStatus,
           as: "soldStatus_product",
           include: {
             model: db.Error,
-            as: "error_soldStatus",
           },
         },
       });
 
-      const errorSoldStt = await db.ErrorSoldStatus.findOne({
-        where: {
-          soldStatus_id: product.soldStatus_product.id,
-        },
-        include: {
-          model: db.Error,
-          as: "err_errSoldStt",
-        },
-      });
-
-      if (isFixed) {
-        product.soldStatus_product.currError_id = null;
-        product.soldStatus_product.error_soldStatus = null;
-        await product.soldStatus_product.save();
-      }
+      const errorSoldStt = product.soldStatus_product.errors[0].error_soldStt;
 
       errorSoldStt.isDone = true;
       errorSoldStt.isFixed = isFixed;
