@@ -159,7 +159,7 @@ const productController = {
       await db.ErrorSoldStatus.create(errorSoldStt);
 
       soldStatus.status_code = "STT-04";
-      soldStatus.guarantees = 1;
+      soldStatus.guarantees = soldStatus.guarantees + 1;
       soldStatus.unit_manage_id = req.userId;
 
       const soldStatusSaved = await soldStatus.save();

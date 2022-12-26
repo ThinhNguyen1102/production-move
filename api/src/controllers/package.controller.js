@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const db = require("../models/index.model");
+const generateCode = require("../helpers/generateCode");
 
 const packageController = {
   getAllPackage: async (req, res, next) => {},
@@ -130,6 +131,45 @@ const packageController = {
       next(err);
     }
   },
+  getPackageWithFactory: async (req, res, next) => {
+    const unitId = req.userId;
+
+    try {
+      const packages = await db.Package.findAll({
+        where: {
+          unit_created_id: unitId,
+        },
+        include: [
+          {
+            model: db.ProductLine,
+            as: "productLine_package",
+          },
+          {
+            model: db.Warehouse,
+            as: "warehouse_package",
+          },
+          {
+            model: db.User,
+            as: "user_package",
+            attributes: { exclude: ["password"] },
+          },
+        ],
+      });
+
+      res.status(201).json({
+        message: "Get package success.",
+        success: true,
+        data: {
+          packages,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
   deletePackageWithId: async (req, res, next) => {},
   acceptRecievedPackage: async (req, res, next) => {
     const unitId = req.userId;
@@ -208,6 +248,100 @@ const packageController = {
         success: true,
         data: {
           transportSaved,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+  postProductRecall: async (req, res, next) => {
+    const { packageId, errorDescription, typeErrorCode } = req.body;
+
+    try {
+      const package = await db.Package.findByPk(packageId);
+      if (!package) {
+      }
+      if (package.error_id) {
+      }
+      const error = {
+        error_id: generateCode("ERR"),
+        description: errorDescription,
+        type_code: typeErrorCode,
+      };
+      const errorSaved = await db.Error.create(error);
+      package.error_id = errorSaved.error_id;
+      const packageSaved = await package.save();
+
+      let soldProductOfPks = await db.Product.findAll({
+        where: {
+          isSold: true,
+          package_id: packageId,
+        },
+        order: [
+          [
+            { model: db.SoldStatus, as: "soldStatus_product" },
+            db.Error,
+            "createdAt",
+            "desc",
+          ],
+        ],
+        include: [
+          {
+            model: db.SoldStatus,
+            as: "soldStatus_product",
+            include: [
+              {
+                model: db.User,
+                as: "store_soldStatus",
+                attributes: { exclude: ["password"] },
+              },
+              {
+                model: db.Error,
+              },
+            ],
+          },
+        ],
+      });
+
+      if (soldProductOfPks.length !== 0) {
+        soldProductOfPks = soldProductOfPks.filter((val) => {
+          if (val.soldStatus_product.guarantees === 0) {
+            return true;
+          }
+          if (val.soldStatus_product.errors[0].error_soldStt.isDone === true) {
+            return true;
+          }
+          return false;
+        });
+
+        const soldStatusIds = soldProductOfPks.map((val) => {
+          return {
+            soldStatus_id: val.soldStatus_product.id,
+            sold_statuses: val.soldStatus_product.sold_statuses,
+          };
+        });
+        let errorSoldStts = [];
+        // chua update so lan bao hanh
+
+        soldStatusIds.forEach((val) => {
+          errorSoldStts.push({
+            errorErrorId: errorSaved.error_id,
+            soldStatusId: val.soldStatus_id,
+          });
+        });
+
+        errorSoldStts = await db.ErrorSoldStatus.bulkCreate(errorSoldStts);
+      }
+
+      res.status(201).json({
+        message: "Move package success.",
+        success: true,
+        data: {
+          packageSaved,
+          errorSaved,
         },
       });
     } catch (err) {

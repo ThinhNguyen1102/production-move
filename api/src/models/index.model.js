@@ -148,6 +148,7 @@ createOneToManyRelation(
   "product_line_id",
   "productLine_package"
 );
+createOneToManyRelation(db.Package, db.Error, "error_id", "error_package");
 
 // createOneToManyRelation(
 //   db.SoldStatus,
