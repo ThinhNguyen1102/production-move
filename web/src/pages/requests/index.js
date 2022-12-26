@@ -269,7 +269,7 @@ const Requests = () => {
       </Dialog>
 
       {/* accept dialog */}
-      <Dialog open={openAcceptDialog} onClose={handleClickOpenAcceptDialog}>
+      <Dialog open={openAcceptDialog} onClose={handleCloseAcceptDialog}>
         <DialogTitle>Edit Status Request</DialogTitle>
         <DialogContent>
           <TextField
