@@ -48,7 +48,7 @@ const productReducer = (state = initialState, action) => {
         ...state,
         products: state.products.map((prod) => {
           if (prod.prod_id === action.payload.prod_id) {
-            prod.soldStatus_product.error_id = null;
+            prod = action.payload;
           }
           return prod;
         }),
