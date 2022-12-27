@@ -3,10 +3,23 @@ import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOwnProductSold } from "../../redux/actions/productAction";
+import { Chip, Tooltip } from "@mui/material";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 160 },
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "prod_id", headerName: "Product_ID", width: 120 },
+  { field: "package_id", headerName: "Package_ID", width: 120 },
+  {
+    field: "error_status",
+    headerName: "状況",
+    width: 120,
+    renderCell: ({ value }) => {
+      return (
+        <Tooltip title={`エラーの説明： ${value}`} sx={{ cursor: "pointer" }}>
+          <Chip label="failure" color="neutral" />
+        </Tooltip>
+      );
+    },
+  },
 ];
 
 const ErrorProducts = () => {
@@ -16,7 +29,10 @@ const ErrorProducts = () => {
     dispatch(getAllOwnProductSold({ auth }));
   }, [dispatch]);
 
-  const rows = product.products;
+  const rows = product.products.map((prod) => {
+    let errorDescription = prod.soldStatus_product?.errors[0]?.description;
+    return { ...prod, error_status: errorDescription };
+  });
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
