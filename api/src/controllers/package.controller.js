@@ -28,6 +28,10 @@ const packageController = {
             as: "user_package",
             attributes: { exclude: ["password"] },
           },
+          {
+            model: db.Error,
+            as: "error_package",
+          },
         ],
       });
 
@@ -69,6 +73,10 @@ const packageController = {
             model: db.User,
             as: "user_package",
             attributes: { exclude: ["password"] },
+          },
+          {
+            model: db.Error,
+            as: "error_package",
           },
         ],
       });
@@ -114,6 +122,10 @@ const packageController = {
             as: "user_package",
             attributes: { exclude: ["password"] },
           },
+          {
+            model: db.Error,
+            as: "error_package",
+          },
         ],
       });
 
@@ -147,6 +159,10 @@ const packageController = {
           {
             model: db.Warehouse,
             as: "warehouse_package",
+          },
+          {
+            model: db.Error,
+            as: "error_package",
           },
           {
             model: db.User,
@@ -261,7 +277,27 @@ const packageController = {
     const { packageId, errorDescription, typeErrorCode } = req.body;
 
     try {
-      const package = await db.Package.findByPk(packageId);
+      const package = await db.Package.findByPk(packageId, {
+        include: [
+          {
+            model: db.ProductLine,
+            as: "productLine_package",
+          },
+          {
+            model: db.Warehouse,
+            as: "warehouse_package",
+          },
+          {
+            model: db.Error,
+            as: "error_package",
+          },
+          {
+            model: db.User,
+            as: "user_package",
+            attributes: { exclude: ["password"] },
+          },
+        ],
+      });
       if (!package) {
       }
       if (package.error_id) {
@@ -273,7 +309,8 @@ const packageController = {
       };
       const errorSaved = await db.Error.create(error);
       package.error_id = errorSaved.error_id;
-      const packageSaved = await package.save();
+      await package.save();
+      package.dataValues.error_package = errorSaved;
 
       let soldProductOfPks = await db.Product.findAll({
         where: {
@@ -340,8 +377,7 @@ const packageController = {
         message: "Move package success.",
         success: true,
         data: {
-          packageSaved,
-          errorSaved,
+          package,
         },
       });
     } catch (err) {

@@ -10,8 +10,8 @@ const productController = {
       package_id: generateCode("PK"),
       unit_manage_id: req.userId,
       product_line_id: productLineId,
-      quantity: quantity,
-      quantity_in_stock: quantity,
+      quantity: +quantity,
+      quantity_in_stock: +quantity,
       warehouse_id: warehouseId,
       status_code: "STT-01",
       unit_created_id: req.userId,
@@ -230,6 +230,7 @@ const productController = {
         success: true,
         data: {
           product,
+          transportSaved,
         },
       });
     } catch (err) {
