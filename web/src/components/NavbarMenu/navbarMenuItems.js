@@ -29,9 +29,9 @@ const navbarMenuItems = [
       pageLink: "/product_line",
     },
     {
-      icon: <SystemSecurityUpdateWarningIcon />,
-      text: "不良品管理",
-      pageLink: "/error_products",
+      icon: <InventoryIcon />,
+      text: "パッケージ",
+      pageLink: "/package_management",
     },
     {
       icon: <WarehouseIcon />,

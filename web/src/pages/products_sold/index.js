@@ -62,7 +62,7 @@ const ProductsSold = () => {
 
   useEffect(() => {
     dispatch(getAllOwnProductSold({ auth }));
-    dispatch(getUserByRole({ data: { role: 4 }, auth }));
+    dispatch(getUserByRole({ data: { role: 4 }, auth })); // get service center
   }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -122,13 +122,21 @@ const ProductsSold = () => {
     handleCloseDialog();
   };
 
-  const rows = product.products.map((prod) => ({
-    ...prod,
-    error_report:
-      prod.soldStatus_product?.status_code === "STT-04" ? (
-        <Tooltip
-          title={`エラーの説明： ${prod.soldStatus_product?.error_soldStatus?.description}`}
-        >
+  const rows = product.products.map((prod) => {
+    let currentErrorIsDone =
+      prod.soldStatus_product?.errors[0]?.error_soldStt?.isDone;
+    let currentErrorIsFixed =
+      prod.soldStatus_product?.errors[0]?.error_soldStt?.isFixed;
+
+    let isNotError =
+      (currentErrorIsDone && currentErrorIsFixed) ||
+      prod.soldStatus_product?.errors.length === 0;
+    let errDesc = prod.soldStatus_product?.errors[0]?.description;
+
+    return {
+      ...prod,
+      error_report: !isNotError ? (
+        <Tooltip title={`エラーの説明： ${errDesc}`}>
           <FeedbackIcon color="error" />
         </Tooltip>
       ) : (
@@ -140,19 +148,18 @@ const ProductsSold = () => {
           報告
         </Button>
       ),
-    move_to_center: (
-      <Button
-        color="primary"
-        endIcon={<SendIcon />}
-        onClick={() => handleClickOpenDialog(prod.prod_id, false)}
-        disabled={
-          prod.soldStatus_product?.status_code === "STT-04" ? false : true
-        }
-      >
-        運送
-      </Button>
-    ),
-  }));
+      move_to_center: (
+        <Button
+          color="primary"
+          endIcon={<SendIcon />}
+          onClick={() => handleClickOpenDialog(prod.prod_id, false)}
+          disabled={!isNotError ? false : true}
+        >
+          運送
+        </Button>
+      ),
+    };
+  });
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
