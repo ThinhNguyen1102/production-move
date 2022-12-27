@@ -7,6 +7,7 @@ const authRoute = require("./auth.router");
 const userRoute = require("./user.route");
 const requestRoute = require("./request.route");
 const transportRoute = require("./transport.route");
+const statisticRoute = require("./statistic.route");
 
 const appRoute = express();
 
@@ -25,5 +26,7 @@ appRoute.use("/warehouses", warehouseRoute);
 appRoute.use("/requests", requestRoute);
 
 appRoute.use("/transports", transportRoute);
+
+appRoute.use("/statistics", statisticRoute);
 
 module.exports = appRoute;

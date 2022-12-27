@@ -74,7 +74,7 @@ const productLineController = {
     const unitId = req.userId;
 
     try {
-      const productLines = await db.Package.findAll({
+      const packages = await db.Package.findAll({
         where: {
           unit_manage_id: unitId,
         },
@@ -89,7 +89,7 @@ const productLineController = {
         },
       });
 
-      const result = productLines.map((val) => {
+      const result = packages.map((val) => {
         return {
           productLine: val.dataValues.productLine_package,
           amount: +val.dataValues.amount,
