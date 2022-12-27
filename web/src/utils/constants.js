@@ -17,6 +17,7 @@ export const defineRoutesByRole = [
     "/product_line_packages",
     "/shipping",
     "/requests",
+    "/package_management",
   ],
   [
     "/",

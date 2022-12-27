@@ -72,16 +72,62 @@ export const getAllPackageByUnit =
       });
     }
   };
+export const getAllPackageByCurrentFactory =
+  ({ auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(`packages/factory/created`, auth.token);
+      dispatch({
+        type: PACKAGE.GET_ALL_PACKAGE_BY_CURRENT_FACTORY,
+        payload: res.data.packages,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
+
 export const movePackage =
   ({ data, auth }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(`packages/move`, data, auth.token);
-      console.log("res.data.transportSaved: ", res.data.transportSaved);
       dispatch({
         type: PACKAGE.MOVE_PACKAGE,
         payload: res.data.transportSaved,
+      });
+      dispatch({
+        type: ALERT,
+        payload: {
+          success: res.message,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
+
+export const recallPackage =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await postDataAPI(`packages/recall`, data, auth.token);
+      dispatch({
+        type: PACKAGE.RECALL_PACKAGE,
+        payload: res.data.package,
       });
       dispatch({
         type: ALERT,
