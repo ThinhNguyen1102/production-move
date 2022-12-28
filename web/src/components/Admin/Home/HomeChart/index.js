@@ -28,7 +28,7 @@ const initOptions = {
   series: [],
 };
 
-const HomeChart = ({ statisticProduct }) => {
+const HomeAdminChart = ({ statisticProduct }) => {
   const generateOptions = () => {
     const productLineList = statisticProduct?.map((item) => item.model);
     return {
@@ -78,4 +78,4 @@ const HomeChart = ({ statisticProduct }) => {
   );
 };
 
-export default HomeChart;
+export default HomeAdminChart;
