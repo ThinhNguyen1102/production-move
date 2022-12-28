@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import AdminHome from "../Admin/Home";
-import AgentHome from "../Agent/Home";
-import FactoryHome from "../Factory/Home";
-import CenterHome from "../Center/Home";
+import AdminHome from "../../Admin/Home";
+import AgentHome from "../../Agent/Home";
+import FactoryHome from "../../Factory/Home";
+import CenterHome from "../../Center/Home";
 import Footer from "../Footer";
 
 const Home = () => {

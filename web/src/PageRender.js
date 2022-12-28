@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/Shared/NotFound";
 import { defineRoutesByRole } from "./utils/constants";
 
 const generatePage = (pageName) => {

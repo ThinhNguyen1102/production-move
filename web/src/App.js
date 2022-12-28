@@ -5,9 +5,9 @@ import Login from "./pages/login";
 import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
 import PrivateRouter from "./customRouter/PrivateRouter";
-import NavbarMenu from "./components/NavbarMenu";
-import GlobalAlert from "./components/GlobalAlert";
-import Home from "./components/Home";
+import NavbarMenu from "./components/Shared/NavbarMenu";
+import GlobalAlert from "./components/Shared/GlobalAlert";
+import Home from "./components/Shared/Home";
 
 function App() {
   const { auth } = useSelector((state) => state);

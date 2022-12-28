@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProductLineById } from "../../redux/actions/productLineAction";
+import { deleteProductLineById } from "../../../redux/actions/productLineAction";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,7 +14,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Link, MenuItem, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createPackage } from "../../redux/actions/packageAction";
+import { createPackage } from "../../../redux/actions/packageAction";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 export default function ProductLineCard({ productLine, warehouses }) {
