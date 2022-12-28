@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { useDispatch, useSelector } from "react-redux";
-import { getAdminStatisticProduct } from "../../../../redux/actions/statisticAction";
 import { Box, Typography } from "@mui/material";
 
 const initOptions = {
@@ -11,6 +9,9 @@ const initOptions = {
   },
   title: {
     text: null,
+  },
+  accessibility: {
+    enabled: false,
   },
   xAxis: {
     crosshair: true,
@@ -27,15 +28,8 @@ const initOptions = {
   series: [],
 };
 
-const HomeChart = () => {
-  const { auth, statistic } = useSelector((state) => state);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAdminStatisticProduct({ auth }));
-  }, [dispatch]);
-
-  const generateOptions = (statisticProduct) => {
+const HomeChart = ({ statisticProduct }) => {
+  const generateOptions = () => {
     const productLineList = statisticProduct?.map((item) => item.model);
     return {
       ...initOptions,
@@ -79,10 +73,7 @@ const HomeChart = () => {
       >
         Statistics by product line
       </Typography>
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={generateOptions(statistic.statisticProduct)}
-      />
+      <HighchartsReact highcharts={Highcharts} options={generateOptions()} />
     </Box>
   );
 };
