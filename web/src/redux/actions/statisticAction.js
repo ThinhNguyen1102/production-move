@@ -44,3 +44,47 @@ export const getAdminStatisticProduct =
       });
     }
   };
+
+export const getAgentStatisticProduct =
+  ({ auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(`statistics/agent/product`, auth.token);
+
+      dispatch({
+        type: STATISTIC.GET_AGENT_STATISTIC_PRODUCT,
+        payload: res.data.statisticProduct,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };
+
+export const getFactoryStatisticProduct =
+  ({ auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(`statistics/factory/product`, auth.token);
+
+      dispatch({
+        type: STATISTIC.GET_FACTORY_STATISTIC_PRODUCT,
+        payload: res.data.statisticProduct,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };

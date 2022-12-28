@@ -182,6 +182,7 @@ const Requests = () => {
             </Button>
           )}
           <ToggleButtonGroup
+            size="small"
             color="primary"
             exclusive
             value={showRequestState}

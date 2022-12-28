@@ -167,6 +167,7 @@ const Shipping = () => {
         }}
       >
         <ToggleButtonGroup
+          size="small"
           sx={{ marginBottom: 3, alignSelf: "end" }}
           color="primary"
           exclusive

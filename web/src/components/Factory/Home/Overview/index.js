@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import Overview from "../../../Shared/Home/Overview";
 
-const HomeAdminOverview = ({ statisticProduct }) => {
+const HomeFactoryOverview = ({ statisticProduct, failureProduct }) => {
   const calculateNumOfProducts = () => {
     return statisticProduct?.reduce(
       (total, item) => total + item.numOfProduct,
@@ -24,22 +24,28 @@ const HomeAdminOverview = ({ statisticProduct }) => {
 
   const overviewData = [
     {
-      text: "San pham toan quoc",
+      text: "San pham san xuat",
       value: calculateNumOfProducts(),
       color: "primary.light",
     },
     {
-      text: "San pham ban duoc toan quoc",
+      text: "San pham ban duoc",
       value: calculateNumOfSoldProducts(),
       color: "success.light",
     },
     {
-      text: "San pham loi toan quoc",
+      text: "San pham loi",
       value: calculateNumOfErrorProducts(),
       color: "error.light",
+    },
+    {
+      text: "San pham loi khong sua duoc",
+      value: failureProduct?.length,
+      color: "neutral",
+      typeCard: "card-link",
     },
   ];
   return <Overview overviewData={overviewData} />;
 };
 
-export default HomeAdminOverview;
+export default HomeFactoryOverview;
