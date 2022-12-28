@@ -5,11 +5,11 @@ import {
   getAdminStatisticProduct,
   getAllUnitInfomation,
 } from "../../../redux/actions/statisticAction";
-import HomeChart from "./HomeChart";
-import Overview from "./Overview";
+import HomeAdminChart from "./HomeChart";
+import HomeAdminOverview from "./Overview";
 import UnitManagement from "./UnitManagement";
 
-const AdminHome = () => {
+const AgentHome = () => {
   const { auth, statistic } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -31,12 +31,12 @@ const AdminHome = () => {
           gap: 4,
         }}
       >
-        <Overview statisticProduct={statisticProduct} />
-        <HomeChart statisticProduct={statisticProduct} />
+        <HomeAdminOverview statisticProduct={statisticProduct} />
+        <HomeAdminChart statisticProduct={statisticProduct} />
         <UnitManagement unitsByRole={unitsByRole} />
       </Box>
     </Container>
   );
 };
 
-export default AdminHome;
+export default AgentHome;
