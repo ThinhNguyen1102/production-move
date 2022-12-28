@@ -7,7 +7,7 @@ import { refreshToken } from "./redux/actions/authAction";
 import PrivateRouter from "./customRouter/PrivateRouter";
 import NavbarMenu from "./components/NavbarMenu";
 import GlobalAlert from "./components/GlobalAlert";
-import Home from "./components/home";
+import Home from "./components/Home";
 
 function App() {
   const { auth } = useSelector((state) => state);
