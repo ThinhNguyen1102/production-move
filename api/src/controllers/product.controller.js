@@ -413,6 +413,7 @@ const productController = {
 
       errorSoldStt.isDone = true;
       errorSoldStt.isFixed = isFixed;
+      errorSoldStt.center_id = unitId;
       const errorSoldSttSaved = await errorSoldStt.save();
 
       res.status(200).json({

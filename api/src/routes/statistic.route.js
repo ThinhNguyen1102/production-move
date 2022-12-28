@@ -25,4 +25,10 @@ router.get(
   statisticController.getFactoryStatisticProduct
 );
 
+router.get(
+  "/center/product",
+  isAuth,
+  statisticController.getCenterStatisticProduct
+);
+
 module.exports = router;

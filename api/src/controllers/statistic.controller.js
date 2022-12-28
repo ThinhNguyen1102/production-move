@@ -40,6 +40,7 @@ const statisticController = {
       next(err);
     }
   },
+
   getAdminStatisticProduct: async (req, res, next) => {
     try {
       const productLines = await db.ProductLine.findAll({
@@ -347,6 +348,108 @@ const statisticController = {
           statisticProduct,
           packages,
           lastMPackages,
+        },
+      });
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  },
+
+  getCenterStatisticProduct: async (req, res, next) => {
+    const unitId = req.userId;
+    const statisticProduct = [];
+    try {
+      const productLines = await db.ProductLine.findAll({
+        // order: [
+        //   [
+        //     { model: db.Product, as: "productLine_product" },
+        //     { model: db.SoldStatus, as: "soldStatus_product" },
+        //     db.Error,
+        //     "createdAt",
+        //     "desc",
+        //   ],
+        // ],
+        include: [
+          {
+            model: db.Product,
+            as: "productLine_product",
+            include: [
+              {
+                model: db.SoldStatus,
+                as: "soldStatus_product",
+                include: [
+                  {
+                    model: db.Error,
+                  },
+                ],
+              },
+            ],
+            where: {
+              isSold: true,
+              // "$soldStatus_product.guarantees$": {
+              //   [Op.gt]: 0,
+              // },
+            },
+          },
+        ],
+      });
+
+      if (productLines.length === 0) {
+      }
+      productLines.forEach((item) => {
+        // let numOfErrorProduct = 0;
+        // let numOfFixedProduct = 0;
+
+        let numOfRepairs = 0;
+        let numOfSuccessRepairs = 0;
+
+        if (item.productLine_product.length > 0) {
+          item.productLine_product.forEach((val) => {
+            if (val.soldStatus_product.errors.length !== 0) {
+              // let errorSoldStt = val.soldStatus_product.errors[0].error_soldStt;
+              // if (errorSoldStt.center_id === +unitId) {
+              //   numOfErrorProduct++;
+              //   if (
+              //     errorSoldStt.isDone === true &&
+              //     errorSoldStt.isFixed === true
+              //   ) {
+              //     numOfFixedProduct++;
+              //   }
+              // }
+              val.soldStatus_product.errors.forEach((error) => {
+                if (error.error_soldStt.center_id === +unitId) {
+                  numOfRepairs++;
+                  if (
+                    error.error_soldStt.isDone === true &&
+                    error.error_soldStt.isFixed === true
+                  ) {
+                    numOfSuccessRepairs++;
+                  }
+                }
+              });
+            }
+          });
+          statisticProduct.push({
+            id: item.id,
+            model: item.model,
+            color: item.color,
+            ram: item.ram,
+            memory: item.memory,
+            price: item.price,
+            numOfRepairs,
+            numOfSuccessRepairs,
+          });
+        }
+      });
+
+      res.status(201).json({
+        message: "ok",
+        success: true,
+        data: {
+          statisticProduct,
         },
       });
     } catch (err) {

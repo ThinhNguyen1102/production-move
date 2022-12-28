@@ -243,6 +243,13 @@ createOneToManyRelation(
   "soldStatus_pTransport"
 );
 
+createOneToManyRelation(
+  db.ErrorSoldStatus,
+  db.User,
+  "center_id",
+  "center_errorSoldStt"
+);
+
 // package request model relation
 createOneToManyRelation(db.Request, db.User, "sender_id", "sender_request");
 createOneToManyRelation(db.Request, db.User, "receiver_id", "receiver_request");
