@@ -13,4 +13,10 @@ router.get(
   statisticController.getAdminStatisticProduct
 );
 
+router.get(
+  "/agent/product",
+  isAuth,
+  statisticController.getAgentStatisticProduct
+);
+
 module.exports = router;
