@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Typography } from "@mui/material";
-import ProductLineCard from "../../components/ProductLineCard";
+import ProductLineCard from "../../components/Shared/ProductLineCard";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import {
