@@ -19,4 +19,10 @@ router.get(
   statisticController.getAgentStatisticProduct
 );
 
+router.get(
+  "/factory/product",
+  isAuth,
+  statisticController.getFactoryStatisticProduct
+);
+
 module.exports = router;
