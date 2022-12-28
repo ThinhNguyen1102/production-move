@@ -23,10 +23,12 @@ const statisticController = {
         message: "ok",
         success: true,
         data: {
-          admins,
-          factories,
-          agents,
-          serviceCenters,
+          unitsByRole: {
+            admins,
+            factories,
+            agents,
+            serviceCenters,
+          },
         },
       });
     } catch (err) {
