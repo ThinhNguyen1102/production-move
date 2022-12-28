@@ -1,7 +1,25 @@
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 
-const Summary = () => {
+const Overview = ({ statisticProduct }) => {
+  const calculateNumOfProducts = () => {
+    return statisticProduct?.reduce(
+      (total, item) => total + item.numOfProduct,
+      0
+    );
+  };
+  const calculateNumOfSoldProducts = () => {
+    return statisticProduct?.reduce(
+      (total, item) => total + item.numOfSoldProduct,
+      0
+    );
+  };
+  const calculateNumOfErrorProducts = () => {
+    return statisticProduct?.reduce(
+      (total, item) => total + item.numOfErrorProduct,
+      0
+    );
+  };
   return (
     <Box>
       <Typography
@@ -20,7 +38,7 @@ const Summary = () => {
                 Tong san pham tren toan quoc
               </Typography>
               <Typography variant="h5" component="div">
-                122
+                {calculateNumOfProducts()}
               </Typography>
             </CardContent>
           </Card>
@@ -32,7 +50,7 @@ const Summary = () => {
                 Tong san pham ban duoc
               </Typography>
               <Typography variant="h5" component="div">
-                41
+                {calculateNumOfSoldProducts()}
               </Typography>
             </CardContent>
           </Card>
@@ -44,7 +62,7 @@ const Summary = () => {
                 Tong san pham bi loi
               </Typography>
               <Typography variant="h5" component="div">
-                23
+                {calculateNumOfErrorProducts()}
               </Typography>
             </CardContent>
           </Card>
@@ -54,4 +72,4 @@ const Summary = () => {
   );
 };
 
-export default Summary;
+export default Overview;

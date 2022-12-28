@@ -1,18 +1,9 @@
-import { Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Grid } from "@mui/material";
+import React from "react";
 import UnitTable from "./UnitTable";
-import { getAllUnitInfomation } from "../../../../redux/actions/statisticAction";
 
-const UnitManagement = () => {
-  const { auth, statistic } = useSelector((state) => state);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllUnitInfomation({ auth }));
-  }, [dispatch]);
-
-  const { factories, agents, serviceCenters } = statistic.unitsByRole;
+const UnitManagement = ({ unitsByRole }) => {
+  const { factories, agents, serviceCenters } = unitsByRole;
   return (
     <Grid container spacing={3} marginBottom={3}>
       <Grid item md={4} xs={12}>
