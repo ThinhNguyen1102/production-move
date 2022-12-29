@@ -13,12 +13,12 @@ const navbarMenuItems = [
   [
     {
       icon: <DevicesIcon />,
-      text: "商品ライン",
+      text: "Product Line",
       pageLink: "/product_line",
     },
     {
       icon: <ManageAccountsIcon />,
-      text: "アカウント",
+      text: "Accounts",
       pageLink: "/accounts",
     },
   ],
