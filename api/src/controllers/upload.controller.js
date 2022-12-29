@@ -11,6 +11,7 @@ cloudinary.config({
 
 const uploadController = {
   uploadImages: async (req, res, next) => {
+    console.log("req", req);
     try {
       if (!req.file) {
         const err = new Error("No image providd.");

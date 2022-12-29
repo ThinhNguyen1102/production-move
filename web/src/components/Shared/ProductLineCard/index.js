@@ -58,12 +58,19 @@ export default function ProductLineCard({ productLine, warehouses }) {
   return (
     <>
       <Card>
-        <CardMedia
-          component="img"
-          height="140"
-          image="https://image.thanhnien.vn/w1024/Uploaded/2022/aybunux/2022_08_30/1-470.jpg"
-          alt="green iguana"
-        />
+        <img
+          src={
+            productLine.image_url
+              ? productLine.image_url
+              : "https://i.pinimg.com/564x/c5/a0/03/c5a00375d647591a14dd36e31151acb1.jpg"
+          }
+          alt=""
+          style={{
+            objectFit: "cover",
+            width: "100%",
+            height: "240px",
+          }}
+        ></img>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {productLine.model}

@@ -9,6 +9,7 @@ import productReducer from "./productReducer";
 import transportReducer from "./transportReducer";
 import requestReducer from "./requestReducer";
 import statisticReducer from "./statisticReducer";
+import uploadReducer from "./uploadReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   transport: transportReducer,
   request: requestReducer,
   statistic: statisticReducer,
+  upload: uploadReducer,
 });
