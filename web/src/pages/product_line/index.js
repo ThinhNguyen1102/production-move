@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import ProductLineCard from "../../components/Shared/ProductLineCard";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
 import { getAllOwnWarehouse } from "../../redux/actions/warehouseAction";
+import { destroyImage, uploadImage } from "../../redux/actions/uploadAction";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const initialState = {
   model: "",
@@ -23,9 +26,12 @@ const initialState = {
   color: "",
   description: "",
   price: 0,
+  image_url: "",
 };
 const ProductLine = () => {
-  const { auth, productLine, warehouse } = useSelector((state) => state);
+  const { auth, productLine, warehouse, upload } = useSelector(
+    (state) => state
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     if (auth.user.role === 3) {
@@ -44,7 +50,12 @@ const ProductLine = () => {
     setOpenDialog(false);
   };
   const handleSubmit = () => {
-    dispatch(createProductLine({ data: productLineData, auth }));
+    dispatch(
+      createProductLine({
+        data: { ...productLineData, image_url: upload.images?.secure_url },
+        auth,
+      })
+    );
     handleCloseDialog();
   };
 
@@ -56,7 +67,20 @@ const ProductLine = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log("productLine:", productLine);
+
+  const handleUploadImage = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+
+    const formData = new FormData();
+    formData.append("image", file);
+    dispatch(uploadImage({ data: formData, auth }));
+  };
+
+  const handleDestroyImage = () => {
+    const imageUrl = upload.images?.secure_url;
+    dispatch(destroyImage({ data: { imageUrl }, auth }));
+  };
   return (
     <>
       <Box p={3}>
@@ -154,7 +178,52 @@ const ProductLine = () => {
             type="number"
             value={price}
             onChange={onChangeDataInput}
+            sx={{ marginBottom: 3 }}
           />
+          {!upload.images?.secure_url && (
+            <Button
+              variant="contained"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+            >
+              Thumbnail
+              <input
+                type="file"
+                name="file"
+                hidden
+                onChange={handleUploadImage}
+              />
+            </Button>
+          )}
+          <div
+            style={{
+              position: "relative",
+              width: "fit-content",
+              display: `${upload.images?.secure_url ? "block" : "none"}`,
+            }}
+          >
+            <img
+              style={{
+                objectFit: "cover",
+                width: "200px",
+                height: "200px",
+              }}
+              src={upload.images?.secure_url}
+              alt="thumbnail"
+            />
+            <IconButton
+              onClick={handleDestroyImage}
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                transform: "translate(35%, -35%)",
+                cursor: "pointer",
+              }}
+            >
+              <CancelIcon color="error" />
+            </IconButton>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>

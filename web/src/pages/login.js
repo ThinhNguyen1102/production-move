@@ -80,7 +80,7 @@ const Login = () => {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
-          disabled={email && password ? false : true}
+          disabled={email.trim() && password.trim() ? false : true}
         >
           Login
         </Button>
