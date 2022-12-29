@@ -10,7 +10,7 @@ const userController = {
       });
 
       res.status(201).json({
-        message: "ok",
+        message: "Get all uses successfully",
         success: true,
         users: users,
       });
@@ -33,7 +33,7 @@ const userController = {
       });
 
       res.status(201).json({
-        message: "ok",
+        message: "Get all users by role successfully.",
         success: true,
         users: users,
       });

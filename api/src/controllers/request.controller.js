@@ -25,7 +25,7 @@ const RequestController = {
 
       res.status(200).json({
         success: true,
-        message: "create request successfully",
+        message: "Create request successfully.",
         data: {
           requestSaved,
         },
@@ -66,7 +66,7 @@ const RequestController = {
 
       res.status(200).json({
         success: true,
-        message: "accepted.",
+        message: "Request has been confirmed.",
         data: {
           requestSaved,
         },
@@ -102,7 +102,7 @@ const RequestController = {
 
       res.status(200).json({
         success: true,
-        message: "get package request successfully",
+        message: "Get package request by unit successfully.",
         data: {
           requests,
         },
@@ -139,7 +139,7 @@ const RequestController = {
 
       res.status(200).json({
         success: true,
-        message: "get package requested successfully",
+        message: "Get package requested by unit successfully",
         data: {
           requests,
         },

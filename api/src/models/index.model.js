@@ -150,28 +150,7 @@ createOneToManyRelation(
 );
 createOneToManyRelation(db.Package, db.Error, "error_id", "error_package");
 
-// createOneToManyRelation(
-//   db.SoldStatus,
-//   db.Error,
-//   "currError_id",
-//   "error_soldStatus"
-// );
-
 createManyToManyRelation(db.Error, db.SoldStatus, db.ErrorSoldStatus);
-
-// createOneToManyRelation(
-//   db.ErrorSoldStatus,
-//   db.Error,
-//   "error_id",
-//   "err_errSoldStt"
-// );
-
-// createOneToManyRelation(
-//   db.ErrorSoldStatus,
-//   db.SoldStatus,
-//   "soldStatus_id",
-//   "soldStt_errSoldStt"
-// );
 
 // Package transport relation
 createOneToManyRelation(

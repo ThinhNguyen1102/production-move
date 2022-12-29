@@ -14,7 +14,7 @@ const productLineController = {
       }
       res.status(200).json({
         success: true,
-        message: "get product line successfully",
+        message: "Get productline successfully.",
         result: productLine,
       });
     } catch (err) {
@@ -42,7 +42,7 @@ const productLineController = {
       const productLineSaved = await db.ProductLine.create(productLine);
       res.status(200).json({
         success: true,
-        message: "create new productLine successfully",
+        message: "Create new productLine successfully.",
         data: {
           newProductLine: productLineSaved,
         },
@@ -59,7 +59,7 @@ const productLineController = {
       const productLines = await db.ProductLine.findAll();
 
       res.status(200).json({
-        message: "get all productLine successfully",
+        message: "get all productLine successfully.",
         success: true,
         data: { productLines },
       });
@@ -98,8 +98,10 @@ const productLineController = {
 
       res.status(200).json({
         success: true,
-        message: "edit productLine successfully",
-        result: result,
+        message: "Get all productline with unit successfully",
+        data: {
+          productLines: result,
+        },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -191,7 +193,7 @@ const productLineController = {
       const productLine = await db.ProductLine.findByPk(prodLineId);
 
       if (!productLine) {
-        const err = new Error("Could not find restaurant.");
+        const err = new Error("Could not find productline.");
         err.statusCode = 404;
         throw err;
       }
@@ -204,7 +206,7 @@ const productLineController = {
 
       res.status(200).json({
         success: true,
-        message: "delete productLine successfully",
+        message: "Delete productline successfully",
         result: result,
       });
     } catch (err) {

@@ -47,7 +47,7 @@ const TransportController = {
       const transports = fomatProductTransport(rawTransports);
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get send transports by unit successfully.",
         success: true,
         data: {
           transports,
@@ -103,7 +103,7 @@ const TransportController = {
       const transports = fomatProductTransport(rawTransports);
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get recieve transports by unit successfully.",
         success: true,
         data: {
           transports,
@@ -155,7 +155,7 @@ const TransportController = {
       const transports = fomatPackageTransport(rawTransports);
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get send product transports by unit successfully.",
         success: true,
         data: {
           transports,
@@ -207,7 +207,7 @@ const TransportController = {
       const transports = fomatPackageTransport(rawTransports);
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get reccieve product transports by unit successfully.",
         success: true,
         data: {
           transports,

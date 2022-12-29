@@ -26,7 +26,7 @@ const uploadController = {
       clearImage(req.file.path);
 
       return res.json({
-        message: "Upload image success.",
+        message: "Upload image successfully.",
         success: true,
         images: {
           public_id: imageSaved.public_id,
@@ -53,7 +53,7 @@ const uploadController = {
       const imageRemoved = await cloudinary.v2.uploader.destroy(imageUrl);
 
       res.status(202).json({
-        message: "Delete images success.",
+        message: "Delete images successfully.",
         success: true,
         data: imageRemoved,
       });

@@ -30,6 +30,11 @@ const packageController = {
             attributes: { exclude: ["password"] },
           },
           {
+            model: db.User,
+            as: "userCreated_package",
+            attributes: { exclude: ["password"] },
+          },
+          {
             model: db.Error,
             as: "error_package",
           },
@@ -37,7 +42,7 @@ const packageController = {
       });
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get package by management unit successfully.",
         success: true,
         data: {
           packages,
@@ -83,7 +88,7 @@ const packageController = {
       });
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get package by productline successfully.",
         success: true,
         data: {
           packages,
@@ -131,7 +136,7 @@ const packageController = {
       });
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Get package by management unit, productline successfully.",
         success: true,
         data: {
           packages,
@@ -174,7 +179,7 @@ const packageController = {
       });
 
       res.status(201).json({
-        message: "Get package success.",
+        message: "Get package by factory successfully.",
         success: true,
         data: {
           packages,
@@ -203,7 +208,7 @@ const packageController = {
       const transport = await db.PackageTransport.findByPk(transportId);
       console.log(transport.new_unit_id, unitId);
       if (transport.new_unit_id !== unitId) {
-        const err = new Error("transport is not owned");
+        const err = new Error("Transport is not owned by the unit");
         err.statusCode = 400;
         throw err;
       }
@@ -216,10 +221,10 @@ const packageController = {
       package.warehouse_id = transport.new_WH_id;
       package.status_code = transport.new_STT_code;
 
-      const packageSaved = await package.save();
+      await package.save();
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Package received successfully.",
         success: true,
         data: {
           transport,
@@ -245,7 +250,7 @@ const packageController = {
     try {
       const warehouse = await db.Warehouse.findByPk(warehouseId);
       if (warehouse.unit_manage_id !== +unitId) {
-        const err = new Error("Unit and warehouse are not the same.");
+        const err = new Error("Warehouse is not managed by the current unit.");
         err.statusCode = 400;
         throw err;
       }
@@ -256,7 +261,7 @@ const packageController = {
         throw err;
       }
       if (package.unit_manage_id !== +req.userId) {
-        const err = new Error("package is not owned.");
+        const err = new Error("Package is not managed by the current unit.");
         err.statusCode = 404;
         throw err;
       }
@@ -276,7 +281,7 @@ const packageController = {
 
       const transportSaved = await db.PackageTransport.create(transport);
       res.status(201).json({
-        message: "Move package success.",
+        message: "Package is being shipped.",
         success: true,
         data: {
           transportSaved,
@@ -315,8 +320,14 @@ const packageController = {
         ],
       });
       if (!package) {
+        const err = new Error("Could not find pckage.");
+        err.statusCode = 400;
+        throw err;
       }
       if (package.error_id) {
+        const err = new Error("Package has been withdrawn.");
+        err.statusCode = 400;
+        throw err;
       }
       const error = {
         error_id: generateCode("ERR"),
@@ -390,7 +401,7 @@ const packageController = {
       }
 
       res.status(201).json({
-        message: "Move package success.",
+        message: "Package will be withdrawn.",
         success: true,
         data: {
           package,

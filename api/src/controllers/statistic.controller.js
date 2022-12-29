@@ -22,7 +22,7 @@ const statisticController = {
       const serviceCenters = users.filter((val) => val.role === 4);
 
       res.status(201).json({
-        message: "ok",
+        message: "Get all user info successfully.",
         success: true,
         data: {
           unitsByRole: {
@@ -91,7 +91,7 @@ const statisticController = {
       });
 
       res.status(201).json({
-        message: "ok",
+        message: "Get statistics about admin's product line successfully.",
         success: true,
         data: {
           statisticProduct,
@@ -219,7 +219,7 @@ const statisticController = {
       });
 
       res.status(201).json({
-        message: "ok",
+        message: "Get statistics about agent's product line successfully.",
         success: true,
         data: {
           statisticProduct,
@@ -342,7 +342,7 @@ const statisticController = {
       });
 
       res.status(201).json({
-        message: "ok",
+        message: "Get statistics about factory's product line successfully",
         success: true,
         data: {
           statisticProduct,
@@ -363,15 +363,6 @@ const statisticController = {
     const statisticProduct = [];
     try {
       const productLines = await db.ProductLine.findAll({
-        // order: [
-        //   [
-        //     { model: db.Product, as: "productLine_product" },
-        //     { model: db.SoldStatus, as: "soldStatus_product" },
-        //     db.Error,
-        //     "createdAt",
-        //     "desc",
-        //   ],
-        // ],
         include: [
           {
             model: db.Product,
@@ -389,9 +380,6 @@ const statisticController = {
             ],
             where: {
               isSold: true,
-              // "$soldStatus_product.guarantees$": {
-              //   [Op.gt]: 0,
-              // },
             },
           },
         ],
@@ -400,9 +388,6 @@ const statisticController = {
       if (productLines.length === 0) {
       }
       productLines.forEach((item) => {
-        // let numOfErrorProduct = 0;
-        // let numOfFixedProduct = 0;
-
         let numOfRepairs = 0;
         let numOfSuccessRepairs = 0;
         let numOfFailureRepairs = 0;
@@ -410,16 +395,6 @@ const statisticController = {
         if (item.productLine_product.length > 0) {
           item.productLine_product.forEach((val) => {
             if (val.soldStatus_product.errors.length !== 0) {
-              // let errorSoldStt = val.soldStatus_product.errors[0].error_soldStt;
-              // if (errorSoldStt.center_id === +unitId) {
-              //   numOfErrorProduct++;
-              //   if (
-              //     errorSoldStt.isDone === true &&
-              //     errorSoldStt.isFixed === true
-              //   ) {
-              //     numOfFixedProduct++;
-              //   }
-              // }
               val.soldStatus_product.errors.forEach((error) => {
                 if (error.error_soldStt.center_id === +unitId) {
                   numOfRepairs++;
@@ -453,7 +428,7 @@ const statisticController = {
       });
 
       res.status(201).json({
-        message: "ok",
+        message: "Get statistics about center's product line successfully.",
         success: true,
         data: {
           statisticProduct,

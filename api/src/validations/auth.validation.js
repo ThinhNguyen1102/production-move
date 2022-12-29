@@ -1,4 +1,5 @@
 const { body } = require("express-validator");
+const isHtml = require("is-html-content");
 
 const authValidation = {
   registerVali: [

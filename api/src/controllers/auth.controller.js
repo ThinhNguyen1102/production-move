@@ -43,7 +43,7 @@ const authController = {
       createdUser.password = "";
 
       return res.status(201).json({
-        message: "Register success.",
+        message: "Register account successfully.",
         success: true,
         data: {
           user: createdUser,
@@ -99,7 +99,7 @@ const authController = {
       });
 
       return res.json({
-        message: "Login success.",
+        message: "Login successfully.",
         success: true,
         data: {
           access_token,
@@ -153,7 +153,7 @@ const authController = {
             role: result.role,
           });
           return res.json({
-            message: "Generate access token success",
+            message: "Generate access token successfully.",
             success: true,
             data: { access_token, user },
           });
@@ -196,7 +196,7 @@ const authController = {
 
       await user.save();
       res.status(200).json({
-        message: "Change password success.",
+        message: "Change password successfully.",
         success: true,
       });
     } catch (err) {

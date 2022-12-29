@@ -5,6 +5,7 @@ const { validationResult } = require("express-validator/check");
 
 const productController = {
   postProducts: async (req, res, next) => {
+    const unitId = req.userId;
     const { productLineId, warehouseId, quantity } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -14,10 +15,24 @@ const productController = {
       return next(err);
     }
 
+    try {
+      const warehouse = await db.Warehouse.findByPk(warehouseId);
+      if (warehouse.unit_manage_id !== +unitId) {
+        const err = new Error("Warehouse is not managed by the current unit.");
+        err.statusCode = 400;
+        throw err;
+      }
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+
     const products = [];
     const package = {
       package_id: generateCode("PK"),
-      unit_manage_id: req.userId,
+      unit_manage_id: unitId,
       product_line_id: productLineId,
       quantity: +quantity,
       quantity_in_stock: +quantity,
@@ -28,7 +43,6 @@ const productController = {
 
     db.Package.create(package)
       .then(async (result) => {
-        console.log(result);
         for (let i = 1; i <= quantity; i++) {
           products.push({
             prod_id: generateCode("P"),
@@ -42,7 +56,8 @@ const productController = {
         try {
           const productsSaved = await db.Product.bulkCreate(products);
           res.status(201).json({
-            message: "ok",
+            message: "Create successful products",
+            success: true,
             data: {
               productsSaved,
             },
@@ -99,7 +114,7 @@ const productController = {
         throw err;
       }
       if (product.package_product.unit_manage_id !== unitId) {
-        const err = new Error("The product not in this unit.");
+        const err = new Error("Product is not managed by the current unit..");
         err.statusCode = 400;
         throw err;
       }
@@ -111,7 +126,14 @@ const productController = {
       let customer;
 
       if (oldCustomerId) {
-        customer = await db.Customer.findByPk(oldCustomerId);
+        try {
+          customer = await db.Customer.findByPk(oldCustomerId);
+        } catch (err) {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+        }
       } else {
         const customerData = {
           name: customerName,
@@ -139,7 +161,7 @@ const productController = {
 
       const productSaved = await product.save();
       res.status(201).json({
-        message: "ok",
+        message: "Successful product sales.",
         success: true,
         data: {
           soldStatus: soldStatusSaved,
@@ -167,6 +189,11 @@ const productController = {
 
     try {
       const product = await db.Product.findByPk(prodId);
+      if (!product) {
+        const err = new Error("Could not find product.");
+        err.statusCode = 404;
+        throw err;
+      }
       const soldStatus = await db.SoldStatus.findByPk(product.sold_status_id);
       const error = {
         error_id: generateCode("ERR"),
@@ -190,7 +217,7 @@ const productController = {
       soldStatusSaved.dataValues.error_soldStatus = error;
 
       res.status(201).json({
-        message: "ok",
+        message: "Product will be under warranty.",
         success: true,
         data: {
           errorSaved,
@@ -218,7 +245,7 @@ const productController = {
     try {
       const warehouse = await db.Warehouse.findByPk(warehouseId);
       if (warehouse.unit_manage_id !== +unitId) {
-        const err = new Error("Unit and warehouse are not the same.");
+        const err = new Error("Warehouse is not managed by the current unit.");
         err.statusCode = 400;
         throw err;
       }
@@ -236,7 +263,7 @@ const productController = {
       }
 
       if (product.soldStatus_product.unit_manage_id !== req.userId) {
-        const err = new Error("product is not owned.");
+        const err = new Error("Product is not managed by the current unit.");
         err.statusCode = 404;
         throw err;
       }
@@ -258,7 +285,7 @@ const productController = {
 
       const transportSaved = await db.ProductTransport.create(transport);
       res.status(201).json({
-        message: "ok",
+        message: "Product is being shipped.",
         success: true,
         data: {
           product,
@@ -286,7 +313,7 @@ const productController = {
     try {
       const transport = await db.ProductTransport.findByPk(transportId);
       if (transport.new_unit_id !== unitId) {
-        const err = new Error("transport is not owned");
+        const err = new Error("Transport is not managed by the current unit.");
         err.statusCode = 400;
         throw err;
       }
@@ -299,10 +326,10 @@ const productController = {
       soldStatus.status_code = transport.new_STT_code;
       soldStatus.warehouse_id = transport.new_WH_id;
 
-      const soldStatusSaved = await soldStatus.save();
+      await soldStatus.save();
 
       res.status(201).json({
-        message: "ok",
+        message: "Product received successfully.",
         success: true,
         data: {
           transport,
@@ -403,12 +430,16 @@ const productController = {
               attributes: { exclude: ["password"] },
             },
           },
+          {
+            model: db.ProductLine,
+            as: "productLine_product",
+          },
         ],
       });
 
       res.status(200).json({
         success: true,
-        message: "edit productLine successfully",
+        message: "Get all sold products with unit successfully.",
         data: {
           products,
         },
@@ -463,7 +494,7 @@ const productController = {
 
       res.status(200).json({
         success: true,
-        message: "fix product successfully",
+        message: "Product is under warranty.",
         data: {
           product,
           errorSoldSttSaved,
@@ -502,7 +533,7 @@ const productController = {
       });
 
       res.status(201).json({
-        message: "get errors success.",
+        message: "get errors successfully.",
         success: true,
         data: {
           errors,
