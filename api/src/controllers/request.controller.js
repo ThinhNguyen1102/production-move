@@ -1,9 +1,18 @@
 const db = require("../models/index.model");
+const { validationResult } = require("express-validator/check");
 
 const RequestController = {
   createRequest: async (req, res, next) => {
     const unitId = req.userId;
     const { receiverId, content } = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
 
     try {
       const request = {

@@ -1,10 +1,19 @@
 const { Op } = require("sequelize");
 const generateCode = require("../helpers/generateCode");
 const db = require("../models/index.model");
+const { validationResult } = require("express-validator/check");
 
 const productController = {
   postProducts: async (req, res, next) => {
     const { productLineId, warehouseId, quantity } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
+
     const products = [];
     const package = {
       package_id: generateCode("PK"),
@@ -63,6 +72,14 @@ const productController = {
       customerEmail,
       oldCustomerId,
     } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
+
     try {
       const product = await db.Product.findByPk(prodId, {
         include: {
@@ -140,6 +157,13 @@ const productController = {
 
   postGuarentee: async (req, res, next) => {
     const { prodId, errorDescription, typeErrorCode } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
 
     try {
       const product = await db.Product.findByPk(prodId);
@@ -183,6 +207,14 @@ const productController = {
 
   moveProduct: async (req, res, next) => {
     const { unitId, prodId, warehouseId, statusCode } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
+
     try {
       const warehouse = await db.Warehouse.findByPk(warehouseId);
       if (warehouse.unit_manage_id !== +unitId) {
@@ -244,7 +276,13 @@ const productController = {
   acceptReceiveProduct: async (req, res, next) => {
     const unitId = req.userId;
     const { transportId } = req.body;
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
     try {
       const transport = await db.ProductTransport.findByPk(transportId);
       if (transport.new_unit_id !== unitId) {
@@ -386,6 +424,13 @@ const productController = {
   postProductFixed: async (req, res, next) => {
     const unitId = req.userId;
     const { prodId, isFixed } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
     try {
       const product = await db.Product.findByPk(prodId, {
         where: {

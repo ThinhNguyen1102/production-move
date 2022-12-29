@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const db = require("../models/index.model");
 const generateCode = require("../helpers/generateCode");
+const { validationResult } = require("express-validator/check");
 
 const packageController = {
   getAllPackage: async (req, res, next) => {},
@@ -190,6 +191,14 @@ const packageController = {
   acceptRecievedPackage: async (req, res, next) => {
     const unitId = req.userId;
     const { transportId } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
+
     try {
       const transport = await db.PackageTransport.findByPk(transportId);
       console.log(transport.new_unit_id, unitId);
@@ -226,6 +235,13 @@ const packageController = {
   movePackage: async (req, res, next) => {
     const { unitId, packageId, warehouseId, statusCode } = req.body;
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation failed, entered data is incorrect.");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
     try {
       const warehouse = await db.Warehouse.findByPk(warehouseId);
       if (warehouse.unit_manage_id !== +unitId) {
