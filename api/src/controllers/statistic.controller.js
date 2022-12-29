@@ -405,6 +405,7 @@ const statisticController = {
 
         let numOfRepairs = 0;
         let numOfSuccessRepairs = 0;
+        let numOfFailureRepairs = 0;
 
         if (item.productLine_product.length > 0) {
           item.productLine_product.forEach((val) => {
@@ -427,6 +428,11 @@ const statisticController = {
                     error.error_soldStt.isFixed === true
                   ) {
                     numOfSuccessRepairs++;
+                  } else if (
+                    error.error_soldStt.isDone === true &&
+                    error.error_soldStt.isFixed === false
+                  ) {
+                    numOfFailureRepairs++;
                   }
                 }
               });
@@ -441,6 +447,7 @@ const statisticController = {
             price: item.price,
             numOfRepairs,
             numOfSuccessRepairs,
+            numOfFailureRepairs,
           });
         }
       });

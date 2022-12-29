@@ -41,7 +41,7 @@ const HomeFactoryOverview = ({ statisticProduct, failureProduct }) => {
     {
       text: "San pham loi khong sua duoc",
       value: failureProduct?.length,
-      color: "neutral",
+      color: "neutral.main",
       typeCard: "card-link",
     },
   ];

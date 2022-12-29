@@ -56,7 +56,7 @@ const Overview = ({ overviewData }) => {
           <Grid
             item
             lg={12 / overviewData?.length}
-            sm={overviewData?.length % 2 === 0 ? 6 : 12 / overviewData?.length}
+            md={overviewData?.length % 2 === 0 ? 6 : 12 / overviewData?.length}
             xs={12}
             key={index}
           >
