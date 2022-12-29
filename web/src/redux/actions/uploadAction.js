@@ -52,3 +52,14 @@ export const destroyImage =
       });
     }
   };
+
+export const resetImage = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: UPLOAD.RESET_IMAGE,
+      payload: "",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

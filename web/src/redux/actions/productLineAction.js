@@ -1,4 +1,4 @@
-import { ALERT, PRODUCT_LINE, UPLOAD } from "../types";
+import { ALERT, PRODUCT_LINE } from "../types";
 import { postDataAPI, getDataAPI, deleteDataAPI } from "../../utils/fetchData";
 
 export const createProductLine =
@@ -13,10 +13,6 @@ export const createProductLine =
         payload: res.data.newProductLine,
       });
 
-      dispatch({
-        type: UPLOAD.RESET_IMAGE,
-        payload: "",
-      });
       dispatch({
         type: ALERT,
         payload: {

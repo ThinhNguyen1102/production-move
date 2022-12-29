@@ -15,7 +15,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
 import { getAllOwnWarehouse } from "../../redux/actions/warehouseAction";
-import { destroyImage, uploadImage } from "../../redux/actions/uploadAction";
+import {
+  destroyImage,
+  resetImage,
+  uploadImage,
+} from "../../redux/actions/uploadAction";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
@@ -47,6 +51,7 @@ const ProductLine = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    dispatch(resetImage());
     setOpenDialog(false);
   };
   const handleSubmit = () => {
