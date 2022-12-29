@@ -1,17 +1,40 @@
 const productController = require("../controllers/product.controller");
 const isAuth = require("../middlewares/isAuth");
+const {
+  postProductVali,
+  postGuarenteesVali,
+  postSoldProductVali,
+  fixedProductVali,
+  moveProductVali,
+  acceptProductVali,
+} = require("../validations/product.validation");
 
 const router = require("express").Router();
 
-router.post("/", isAuth, productController.postProducts);
+router.post("/", isAuth, postProductVali, productController.postProducts);
 
-router.post("/sell", isAuth, productController.postSoldProduct);
+router.post(
+  "/sell",
+  isAuth,
+  postSoldProductVali,
+  productController.postSoldProduct
+);
 
-router.post("/guarentee", isAuth, productController.postGuarentee);
+router.post(
+  "/guarentee",
+  isAuth,
+  postGuarenteesVali,
+  productController.postGuarentee
+);
 
-router.post("/move", isAuth, productController.moveProduct);
+router.post("/move", isAuth, moveProductVali, productController.moveProduct);
 
-router.post("/accept", isAuth, productController.acceptReceiveProduct);
+router.post(
+  "/accept",
+  isAuth,
+  acceptProductVali,
+  productController.acceptReceiveProduct
+);
 
 router.get(
   "/productline/:prodLineId",
@@ -21,7 +44,12 @@ router.get(
 
 router.get("/sold/own", isAuth, productController.getSoldProductOwn);
 
-router.post("/guarentee/fixed", isAuth, productController.postProductFixed);
+router.post(
+  "/guarentee/fixed",
+  isAuth,
+  fixedProductVali,
+  productController.postProductFixed
+);
 
 router.get("/errors/:prodId", isAuth, productController.getErrorProduct);
 

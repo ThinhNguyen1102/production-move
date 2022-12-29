@@ -50,21 +50,23 @@ app.use(
 app.use("/res/images", express.static(path.join(__dirname, "res", "images")));
 
 app.use("/api/v1", appRoute);
-// app.get("*", (req, res, next) => {
-//   res.status(201).json({
-//     message: "hello",
-//   });
-// });
+app.get("*", (req, res, next) => {
+  res.status(201).json({
+    message: "hello",
+  });
+});
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   const message = error.message;
-  const data = error.data;
-  res.status(status).json({
-    message: message,
-    success: false,
-    data: data,
-  });
+  let errorList;
+  if (error.data) {
+    errorList = error.data;
+  } else {
+    errorList = [{ msg: error.message }];
+  }
+  console.log(error);
+  res.status(status).json({ message, success: false, errorList });
 });
 
 app.use("*", (req, res, next) => {

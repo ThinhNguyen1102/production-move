@@ -3,6 +3,7 @@ const router = require("express").Router();
 const productLineController = require("../controllers/productLine.controller");
 const isAdmin = require("../middlewares/isAdmin");
 const isAuth = require("../middlewares/isAuth");
+const { postProductLine } = require("../validations/productLine.validation");
 
 router.get("/", isAuth, productLineController.getAllProdLine);
 
@@ -16,7 +17,13 @@ router.get(
 
 router.get("/:prodLineId", isAuth, productLineController.getProdLine);
 
-router.post("/", isAuth, isAdmin, productLineController.postProdLine);
+router.post(
+  "/",
+  isAuth,
+  isAdmin,
+  postProductLine,
+  productLineController.postProdLine
+);
 
 router.put(
   "/:prodLineId",
