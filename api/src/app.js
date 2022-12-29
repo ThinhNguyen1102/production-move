@@ -44,15 +44,12 @@ app.use(cookieParser());
 app.use(morgan("common"));
 
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).array("image")
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
 
 app.use("/res/images", express.static(path.join(__dirname, "res", "images")));
 
 app.use("/api/v1", appRoute);
-app.get("/helo", (req, res, next) => {
-  res.json({ hello: "req.body.hello" });
-});
 // app.get("*", (req, res, next) => {
 //   res.status(201).json({
 //     message: "hello",

@@ -8,6 +8,7 @@ const userRoute = require("./user.route");
 const requestRoute = require("./request.route");
 const transportRoute = require("./transport.route");
 const statisticRoute = require("./statistic.route");
+const uploadRoute = require("./upload.controller");
 
 const appRoute = express();
 
@@ -28,5 +29,7 @@ appRoute.use("/requests", requestRoute);
 appRoute.use("/transports", transportRoute);
 
 appRoute.use("/statistics", statisticRoute);
+
+appRoute.use("/image", uploadRoute);
 
 module.exports = appRoute;
