@@ -10,11 +10,14 @@ const columns = [
   { field: "package_id", headerName: "Package_ID", width: 120 },
   {
     field: "error_status",
-    headerName: "状況",
+    headerName: "Status",
     width: 120,
     renderCell: ({ value }) => {
       return (
-        <Tooltip title={`エラーの説明： ${value}`} sx={{ cursor: "pointer" }}>
+        <Tooltip
+          title={`Error Description: ${value}`}
+          sx={{ cursor: "pointer" }}
+        >
           <Chip label="failure" color="neutral" />
         </Tooltip>
       );

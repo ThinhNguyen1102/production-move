@@ -94,7 +94,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
           )}
           {auth.user.role === 2 && (
             <>
-              <Button onClick={handleClickOpenDialog}>パッケージ作成</Button>
+              <Button onClick={handleClickOpenDialog}>Create Package</Button>
               <Link
                 component={RouterLink}
                 to={`/product_line_packages/${productLine.id}`}
@@ -141,7 +141,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
       )}
       {auth.user.role === 2 && (
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>create package</DialogTitle>
+          <DialogTitle>Create Package</DialogTitle>
           <DialogContent>
             <DialogContentText mb={1}>
               {`${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`}
@@ -150,7 +150,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
               margin="dense"
               id="warehouseId"
               select
-              label="倉庫"
+              label="Warehouse"
               fullWidth
               variant="standard"
               name="warehouseId"
@@ -166,7 +166,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
             <TextField
               margin="dense"
               id="quantity"
-              label="数量"
+              label="Quantity"
               type="number"
               fullWidth
               variant="standard"

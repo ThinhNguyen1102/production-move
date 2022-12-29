@@ -19,7 +19,7 @@ const columns = [
   { field: "package_id", headerName: "Package_ID", width: 160 },
   {
     field: "sell_product",
-    headerName: "販売商品",
+    headerName: "Sell",
     width: 130,
     renderCell: (params) => {
       return (
@@ -104,14 +104,14 @@ const ProductLineProducts = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>商品販売</DialogTitle>
+        <DialogTitle>Sell Product</DialogTitle>
         <DialogContent>
-          <DialogContentText>顧客情報：</DialogContentText>
+          <DialogContentText>Customer Information:</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="customerName"
-            label="名前"
+            label="Name"
             fullWidth
             variant="standard"
             name="customerName"
@@ -122,7 +122,7 @@ const ProductLineProducts = () => {
             autoFocus
             margin="dense"
             id="customerPhone"
-            label="電話番号"
+            label="Phone Number"
             fullWidth
             variant="standard"
             name="customerPhone"
@@ -133,7 +133,7 @@ const ProductLineProducts = () => {
             autoFocus
             margin="dense"
             id="customerEmail"
-            label="メールアドレス"
+            label="Email"
             fullWidth
             variant="standard"
             type="email"
@@ -145,7 +145,7 @@ const ProductLineProducts = () => {
             autoFocus
             margin="dense"
             id="customerAddress"
-            label="住所"
+            label="Address"
             fullWidth
             variant="standard"
             name="customerAddress"
@@ -154,8 +154,8 @@ const ProductLineProducts = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleSellProduct}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSellProduct}>Sell</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -33,7 +33,7 @@ const columns = [
   },
   {
     field: "unit_manage",
-    headerName: "Where",
+    headerName: "Unit Manage",
     width: 150,
   },
   {
@@ -95,13 +95,13 @@ const FactoryPackageManagement = () => {
     recall: !pk.error_id ? (
       <Button
         color="primary"
-        endIcon={<ReportIcon />}
+        startIcon={<ReportIcon />}
         onClick={() => handleClickOpenDialog(pk)}
       >
         Recall
       </Button>
     ) : (
-      <Tooltip title={`エラーの説明： ${pk.error_package.description}`}>
+      <Tooltip title={`Error Description ${pk.error_package.description}`}>
         <ReportIcon color="error" />
       </Tooltip>
     ),
@@ -143,7 +143,7 @@ const FactoryPackageManagement = () => {
             autoFocus
             margin="dense"
             id="errorDescription"
-            label="エラーの説明"
+            label="Error Description"
             fullWidth
             variant="standard"
             name="errorDescription"
@@ -152,8 +152,10 @@ const FactoryPackageManagement = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleRecall}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button color="error" onClick={handleRecall}>
+            Recall
+          </Button>
         </DialogActions>
       </Dialog>
     </>

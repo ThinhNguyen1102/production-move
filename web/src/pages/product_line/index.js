@@ -73,7 +73,7 @@ const ProductLine = () => {
 
         <Grid container spacing={3}>
           {productLine.productLines.map((productLineElement, index) => (
-            <Grid sx={12} sm={6} md={4} lg={3} xl={2} key={index}>
+            <Grid xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
               <ProductLineCard
                 productLine={productLineElement}
                 warehouses={warehouse.warehouses}

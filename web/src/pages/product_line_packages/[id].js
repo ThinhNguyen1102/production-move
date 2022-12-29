@@ -12,29 +12,29 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
+import SendIcon from "@mui/icons-material/Send";
 
 const columns = [
   { field: "package_id", headerName: "Package_ID", width: 160 },
   {
     field: "quantity",
-    headerName: "数量",
+    headerName: "Quantity",
     width: 80,
   },
   {
     field: "move_to_agent",
-    headerName: "エージェントへの発送",
+    headerName: "Export to Agent",
     width: 180,
     renderCell: (params) => {
       return (
         <Button
           color="primary"
-          endIcon={<LocalShippingIcon />}
+          endIcon={<SendIcon />}
           onClick={params.value.onClick}
         >
-          発送
+          Move
         </Button>
       );
     },
@@ -117,13 +117,13 @@ const ProductLinePackages = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>エージェントへの発送</DialogTitle>
+        <DialogTitle>Export to Agent</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
             id="unitId"
             select
-            label="エージェント"
+            label="Agent"
             fullWidth
             variant="standard"
             name="unitId"
@@ -141,7 +141,7 @@ const ProductLinePackages = () => {
             margin="dense"
             id="warehouseId"
             select
-            label="倉庫"
+            label="Warehouse"
             fullWidth
             variant="standard"
             name="warehouseId"
@@ -156,9 +156,9 @@ const ProductLinePackages = () => {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button autoFocus onClick={handleMoveToAgent}>
-            発送
+            Move
           </Button>
         </DialogActions>
       </Dialog>
