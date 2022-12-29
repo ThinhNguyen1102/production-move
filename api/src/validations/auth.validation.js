@@ -28,7 +28,7 @@ const authValidation = {
       .trim()
       .isMobilePhone()
       .withMessage("Please enter valid phone number value"),
-    body("phone_number")
+    body("role")
       .trim()
       .isNumeric()
       .withMessage("Please enter valid numberic value"),

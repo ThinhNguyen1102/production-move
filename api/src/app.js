@@ -12,6 +12,7 @@ const cookieParser = require("cookie-parser");
 
 const db = require("./models/index.model");
 const appRoute = require("./routes/router");
+const logEvents = require("./helpers/logEvent");
 
 const port = process.env.PORT || 8000;
 const app = express();
@@ -57,6 +58,7 @@ app.get("*", (req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  logEvents(`${req.method}-----${req.url}-----${error.message}`);
   const status = error.statusCode || 500;
   const message = error.message;
   let errorList;
