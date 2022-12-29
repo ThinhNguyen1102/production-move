@@ -86,21 +86,21 @@ export default function ProductLineCard({ productLine, warehouses }) {
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
           {auth.user.role === 1 && (
             <>
-              <Button>編集</Button>
+              <Button>Edit</Button>
               <Button color="error" onClick={handleClickOpenDialog}>
-                削除
+                Delete
               </Button>
             </>
           )}
           {auth.user.role === 2 && (
             <>
-              <Button onClick={handleClickOpenDialog}>パッケージ作成</Button>
+              <Button onClick={handleClickOpenDialog}>Create Package</Button>
               <Link
                 component={RouterLink}
                 to={`/product_line_packages/${productLine.id}`}
                 sx={{ textDecoration: "none" }}
               >
-                <Button>詳細</Button>
+                <Button>Detail</Button>
               </Link>
             </>
           )}
@@ -110,7 +110,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
               to={`/product_line_products/${productLine.id}`}
               sx={{ textDecoration: "none" }}
             >
-              <Button>詳細</Button>
+              <Button>Detail</Button>
             </Link>
           )}
         </CardActions>
@@ -124,24 +124,24 @@ export default function ProductLineCard({ productLine, warehouses }) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            削除してもよろしいですか。
+            Are you sure you want to delete ?
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              この操作は元に戻せません。
+              This operation cannot be undone.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog}>キャンセル</Button>
-            <Button autoFocus onClick={handleDeleteProductLine}>
-              削除
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button color="error" onClick={handleDeleteProductLine}>
+              Delete
             </Button>
           </DialogActions>
         </Dialog>
       )}
       {auth.user.role === 2 && (
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>パッケージ作成</DialogTitle>
+          <DialogTitle>Create Package</DialogTitle>
           <DialogContent>
             <DialogContentText mb={1}>
               {`${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`}
@@ -150,7 +150,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
               margin="dense"
               id="warehouseId"
               select
-              label="倉庫"
+              label="Warehouse"
               fullWidth
               variant="standard"
               name="warehouseId"
@@ -166,7 +166,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
             <TextField
               margin="dense"
               id="quantity"
-              label="数量"
+              label="Quantity"
               type="number"
               fullWidth
               variant="standard"
@@ -176,8 +176,8 @@ export default function ProductLineCard({ productLine, warehouses }) {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog}>キャンセル</Button>
-            <Button onClick={handleCreatePackage}>作成</Button>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleCreatePackage}>Create</Button>
           </DialogActions>
         </Dialog>
       )}

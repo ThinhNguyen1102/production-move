@@ -67,13 +67,13 @@ const ProductLine = () => {
             sx={{ marginBottom: 3 }}
             onClick={handleClickOpenDialog}
           >
-            商品ライン追加
+            Add product line
           </Button>
         )}
 
         <Grid container spacing={3}>
           {productLine.productLines.map((productLineElement, index) => (
-            <Grid sm={6} md={4} lg={3} xl={2} key={index}>
+            <Grid xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
               <ProductLineCard
                 productLine={productLineElement}
                 warehouses={warehouse.warehouses}
@@ -84,13 +84,13 @@ const ProductLine = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>商品ライン追加</DialogTitle>
+        <DialogTitle>Add product line</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="model"
-            label="モデル"
+            label="Model"
             fullWidth
             variant="standard"
             name="model"
@@ -113,7 +113,7 @@ const ProductLine = () => {
             autoFocus
             margin="dense"
             id="memory"
-            label="メモリー"
+            label="Memory"
             fullWidth
             type="number"
             variant="standard"
@@ -125,7 +125,7 @@ const ProductLine = () => {
             autoFocus
             margin="dense"
             id="color"
-            label="色"
+            label="Color"
             fullWidth
             variant="standard"
             name="color"
@@ -136,7 +136,7 @@ const ProductLine = () => {
             autoFocus
             margin="dense"
             id="description"
-            label="説明"
+            label="Description"
             fullWidth
             variant="standard"
             name="description"
@@ -147,7 +147,7 @@ const ProductLine = () => {
             autoFocus
             margin="dense"
             id="price"
-            label="価格"
+            label="Price"
             fullWidth
             variant="standard"
             name="price"
@@ -157,8 +157,8 @@ const ProductLine = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleSubmit}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
     </>

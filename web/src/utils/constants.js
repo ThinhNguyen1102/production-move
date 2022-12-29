@@ -1,8 +1,8 @@
 export const roles = [
-  { roleValue: 1, text: "管理者" },
-  { roleValue: 2, text: "工場" },
-  { roleValue: 3, text: "エージェント" },
-  { roleValue: 4, text: "保証センター" },
+  { roleValue: 1, text: "Admin" },
+  { roleValue: 2, text: "Factory" },
+  { roleValue: 3, text: "Agent" },
+  { roleValue: 4, text: "Service Center" },
 ];
 
 export const typeErrorCodeList = ["ERR-SC", "ERR-HE", "ERR-CH"];

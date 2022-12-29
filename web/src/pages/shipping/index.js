@@ -34,8 +34,7 @@ const Shipping = () => {
     { field: "id", headerName: "ID", width: 70 },
     {
       field: showShippingState === "receive" ? "oldUnit" : "newUnit",
-      headerName:
-        showShippingState === "receive" ? "前のユニット" : "次のユニット",
+      headerName: showShippingState === "receive" ? "Old Unit" : "New Unit",
       width: 150,
       valueGetter: ({ value }) => {
         return value?.name;
@@ -43,27 +42,27 @@ const Shipping = () => {
     },
     {
       field: "is_shipping",
-      headerName: "状況",
+      headerName: "Status",
       width: 120,
       renderCell: ({ value }) => {
         if (showShippingState === "receive") {
           return value ? (
-            <Chip label="到着" color="primary" />
+            <Chip label="Arrival" color="primary" />
           ) : (
-            <Chip label="完成" color="success" />
+            <Chip label="Done" color="success" />
           );
         } else {
           return value ? (
-            <Chip label="運送中" color="primary" />
+            <Chip label="Shipping" color="primary" />
           ) : (
-            <Chip label="完成" color="success" />
+            <Chip label="Done" color="success" />
           );
         }
       },
     },
     {
       field: "description",
-      headerName: "説明",
+      headerName: "Description",
       width: 320,
       renderCell: ({ row }) => {
         let id,
@@ -81,7 +80,7 @@ const Shipping = () => {
         return (
           <Box>
             <Typography>{id}</Typography>
-            <Typography>{`モデル: ${model}`}</Typography>
+            <Typography>{`Model: ${model}`}</Typography>
             {quantity_in_stock && (
               <Typography>{`Quantity in Stock: ${quantity_in_stock}`}</Typography>
             )}
@@ -91,7 +90,7 @@ const Shipping = () => {
     },
     {
       field: "accept_action",
-      headerName: "アクション",
+      headerName: "Accept",
       width: 140,
       renderCell: (params) => params.value,
     },
@@ -112,10 +111,10 @@ const Shipping = () => {
             )
           }
         >
-          受け入れる
+          Accept
         </Button>
       ) : (
-        <Button disabled>受け入れた</Button>
+        ""
       )),
   }));
   console.log(rows);
@@ -133,7 +132,6 @@ const Shipping = () => {
   };
 
   const handleClickOpenDialog = (tranId, packageId, prodId) => {
-    console.log(packageId, prodId);
     if (packageId && !prodId) {
       setIsPackageOrProduct("package");
     } else if (!packageId && prodId) {
@@ -146,7 +144,6 @@ const Shipping = () => {
     setOpenDialog(false);
   };
   const handleAccept = () => {
-    console.log("isPackageOrProduct", isPackageOrProduct);
     if (isPackageOrProduct === "package") {
       dispatch(acceptPackage({ data: { transportId }, auth }));
     } else if (isPackageOrProduct === "product") {
@@ -174,8 +171,8 @@ const Shipping = () => {
           value={showShippingState}
           onChange={onChangeShippingState}
         >
-          <ToggleButton value="receive">到着</ToggleButton>
-          <ToggleButton value="send">運送中</ToggleButton>
+          <ToggleButton value="receive">Arrival</ToggleButton>
+          <ToggleButton value="send">Shipping</ToggleButton>
         </ToggleButtonGroup>
 
         <DataGrid
@@ -193,14 +190,16 @@ const Shipping = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>受け入れ</DialogTitle>
+        <DialogTitle>Are you sure you want to accept ?</DialogTitle>
         <DialogContent>
-          <DialogContentText>この操作は元に戻せません。</DialogContentText>
+          <DialogContentText>
+            This operation cannot be undone.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button autoFocus onClick={handleAccept}>
-            確認
+            Accept
           </Button>
         </DialogActions>
       </Dialog>

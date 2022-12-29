@@ -88,3 +88,25 @@ export const getFactoryStatisticProduct =
       });
     }
   };
+
+export const getCenterStatisticProduct =
+  ({ auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(`statistics/center/product`, auth.token);
+
+      dispatch({
+        type: STATISTIC.GET_CENTER_STATISTIC_PRODUCT,
+        payload: res.data.statisticProduct,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.message,
+        },
+      });
+    }
+  };

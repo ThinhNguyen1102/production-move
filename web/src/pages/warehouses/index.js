@@ -20,17 +20,17 @@ const columns = [
   { field: "id", headerName: "ID", width: 50 },
   {
     field: "address",
-    headerName: "住所",
-    width: 350,
+    headerName: "Address",
+    width: 320,
   },
   {
     field: "phone_number",
-    headerName: "電話番号",
+    headerName: "Phone Number",
     width: 130,
   },
   {
     field: "edit_warehouse",
-    headerName: "編集",
+    headerName: "Edit",
     width: 100,
     renderCell: (params) => {
       return (
@@ -42,7 +42,7 @@ const columns = [
   },
   {
     field: "delete_warehouse",
-    headerName: "削除",
+    headerName: "Delete",
     width: 100,
     renderCell: (params) => {
       return (
@@ -85,7 +85,6 @@ const Warehouse = () => {
     });
   };
 
-  console.log("WAREHOUSE", warehouse.warehouses);
   const rows = warehouse.warehouses;
   return (
     <>
@@ -96,7 +95,7 @@ const Warehouse = () => {
           sx={{ marginBottom: 3 }}
           onClick={handleClickOpenDialog}
         >
-          倉庫追加
+          Add Warehouse
         </Button>
         <DataGrid
           rows={rows}
@@ -107,13 +106,13 @@ const Warehouse = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>倉庫追加</DialogTitle>
+        <DialogTitle>Add Warehouse</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="address"
-            label="住所"
+            label="Address"
             fullWidth
             variant="standard"
             name="address"
@@ -124,7 +123,7 @@ const Warehouse = () => {
             autoFocus
             margin="dense"
             id="phone_number"
-            label="電話番号"
+            label="Phone Number"
             fullWidth
             variant="standard"
             name="phone_number"
@@ -133,8 +132,8 @@ const Warehouse = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleSubmit}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
     </>

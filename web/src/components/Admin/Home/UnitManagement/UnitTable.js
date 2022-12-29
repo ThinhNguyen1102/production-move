@@ -25,14 +25,13 @@ const columns = [
   { field: "idx", headerName: "No", width: 50 },
   {
     field: "name",
-    headerName: "名前",
+    headerName: "Name",
     width: 120,
   },
   {
     field: "show_detail",
     headerName: "Detail",
     width: 100,
-    align: "center",
     renderCell: (params) => params.value,
   },
 ];
@@ -80,7 +79,7 @@ const UnitTable = ({ title, dataRows }) => {
       </Box>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <List
-          sx={{ width: "100%", bgcolor: "background.paper", minWidth: "330px" }}
+          sx={{ width: "100%", bgcolor: "background.paper", minWidth: "300px" }}
         >
           <ListItem>
             <ListItemIcon>
@@ -109,7 +108,7 @@ const UnitTable = ({ title, dataRows }) => {
         </List>
         <Divider />
         <List
-          sx={{ width: "100%", bgcolor: "background.paper", minWidth: "330px" }}
+          sx={{ width: "100%", bgcolor: "background.paper", minWidth: "300px" }}
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">
               Warehouses
