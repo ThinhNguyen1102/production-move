@@ -25,81 +25,81 @@ const navbarMenuItems = [
   [
     {
       icon: <DevicesIcon />,
-      text: "商品ライン",
+      text: "Product Line",
       pageLink: "/product_line",
     },
     {
       icon: <InventoryIcon />,
-      text: "パッケージ",
+      text: "Package",
       pageLink: "/package_management",
     },
     {
       icon: <WarehouseIcon />,
-      text: "倉庫",
+      text: "Warehouse",
       pageLink: "/warehouses",
     },
     {
       icon: <LocalShippingIcon />,
-      text: "運送管理",
+      text: "Transport",
       pageLink: "/shipping",
     },
     {
       icon: <AssignmentIcon />,
-      text: "要求",
+      text: "Request",
       pageLink: "/requests",
     },
   ],
   [
     {
       icon: <DevicesIcon />,
-      text: "商品ライン",
+      text: "Product Line",
       pageLink: "/product_line",
     },
     {
       icon: <InventoryIcon />,
-      text: "パッケージ",
+      text: "Package",
       pageLink: "/package_management",
     },
     {
       icon: <PaidIcon />,
-      text: "販売した商品",
+      text: "Sold Product",
       pageLink: "/products_sold",
     },
     {
       icon: <WarehouseIcon />,
-      text: "倉庫",
+      text: "Warehouse",
       pageLink: "/warehouses",
     },
     {
       icon: <LocalShippingIcon />,
-      text: "運送管理",
+      text: "Transport",
       pageLink: "/shipping",
     },
     {
       icon: <AssignmentIcon />,
-      text: "要求",
+      text: "Request",
       pageLink: "/requests",
     },
   ],
   [
     {
       icon: <PrecisionManufacturingIcon />,
-      text: "商品保証",
+      text: "Guarantee",
       pageLink: "/product_guarantee",
     },
     {
       icon: <WarehouseIcon />,
-      text: "倉庫",
+      text: "Warehouse",
       pageLink: "/warehouses",
     },
     {
       icon: <LocalShippingIcon />,
-      text: "運送管理",
+      text: "Transport",
       pageLink: "/shipping",
     },
     {
       icon: <AssignmentIcon />,
-      text: "要求",
+      text: "Request",
       pageLink: "/requests",
     },
   ],

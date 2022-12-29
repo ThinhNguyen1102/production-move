@@ -116,12 +116,12 @@ const Requests = () => {
     },
     {
       field: "content",
-      headerName: "内容",
+      headerName: "Content",
       width: 300,
     },
     {
       field: "request_status",
-      headerName: "状況",
+      headerName: "Status",
       width: 120,
       renderCell: ({ value }) => {
         if (value === "waiting") {
@@ -178,7 +178,7 @@ const Requests = () => {
               startIcon={<AddIcon />}
               onClick={handleClickOpenDialog}
             >
-              要求作成
+              Create Request
             </Button>
           )}
           <ToggleButtonGroup
@@ -208,14 +208,13 @@ const Requests = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>要求作成</DialogTitle>
+        <DialogTitle>Create Request</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="role"
             select
-            label="権限"
+            label="Role"
             fullWidth
             variant="standard"
             name="role"
@@ -237,7 +236,7 @@ const Requests = () => {
             margin="dense"
             id="receiverId"
             select
-            label="ユニット"
+            label="Unit"
             fullWidth
             variant="standard"
             name="receiverId"
@@ -255,7 +254,7 @@ const Requests = () => {
             maxRows={4}
             margin="dense"
             id="content"
-            label="内容"
+            label="Content"
             variant="standard"
             fullWidth
             name="content"
@@ -264,8 +263,8 @@ const Requests = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleSubmitRequest}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSubmitRequest}>Create</Button>
         </DialogActions>
       </Dialog>
 
@@ -290,8 +289,8 @@ const Requests = () => {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseAcceptDialog}>キャンセル</Button>
-          <Button onClick={handleAcceptRequest}>保存</Button>
+          <Button onClick={handleCloseAcceptDialog}>Cancel</Button>
+          <Button onClick={handleAcceptRequest}>Save</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -33,13 +33,13 @@ const columns = [
   { field: "package_id", headerName: "Package_ID", width: 160 },
   {
     field: "error_report",
-    headerName: "エラー報告",
+    headerName: "Error Report",
     width: 130,
     renderCell: (params) => params.value,
   },
   {
     field: "move_to_center",
-    headerName: "保証センターへの運送",
+    headerName: "Guarantee",
     width: 180,
     renderCell: (params) => params.value,
   },
@@ -136,7 +136,7 @@ const ProductsSold = () => {
     return {
       ...prod,
       error_report: !isNotError ? (
-        <Tooltip title={`エラーの説明： ${errDesc}`}>
+        <Tooltip title={`Error Description: ${errDesc}`}>
           <FeedbackIcon color="error" />
         </Tooltip>
       ) : (
@@ -145,7 +145,7 @@ const ProductsSold = () => {
           startIcon={<ReportIcon />}
           onClick={() => handleClickOpenDialog(prod.prod_id, true)}
         >
-          報告
+          Report
         </Button>
       ),
       move_to_center: (
@@ -155,7 +155,7 @@ const ProductsSold = () => {
           onClick={() => handleClickOpenDialog(prod.prod_id, false)}
           disabled={!isNotError ? false : true}
         >
-          運送
+          Move
         </Button>
       ),
     };
@@ -174,7 +174,7 @@ const ProductsSold = () => {
       {/* dialog */}
       {isReport ? (
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>エラー報告</DialogTitle>
+          <DialogTitle>Error Report</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -198,7 +198,7 @@ const ProductsSold = () => {
               autoFocus
               margin="dense"
               id="errorDescription"
-              label="エラーの説明"
+              label="Error Description"
               fullWidth
               variant="standard"
               name="errorDescription"
@@ -207,19 +207,21 @@ const ProductsSold = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog}>キャンセル</Button>
-            <Button onClick={handleErrorReport}>報告</Button>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button color="error" onClick={handleErrorReport}>
+              Report
+            </Button>
           </DialogActions>
         </Dialog>
       ) : (
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>保証センターへの運送</DialogTitle>
+          <DialogTitle>Transport to Service Center</DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
               id="unitId"
               select
-              label="保証センター"
+              label="Service Center"
               fullWidth
               variant="standard"
               name="unitId"
@@ -237,7 +239,7 @@ const ProductsSold = () => {
               margin="dense"
               id="warehouseId"
               select
-              label="倉庫"
+              label="Warehouse"
               fullWidth
               variant="standard"
               name="warehouseId"
@@ -252,8 +254,8 @@ const ProductsSold = () => {
             </TextField>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog}>キャンセル</Button>
-            <Button onClick={handleMoveToCenter}>運送</Button>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleMoveToCenter}>Move</Button>
           </DialogActions>
         </Dialog>
       )}

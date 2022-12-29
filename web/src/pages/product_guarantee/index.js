@@ -33,14 +33,14 @@ const columns = [
   { field: "package_id", headerName: "Package_ID", width: 120 },
   {
     field: "error_status",
-    headerName: "状況",
+    headerName: "Status",
     width: 120,
     renderCell: ({ value }) => {
       const { errorStatus, errorDescription } = value;
       if (errorStatus === "error") {
         return (
           <Tooltip
-            title={`エラーの説明： ${errorDescription}`}
+            title={`Error Description: ${errorDescription}`}
             sx={{ cursor: "pointer" }}
           >
             <Chip label="error" color="error" />
@@ -51,7 +51,7 @@ const columns = [
       } else if (errorStatus === "failure") {
         return (
           <Tooltip
-            title={`エラーの説明： ${errorDescription}`}
+            title={`Error Description: ${errorDescription}`}
             sx={{ cursor: "pointer" }}
           >
             <Chip label="failure" color="neutral" />
@@ -62,19 +62,19 @@ const columns = [
   },
   {
     field: "edit_status",
-    headerName: "修理",
+    headerName: "Edit Status",
     width: 140,
     renderCell: (params) => params.value,
   },
   {
     field: "move_to_agent",
-    headerName: "エージェントに戻る",
+    headerName: "Back to Agent",
     width: 160,
     renderCell: (params) => params.value,
   },
   {
     field: "move_to_factory",
-    headerName: "工場に戻る",
+    headerName: "Back to Factory",
     width: 150,
     renderCell: (params) => params.value,
   },
@@ -196,19 +196,6 @@ const ProductGuarantee = () => {
           Edit Status
         </Button>
       ),
-      // fix: prod.soldStatus_product?.currError_id && (
-      // <Tooltip
-      //   title={`エラーの説明： ${prod.soldStatus_product?.error_soldStatus?.description}`}
-      // >
-      //     <Button
-      //       color="error"
-      //       startIcon={<BuildIcon />}
-      //       onClick={() => handleFixProduct(prod?.prod_id)}
-      //     >
-      //       修理
-      //     </Button>
-      //   </Tooltip>
-      // ),
       move_to_agent: (
         <Button
           color="primary"
@@ -216,7 +203,7 @@ const ProductGuarantee = () => {
           onClick={() => handleClickOpenDialog(prod, "STT-06")}
           disabled={currentErrorIsDone && currentErrorIsFixed ? false : true}
         >
-          運送
+          Move
         </Button>
       ),
       move_to_factory: (
@@ -226,7 +213,7 @@ const ProductGuarantee = () => {
           onClick={() => handleClickOpenDialog(prod, "STT-08")}
           disabled={currentErrorIsDone && !currentErrorIsFixed ? false : true}
         >
-          運送
+          Move
         </Button>
       ),
     };
@@ -247,8 +234,8 @@ const ProductGuarantee = () => {
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>{`${
           shippingData.statusCode === "STT-06"
-            ? "エージェントへの運送"
-            : "工場への運送"
+            ? "Back to Agent"
+            : "Back to Factory"
         }`}</DialogTitle>
         <DialogContent>
           <DialogContentText>{unitName}</DialogContentText>
@@ -256,7 +243,7 @@ const ProductGuarantee = () => {
             margin="dense"
             id="warehouseId"
             select
-            label="倉庫"
+            label="Warehouse"
             fullWidth
             variant="standard"
             name="warehouseId"
@@ -271,8 +258,8 @@ const ProductGuarantee = () => {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleMove}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleMove}>Move</Button>
         </DialogActions>
       </Dialog>
 
@@ -280,7 +267,7 @@ const ProductGuarantee = () => {
       <Dialog open={openFixedDialog} onClose={handleCloseFixedDialog}>
         <DialogTitle>Edit Error Status</DialogTitle>
         <DialogContent>
-          <DialogContentText>{`エラーの説明：${errorDesc}`}</DialogContentText>
+          <DialogContentText>{`Error Description: ${errorDesc}`}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -298,8 +285,8 @@ const ProductGuarantee = () => {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseFixedDialog}>キャンセル</Button>
-          <Button onClick={handleFixProduct}>保存</Button>
+          <Button onClick={handleCloseFixedDialog}>Cancel</Button>
+          <Button onClick={handleFixProduct}>Save</Button>
         </DialogActions>
       </Dialog>
     </>

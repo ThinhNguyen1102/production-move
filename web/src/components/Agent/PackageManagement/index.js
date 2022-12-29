@@ -30,8 +30,8 @@ const columns = [
   },
   {
     field: "move_to_factory",
-    headerName: "工場に戻る",
-    width: 180,
+    headerName: "Back to Factory",
+    width: 150,
     renderCell: (params) => params.value,
   },
   {
@@ -102,11 +102,11 @@ const AgentPackageManagement = () => {
         onClick={() => handleClickOpenDialog(pk)}
         disabled={pk.error_id ? false : true}
       >
-        運送
+        Move
       </Button>
     ),
     need_to_recall: pk.error_id && (
-      <Tooltip title={`エラーの説明： ${pk.error_package.description}`}>
+      <Tooltip title={`Error Description: ${pk.error_package.description}`}>
         <ReportIcon color="error" />
       </Tooltip>
     ),
@@ -124,14 +124,14 @@ const AgentPackageManagement = () => {
       </Box>
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>工場に戻る</DialogTitle>
+        <DialogTitle>Back to Factory</DialogTitle>
         <DialogContent>
           <DialogContentText>{unitName}</DialogContentText>
           <TextField
             margin="dense"
             id="warehouseId"
             select
-            label="倉庫"
+            label="Warehouse"
             fullWidth
             variant="standard"
             name="warehouseId"
@@ -146,8 +146,8 @@ const AgentPackageManagement = () => {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleMove}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleMove}>Move</Button>
         </DialogActions>
       </Dialog>
     </>
