@@ -19,32 +19,32 @@ const columns = [
   { field: "id", headerName: "ID", width: 50 },
   {
     field: "name",
-    headerName: "名前",
+    headerName: "Name",
     width: 150,
   },
   {
     field: "email",
-    headerName: "マールアドレス",
+    headerName: "Email",
     width: 250,
   },
   {
     field: "phone_number",
-    headerName: "電話番号",
+    headerName: "Phone Number",
     width: 130,
   },
   {
     field: "role",
-    headerName: "権限",
+    headerName: "Role",
     width: 80,
   },
   {
     field: "address",
-    headerName: "住所",
+    headerName: "Address",
     width: 280,
   },
   {
     field: "edit_account",
-    headerName: "編集",
+    headerName: "Edit",
     width: 100,
     renderCell: (params) => {
       return (
@@ -56,7 +56,7 @@ const columns = [
   },
   {
     field: "delete_account",
-    headerName: "削除",
+    headerName: "Delete",
     width: 100,
     renderCell: (params) => {
       return (
@@ -126,7 +126,7 @@ const Accounts = () => {
           sx={{ marginBottom: 3 }}
           onClick={handleClickOpenDialog}
         >
-          アカウント追加
+          Add account
         </Button>
 
         <DataGrid
@@ -139,13 +139,13 @@ const Accounts = () => {
 
       {/* dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>アカウント追加</DialogTitle>
+        <DialogTitle>Add account</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="名前"
+            label="Name"
             fullWidth
             variant="standard"
             name="name"
@@ -156,7 +156,7 @@ const Accounts = () => {
             autoFocus
             margin="dense"
             id="email"
-            label="メールアドレス"
+            label="Email"
             type="email"
             fullWidth
             variant="standard"
@@ -168,7 +168,7 @@ const Accounts = () => {
             autoFocus
             margin="dense"
             id="address"
-            label="住所"
+            label="Address"
             fullWidth
             variant="standard"
             name="address"
@@ -179,7 +179,7 @@ const Accounts = () => {
             autoFocus
             margin="dense"
             id="phone_number"
-            label="電話番号"
+            label="Phone Number"
             fullWidth
             variant="standard"
             name="phone_number"
@@ -191,7 +191,7 @@ const Accounts = () => {
             margin="dense"
             id="role"
             select
-            label="権限"
+            label="Role"
             fullWidth
             variant="standard"
             name="role"
@@ -208,7 +208,7 @@ const Accounts = () => {
             autoFocus
             margin="dense"
             id="password"
-            label="パスワード"
+            label="Password"
             type="password"
             fullWidth
             variant="standard"
@@ -220,7 +220,7 @@ const Accounts = () => {
             autoFocus
             margin="dense"
             id="confirmPassword"
-            label="パスワード（確認用）"
+            label="Confirm Password"
             type="password"
             fullWidth
             variant="standard"
@@ -230,8 +230,8 @@ const Accounts = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleSubmit}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
     </>

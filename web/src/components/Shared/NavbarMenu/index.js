@@ -104,7 +104,7 @@ function NavbarMenu() {
             >
               <AdbIcon />
               <Typography variant="h6" sx={{ fontSize: "18px" }}>
-                LOGO
+                BigCorp
               </Typography>
             </Link>
 
@@ -162,7 +162,7 @@ function NavbarMenu() {
             >
               <AdbIcon />
               <Typography variant="h6" sx={{ fontSize: "18px" }}>
-                LOGO
+                BigCorp
               </Typography>
             </Link>
 
@@ -214,14 +214,14 @@ function NavbarMenu() {
                 <MenuItem onClick={handleClickOpenDialog}>
                   <EditIcon />
                   <Typography ml={1} textAlign="center">
-                    パスワード変更
+                    Change Password
                   </Typography>
                 </MenuItem>
 
                 <MenuItem onClick={() => dispatch(logout())}>
                   <LogoutIcon />
                   <Typography ml={1} textAlign="center">
-                    ログアウト
+                    Logout
                   </Typography>
                 </MenuItem>
               </Menu>
