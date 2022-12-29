@@ -27,6 +27,11 @@ const statisticReducer = (state = initialState, action) => {
         ...state,
         statisticProduct: action.payload,
       };
+    case STATISTIC.GET_CENTER_STATISTIC_PRODUCT:
+      return {
+        ...state,
+        statisticProduct: action.payload,
+      };
     default:
       return state;
   }
