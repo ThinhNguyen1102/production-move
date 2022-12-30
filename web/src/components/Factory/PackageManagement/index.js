@@ -121,7 +121,7 @@ const FactoryPackageManagement = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>{`Recall: ${errorReportData.packageId}`}</DialogTitle>
         <DialogContent>
           <TextField

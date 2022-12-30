@@ -143,7 +143,7 @@ const AgentPackageManagement = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Back to Factory</DialogTitle>
         <DialogContent>
           <DialogContentText>{unitName}</DialogContentText>

@@ -137,7 +137,7 @@ const ProductLinePackages = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Export to Agent</DialogTitle>
         <DialogContent>
           <TextField

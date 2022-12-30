@@ -155,7 +155,7 @@ const Accounts = () => {
       </Box>
 
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Add account</DialogTitle>
         <DialogContent>
           <TextField

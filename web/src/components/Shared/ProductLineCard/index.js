@@ -174,7 +174,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
         </Dialog>
       )}
       {auth.user.role === 2 && (
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
           <DialogTitle>Create Package</DialogTitle>
           <DialogContent>
             <DialogContentText mb={1}>
