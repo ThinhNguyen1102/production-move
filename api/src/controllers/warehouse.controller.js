@@ -7,7 +7,7 @@ const warehouseController = {
       const warehouses = await db.Warehouse.findAll();
 
       res.status(200).json({
-        message: "get all warehouse successfully",
+        message: "get all warehouse successfully.",
         success: true,
         result: warehouses,
       });
@@ -28,13 +28,13 @@ const warehouseController = {
         throw err;
       }
       if (warehouse.unit_manage_id !== req.userId) {
-        const err = new Error("you are not allowed.");
+        const err = new Error("Warehouse is not owned by the unit.");
         err.statusCode = 404;
         throw err;
       }
       res.status(200).json({
         success: true,
-        message: "get warehouse successfully",
+        message: "Get warehouse by id successfully.",
         result: warehouse,
       });
     } catch (err) {
@@ -54,9 +54,9 @@ const warehouseController = {
       });
 
       res.status(200).json({
-        message: "get all warehouse with unitId successfully",
+        message: "get all warehouse by unitId successfully",
         success: true,
-        result: warehouses,
+        data: { warehouses },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -66,17 +66,18 @@ const warehouseController = {
     }
   },
   getAllOwnWH: async (req, res, next) => {
+    console.log(req.userId);
     try {
       const warehouses = await db.Warehouse.findAll({
         where: {
-          unit_manage_id: req.userId,
+          unit_manage_id: +req.userId,
         },
       });
 
       res.status(200).json({
-        message: "get all warehouse with unitId successfully",
+        message: "get own warehouse by unitId successfully",
         success: true,
-        result: warehouses,
+        data: { warehouses },
       });
     } catch (err) {
       if (!err.statusCode) {
@@ -103,8 +104,8 @@ const warehouseController = {
       const warehouseSaved = await db.Warehouse.create(warehouse);
       res.status(200).json({
         success: true,
-        message: "create new productLine successfully",
-        reault: {
+        message: "Create new warehouse successfully.",
+        data: {
           newWarehouse: warehouseSaved,
         },
       });

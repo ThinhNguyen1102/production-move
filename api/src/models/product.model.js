@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     isSold: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false,
     },
     createdAt: {

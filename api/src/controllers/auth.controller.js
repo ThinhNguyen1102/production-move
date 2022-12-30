@@ -39,29 +39,14 @@ const authController = {
         password: hashedPw,
       };
 
-      await db.User.create(newUser);
-
-      const access_token = createAccessToken({
-        id: newUser.id,
-        role: newUser.role,
-      });
-      const refresh_token = createRefreshToken({
-        id: newUser.id,
-        role: newUser.role,
-      });
-
-      res.cookie("refreshtoken", refresh_token, {
-        httpOnly: true,
-        path: "/api/v1/auth/refresh_token",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+      const createdUser = await db.User.create(newUser);
+      createdUser.password = "";
 
       return res.status(201).json({
-        message: "Register success.",
+        message: "Register account successfully.",
         success: true,
         data: {
-          access_token,
-          user: newUser,
+          user: createdUser,
         },
       });
     } catch (err) {
@@ -114,7 +99,7 @@ const authController = {
       });
 
       return res.json({
-        message: "Login success.",
+        message: "Login successfully.",
         success: true,
         data: {
           access_token,
@@ -168,7 +153,7 @@ const authController = {
             role: result.role,
           });
           return res.json({
-            message: "Generate access token success",
+            message: "Generate access token successfully.",
             success: true,
             data: { access_token, user },
           });
@@ -192,7 +177,7 @@ const authController = {
     const { newPassword, oldPassword } = req.body;
 
     try {
-      const user = await db.User.findBypk(req.userId);
+      const user = await db.User.findByPk(req.userId);
       if (!user) {
         const err = new Error("Please login again");
         err.statusCode = 401;
@@ -211,7 +196,7 @@ const authController = {
 
       await user.save();
       res.status(200).json({
-        message: "Change password success.",
+        message: "Change password successfully.",
         success: true,
       });
     } catch (err) {

@@ -1,12 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
   const Package = sequelize.define("package", {
-    id: {
+    package_id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    quantity_in_stock: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    status_code: {
       type: DataTypes.STRING,
       allowNull: false,
     },

@@ -1,13 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-  const UnSoldStatus = sequelize.define("unsold_status", {
+  const ErrorSoldStatus = sequelize.define("error_soldStt", {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    status_code: {
-      type: DataTypes.STRING,
+    isDone: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+    isFixed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false,
     },
     createdAt: {
@@ -20,5 +26,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  return UnSoldStatus;
+  return ErrorSoldStatus;
 };
