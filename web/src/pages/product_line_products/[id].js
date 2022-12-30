@@ -13,6 +13,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
+import BackButton from "../../components/Shared/BackButton";
 
 const columns = [
   { field: "prod_id", headerName: "Product_ID", width: 160 },
@@ -93,7 +94,8 @@ const ProductLineProducts = () => {
   }));
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
+        <BackButton to="/product_line" />
         <DataGrid
           rows={rows}
           columns={columns}

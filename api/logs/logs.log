@@ -30,3 +30,4 @@
 30-12-2022	47:25:12-------POST-----/api/v1/auth/register?email=admin01@gmail.com&name=admin01&password=123456&phone_number=0378592068&role=1&address=144%20-%20Xuan%20Thuy%20-%20Cau%20Giay-----Email address already exists.
 30-12-2022	37:55:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
 30-12-2022	41:55:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
+30-12-2022	21:29:13-------POST-----/api/v1/auth/login-----Incorrect email or password.

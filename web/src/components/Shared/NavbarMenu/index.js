@@ -238,7 +238,7 @@ function NavbarMenu() {
       </AppBar>
 
       {/* change password dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Change Password</DialogTitle>
         <DialogContent>
           <TextField

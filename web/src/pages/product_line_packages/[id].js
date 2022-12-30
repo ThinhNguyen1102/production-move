@@ -15,6 +15,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
 import SendIcon from "@mui/icons-material/Send";
+import BackButton from "../../components/Shared/BackButton";
 
 const columns = [
   { field: "package_id", headerName: "Package_ID", width: 160 },
@@ -127,7 +128,8 @@ const ProductLinePackages = () => {
   }));
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
+        <BackButton to="/product_line" />
         <DataGrid
           rows={rows}
           columns={columns}
