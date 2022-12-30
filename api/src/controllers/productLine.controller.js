@@ -15,7 +15,7 @@ const productLineController = {
       res.status(200).json({
         success: true,
         message: "Get productline successfully.",
-        result: productLine,
+        data: { productLine },
       });
     } catch (err) {
       if (!err.statusCode) {

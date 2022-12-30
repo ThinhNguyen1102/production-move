@@ -10,16 +10,25 @@ const columns = [
   { field: "prod_id", headerName: "Product_ID", width: 110 },
   { field: "package_id", headerName: "Package_ID", width: 110 },
   {
+    field: "productLine_product",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
+  },
+  {
     field: "error_status",
     headerName: "Status",
-    width: 120,
+    width: 130,
     renderCell: ({ value }) => {
       return (
         <Tooltip
           title={`Error Description: ${value}`}
           sx={{ cursor: "pointer" }}
         >
-          <Chip label="failure" color="neutral" />
+          <Chip label="Unrepairable" color="neutral" />
         </Tooltip>
       );
     },
@@ -55,6 +64,12 @@ const ErrorProducts = () => {
           getRowId={(row) => row.prod_id}
           pageSize={11}
           rowsPerPageOptions={[11]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
     </>
