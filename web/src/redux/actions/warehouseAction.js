@@ -4,7 +4,6 @@ import { postDataAPI, getDataAPI, deleteDataAPI } from "../../utils/fetchData";
 export const createWarehouses =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("WAREHOUSE: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI("warehouses", data, auth.token);
@@ -78,7 +77,6 @@ export const deleteWarehouseById =
   async (dispatch) => {
     try {
       const res = await deleteDataAPI(`warehouses/${id}`, auth.token);
-      console.log(res);
       dispatch({
         type: WAREHOUSE.DELETE_WAREHOUSE,
         payload: id,

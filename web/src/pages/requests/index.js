@@ -50,10 +50,6 @@ const Requests = () => {
   );
   const { requestId, isAccept } = acceptRequestData;
 
-  const isNotBlankFields = () => {
-    return receiverId && role ? true : false;
-  };
-
   useEffect(() => {
     if (showRequestState === "receive") {
       dispatch(getAllRequestReceive({ auth }));
@@ -62,12 +58,18 @@ const Requests = () => {
     }
   }, [dispatch, showRequestState]);
 
+  const isNotBlankFields = () => {
+    return receiverId && role ? true : false;
+  };
+
   const onChangeRequestState = (e) => {
     setShowRequestState(e.target.value);
   };
+
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setRequestData(initialRequestState);
@@ -77,6 +79,7 @@ const Requests = () => {
     setAcceptRequestData({ ...acceptRequestData, requestId });
     setOpenAcceptDialog(true);
   };
+
   const handleCloseAcceptDialog = () => {
     setOpenAcceptDialog(false);
     setAcceptRequestData(initialAcceptRequestState);
@@ -108,6 +111,14 @@ const Requests = () => {
   const handleAcceptRequest = () => {
     dispatch(acceptRequest({ data: acceptRequestData, auth }));
     handleCloseAcceptDialog();
+  };
+
+  const generateRequestStatus = (isDone, isAccept) => {
+    if (!isDone) {
+      return "waiting";
+    } else {
+      return isAccept ? "approved" : "refused";
+    }
   };
 
   const columns = [
@@ -153,13 +164,6 @@ const Requests = () => {
     },
   ];
 
-  const generateRequestStatus = (isDone, isAccept) => {
-    if (!isDone) {
-      return "waiting";
-    } else {
-      return isAccept ? "approved" : "refused";
-    }
-  };
   const rows = request.requests?.map((req) => ({
     ...req,
     request_status: generateRequestStatus(req.isDone, req.isAccept),

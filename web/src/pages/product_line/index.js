@@ -37,6 +37,11 @@ const ProductLine = () => {
     (state) => state
   );
   const dispatch = useDispatch();
+
+  const [productLineData, setProductLineData] = useState(initialState);
+  const { model, ram, memory, color, description, price } = productLineData;
+  const [openDialog, setOpenDialog] = useState(false);
+
   useEffect(() => {
     if (auth.user.role === 3) {
       dispatch(getAllOwnProductLine({ auth }));
@@ -46,31 +51,20 @@ const ProductLine = () => {
     dispatch(getAllOwnWarehouse({ auth }));
   }, [dispatch]);
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setProductLineData({ ...initialState });
-    dispatch(resetImage());
-    setOpenDialog(false);
-  };
-  const handleSubmit = () => {
-    dispatch(
-      createProductLine({
-        data: { ...productLineData, image_url: upload.images?.secure_url },
-        auth,
-      })
-    );
-    handleCloseDialog();
-  };
-
-  const [productLineData, setProductLineData] = useState(initialState);
-  const { model, ram, memory, color, description, price } = productLineData;
   const isNotBlankFields = () => {
     return model.trim() && ram && memory && color.trim() && price
       ? true
       : false;
+  };
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setProductLineData({ ...initialState });
+    dispatch(resetImage());
+    setOpenDialog(false);
   };
 
   const onChangeDataInput = (e) => {
@@ -93,6 +87,17 @@ const ProductLine = () => {
     const imageUrl = upload.images?.secure_url;
     dispatch(destroyImage({ data: { imageUrl }, auth }));
   };
+
+  const handleSubmit = () => {
+    dispatch(
+      createProductLine({
+        data: { ...productLineData, image_url: upload.images?.secure_url },
+        auth,
+      })
+    );
+    handleCloseDialog();
+  };
+
   return (
     <>
       <Box p={3}>

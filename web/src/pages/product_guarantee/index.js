@@ -114,13 +114,13 @@ const ProductGuarantee = () => {
   const [fixedData, setFixedData] = useState(initialFixedState);
   const [errorDesc, setErrorDesc] = useState("");
   const { isFixed } = fixedData;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
 
   useEffect(() => {
     dispatch(getAllOwnProductSold({ auth }));
   }, [dispatch]);
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
   const validateField = () => {
     if (shippingData.warehouseId === "") {
       setFieldValidator({
@@ -155,10 +155,22 @@ const ProductGuarantee = () => {
     setUnitName(unitSelected?.name);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setFieldValidator(initialFieldValidator);
     setShippingData(initialShippingState);
     setOpenDialog(false);
+  };
+
+  const handleClickOpenFixedDialog = (prod) => {
+    setFixedData({ ...fixedData, prodId: prod?.prod_id });
+    setErrorDesc(prod.soldStatus_product?.errors[0]?.description);
+    setOpenFixedDialog(true);
+  };
+
+  const handleCloseFixedDialog = () => {
+    setFixedData(initialFixedState);
+    setOpenFixedDialog(false);
   };
 
   const onChangeShippingDataInput = (e) => {
@@ -168,15 +180,6 @@ const ProductGuarantee = () => {
     });
   };
 
-  const handleClickOpenFixedDialog = (prod) => {
-    setFixedData({ ...fixedData, prodId: prod?.prod_id });
-    setErrorDesc(prod.soldStatus_product?.errors[0]?.description);
-    setOpenFixedDialog(true);
-  };
-  const handleCloseFixedDialog = () => {
-    setFixedData(initialFixedState);
-    setOpenFixedDialog(false);
-  };
   const onChangeFixedDataInput = (e) => {
     setFixedData({
       ...fixedData,
@@ -188,6 +191,7 @@ const ProductGuarantee = () => {
     dispatch(fixProduct({ data: { prodId: fixedData.prodId, isFixed }, auth }));
     handleCloseFixedDialog();
   };
+
   const handleMove = () => {
     if (!validateField()) {
       dispatch(moveProduct({ data: shippingData, auth }));

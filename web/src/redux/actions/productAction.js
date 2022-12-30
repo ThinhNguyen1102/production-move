@@ -78,7 +78,6 @@ export const reportErrorProduct =
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(`products/guarentee`, data, auth.token);
-      console.log("res.data.soldStatusSaved: ", res.data.soldStatusSaved);
       dispatch({
         type: PRODUCT.REPORT_PRODUCT,
         payload: res.data.soldStatusSaved,
@@ -105,7 +104,6 @@ export const moveProduct =
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(`products/move`, data, auth.token);
-      console.log("res.data.soldStatusSaved: ", res.data.soldStatusSaved);
       dispatch({
         type: PRODUCT.MOVE_PRODUCT,
         payload: res.data.product,
@@ -130,7 +128,6 @@ export const fixProduct =
   ({ data, auth }) =>
   async (dispatch) => {
     try {
-      console.log(data);
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(
         `products/guarentee/fixed`,

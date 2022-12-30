@@ -39,23 +39,23 @@ function NavbarMenu() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const handleClickOpenDialog = () => {
-    handleCloseUserMenu();
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setChangePasswordData({ ...initialState });
-    setOpenDialog(false);
-  };
-
   const [changePasswordData, setChangePasswordData] = useState(initialState);
-
   const { oldPassword, newPassword, confirmNewPassword } = changePasswordData;
 
   const isNotBlankFields = () => {
     return oldPassword.trim() && newPassword.trim() && confirmNewPassword.trim()
       ? true
       : false;
+  };
+
+  const handleClickOpenDialog = () => {
+    handleCloseUserMenu();
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setChangePasswordData({ ...initialState });
+    setOpenDialog(false);
   };
 
   const onChangeDataInput = (e) => {

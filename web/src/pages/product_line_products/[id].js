@@ -55,35 +55,7 @@ const ProductLineProducts = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllOwnProductByPl({ data: { productLineId: id }, auth }));
-    dispatch(getProductLineById({ data: { productLineId: id }, auth }));
-  }, [dispatch]);
-
   const [openDialog, setOpenDialog] = useState(false);
-  const handleClickOpenDialog = (prodId) => {
-    chooseProduct(prodId);
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setSalesData(initialState);
-    setOpenDialog(false);
-  };
-
-  const chooseProduct = (prodId) => {
-    setSalesData({
-      ...salesData,
-      prodId,
-    });
-  };
-
-  const handleSellProduct = () => {
-    if (!validateField()) {
-      dispatch(sellProduct({ data: salesData, auth }));
-      handleCloseDialog();
-    }
-  };
-
   const [salesData, setSalesData] = useState(initialState);
   const {
     prodId,
@@ -92,8 +64,13 @@ const ProductLineProducts = () => {
     customerAddress,
     customerEmail,
   } = salesData;
-
   const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
+  useEffect(() => {
+    dispatch(getAllOwnProductByPl({ data: { productLineId: id }, auth }));
+    dispatch(getProductLineById({ data: { productLineId: id }, auth }));
+  }, [dispatch]);
+
   const validateField = () => {
     if (
       customerName.trim() === "" ||
@@ -113,6 +90,31 @@ const ProductLineProducts = () => {
     return false;
   };
 
+  const handleClickOpenDialog = (prodId) => {
+    chooseProduct(prodId);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setSalesData(initialState);
+    setOpenDialog(false);
+  };
+
+  const chooseProduct = (prodId) => {
+    setSalesData({
+      ...salesData,
+      prodId,
+    });
+  };
+
+  const handleSellProduct = () => {
+    if (!validateField()) {
+      dispatch(sellProduct({ data: salesData, auth }));
+      handleCloseDialog();
+    }
+  };
+
   const onChangeDataInput = (e) => {
     setSalesData({
       ...salesData,
@@ -124,6 +126,7 @@ const ProductLineProducts = () => {
     ...prod,
     sell_product: { onClick: () => handleClickOpenDialog(prod.prod_id) },
   }));
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 175px)", width: "100%" }}>
@@ -134,7 +137,7 @@ const ProductLineProducts = () => {
           sx={{ fontWeight: 500, textAlign: "center" }}
           gutterBottom
         >
-          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram} - Memory: ${productLine.productLine.memory} - Color: ${productLine.productLine.color}`}
+          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram}GB - Memory: ${productLine.productLine.memory}GB - Color: ${productLine.productLine.color}`}
         </Typography>
         <DataGrid
           rows={rows}

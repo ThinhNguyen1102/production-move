@@ -4,7 +4,6 @@ import { postDataAPI, getDataAPI, deleteDataAPI } from "../../utils/fetchData";
 export const createProductLine =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("PRODUCT_LINE: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI("productlines", data, auth.token);
@@ -78,7 +77,6 @@ export const deleteProductLineById =
   async (dispatch) => {
     try {
       const res = await deleteDataAPI(`productlines/${id}`, auth.token);
-      console.log(res);
       dispatch({
         type: PRODUCT_LINE.DELETE_PRODUCT_LINE,
         payload: id,
