@@ -32,6 +32,15 @@ const columns = [
     width: 150,
   },
   {
+    field: "productLine_package",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
+  },
+  {
     field: "unit_manage",
     headerName: "Unit Manage",
     width: 150,
@@ -118,6 +127,12 @@ const FactoryPackageManagement = () => {
           getRowId={(row) => row.package_id}
           pageSize={12}
           rowsPerPageOptions={[12]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}

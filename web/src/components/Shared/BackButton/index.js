@@ -12,7 +12,7 @@ const BackButton = ({ to }) => {
         textDecoration: "none",
       }}
     >
-      <IconButton sx={{ marginBottom: 1 }} color="primary">
+      <IconButton color="primary">
         <ArrowBackIcon fontSize="large" />
       </IconButton>
     </Link>

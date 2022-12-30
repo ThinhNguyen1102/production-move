@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOwnProductSold } from "../../redux/actions/productAction";
-import { Button, Chip, Tooltip } from "@mui/material";
+import { Button, Chip, Tooltip, Typography } from "@mui/material";
 import BackButton from "../../components/Shared/BackButton";
 
 const columns = [
@@ -39,8 +39,16 @@ const ErrorProducts = () => {
   });
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 150px)", width: "100%" }}>
         <BackButton to="/" />
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ fontWeight: 500, textAlign: "center" }}
+          gutterBottom
+        >
+          Unrepairable defective products
+        </Typography>
         <DataGrid
           rows={rows}
           columns={columns}

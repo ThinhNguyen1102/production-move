@@ -212,11 +212,11 @@ const Requests = () => {
               py: "8px",
             },
           }}
+          getRowHeight={() => "auto"}
           rows={rows}
           columns={columns}
           pageSize={12}
           rowsPerPageOptions={[12]}
-          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
