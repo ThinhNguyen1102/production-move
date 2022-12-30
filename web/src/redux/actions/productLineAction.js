@@ -4,7 +4,6 @@ import { postDataAPI, getDataAPI, deleteDataAPI } from "../../utils/fetchData";
 export const createProductLine =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("PRODUCT_LINE: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI("productlines", data, auth.token);
@@ -78,7 +77,6 @@ export const deleteProductLineById =
   async (dispatch) => {
     try {
       const res = await deleteDataAPI(`productlines/${id}`, auth.token);
-      console.log(res);
       dispatch({
         type: PRODUCT_LINE.DELETE_PRODUCT_LINE,
         payload: id,
@@ -93,6 +91,30 @@ export const deleteProductLineById =
       dispatch({
         type: ALERT,
         payload: { error: err.response.data.msg },
+      });
+    }
+  };
+
+export const getProductLineById =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(
+        `productlines/${data.productLineId}`,
+        auth.token
+      );
+      dispatch({
+        type: PRODUCT_LINE.GET_A_PRODUCT_LINE,
+        payload: res.data.productLine,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.errorList[0].msg,
+        },
       });
     }
   };

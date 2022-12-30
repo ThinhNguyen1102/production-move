@@ -79,11 +79,7 @@ const initialState = {
 };
 const Accounts = () => {
   const { auth, user } = useSelector((state) => state);
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllUser({ auth }));
-  }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
   const [matchPassword, setMatchPassword] = useState("");
@@ -98,24 +94,9 @@ const Accounts = () => {
     confirmPassword,
   } = userData;
 
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setMatchPassword("");
-    setUserData(initialState);
-    setOpenDialog(false);
-  };
-  const handleSubmit = () => {
-    if (confirmPassword.trim() !== password.trim()) {
-      setMatchPassword("Please make sure passwords match");
-    } else {
-      dispatch(createUser({ data: userData, auth }));
-      handleCloseDialog();
-    }
-  };
-
-  const rows = user.users;
+  useEffect(() => {
+    dispatch(getAllUser({ auth }));
+  }, [dispatch]);
 
   const isNotBlankFields = () => {
     return name.trim() &&
@@ -127,6 +108,26 @@ const Accounts = () => {
       ? true
       : false;
   };
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setMatchPassword("");
+    setUserData(initialState);
+    setOpenDialog(false);
+  };
+
+  const handleSubmit = () => {
+    if (confirmPassword.trim() !== password.trim()) {
+      setMatchPassword("Please make sure passwords match");
+    } else {
+      dispatch(createUser({ data: userData, auth }));
+      handleCloseDialog();
+    }
+  };
+
   const onChangeDataInput = (e) => {
     setUserData({
       ...userData,
@@ -134,6 +135,7 @@ const Accounts = () => {
     });
   };
 
+  const rows = user.users;
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
@@ -155,7 +157,7 @@ const Accounts = () => {
       </Box>
 
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Add account</DialogTitle>
         <DialogContent>
           <TextField

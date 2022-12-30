@@ -48,7 +48,6 @@ export const getAllRequestSend =
 export const createRequest =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("data: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI("requests", data, auth.token);
@@ -76,7 +75,6 @@ export const createRequest =
 export const acceptRequest =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("data: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI("requests/accept", data, auth.token);

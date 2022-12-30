@@ -25,11 +25,20 @@ import { typeErrorCodeList } from "../../../utils/constants";
 import ReportIcon from "@mui/icons-material/Report";
 
 const columns = [
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
     field: "quantity_in_stock",
     headerName: "Quantity in Stock",
     width: 150,
+  },
+  {
+    field: "productLine_package",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
   },
   {
     field: "unit_manage",
@@ -54,12 +63,15 @@ const FactoryPackageManagement = () => {
 
   const [errorReportData, setErrorReportData] = useState(initialReportState);
   const [openDialog, setOpenDialog] = useState(false);
-
   const { errorDescription, typeErrorCode } = errorReportData;
 
   useEffect(() => {
     dispatch(getAllPackageByCurrentFactory({ auth }));
   }, [dispatch]);
+
+  const isNotBlankFields = () => {
+    return errorDescription.trim() && typeErrorCode ? true : false;
+  };
 
   const choosePackage = (packageId) => {
     setErrorReportData({
@@ -69,11 +81,11 @@ const FactoryPackageManagement = () => {
   };
 
   const handleClickOpenDialog = (pk) => {
-    console.log(pk.package_id);
     choosePackage(pk.package_id);
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setErrorReportData(initialReportState);
     setOpenDialog(false);
   };
 
@@ -106,6 +118,7 @@ const FactoryPackageManagement = () => {
       </Tooltip>
     ),
   }));
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
@@ -115,10 +128,16 @@ const FactoryPackageManagement = () => {
           getRowId={(row) => row.package_id}
           pageSize={12}
           rowsPerPageOptions={[12]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>{`Recall: ${errorReportData.packageId}`}</DialogTitle>
         <DialogContent>
           <TextField
@@ -153,7 +172,11 @@ const FactoryPackageManagement = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button color="error" onClick={handleRecall}>
+          <Button
+            color="error"
+            onClick={handleRecall}
+            disabled={!isNotBlankFields()}
+          >
             Recall
           </Button>
         </DialogActions>

@@ -25,6 +25,7 @@ import {
 } from "../../redux/actions/requestAction";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { roles } from "../../utils/constants";
+import moment from "moment";
 
 const initialRequestState = {
   receiverId: "",
@@ -32,7 +33,7 @@ const initialRequestState = {
 };
 const initialAcceptRequestState = {
   requestId: "",
-  isAccept: "",
+  isAccept: "true",
 };
 const Requests = () => {
   const { auth, request, user } = useSelector((state) => state);
@@ -49,10 +50,6 @@ const Requests = () => {
   );
   const { requestId, isAccept } = acceptRequestData;
 
-  const isNotBlankFields = () => {
-    return receiverId && role ? true : false;
-  };
-
   useEffect(() => {
     if (showRequestState === "receive") {
       dispatch(getAllRequestReceive({ auth }));
@@ -61,22 +58,31 @@ const Requests = () => {
     }
   }, [dispatch, showRequestState]);
 
+  const isNotBlankFields = () => {
+    return receiverId && role ? true : false;
+  };
+
   const onChangeRequestState = (e) => {
     setShowRequestState(e.target.value);
   };
+
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setRequestData(initialRequestState);
   };
 
   const handleClickOpenAcceptDialog = (requestId) => {
     setAcceptRequestData({ ...acceptRequestData, requestId });
     setOpenAcceptDialog(true);
   };
+
   const handleCloseAcceptDialog = () => {
     setOpenAcceptDialog(false);
+    setAcceptRequestData(initialAcceptRequestState);
   };
 
   const onChangeRoleInput = (e) => {
@@ -107,6 +113,14 @@ const Requests = () => {
     handleCloseAcceptDialog();
   };
 
+  const generateRequestStatus = (isDone, isAccept) => {
+    if (!isDone) {
+      return "waiting";
+    } else {
+      return isAccept ? "approved" : "refused";
+    }
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 60 },
     {
@@ -121,7 +135,7 @@ const Requests = () => {
     {
       field: "content",
       headerName: "Content",
-      width: 300,
+      width: 250,
     },
     {
       field: "request_status",
@@ -139,19 +153,17 @@ const Requests = () => {
     },
     {
       field: "edit_status",
-      headerName: "Edit Status",
-      width: 140,
+      headerName: showRequestState === "receive" ? "Edit Status" : "",
+      width: showRequestState === "receive" ? 140 : 0,
       renderCell: (params) => params.value,
+    },
+    {
+      field: "time",
+      headerName: "Created At",
+      width: 140,
     },
   ];
 
-  const generateRequestStatus = (isDone, isAccept) => {
-    if (!isDone) {
-      return "waiting";
-    } else {
-      return isAccept ? "approved" : "refused";
-    }
-  };
   const rows = request.requests?.map((req) => ({
     ...req,
     request_status: generateRequestStatus(req.isDone, req.isAccept),
@@ -163,6 +175,7 @@ const Requests = () => {
         Edit Status
       </Button>
     ),
+    time: moment(req?.createdAt).fromNow(),
   }));
   return (
     <>
@@ -203,15 +216,15 @@ const Requests = () => {
               py: "8px",
             },
           }}
+          getRowHeight={() => "auto"}
           rows={rows}
           columns={columns}
           pageSize={12}
           rowsPerPageOptions={[12]}
-          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Create Request</DialogTitle>
         <DialogContent>
           <TextField
@@ -275,7 +288,11 @@ const Requests = () => {
       </Dialog>
 
       {/* accept dialog */}
-      <Dialog open={openAcceptDialog} onClose={handleCloseAcceptDialog}>
+      <Dialog
+        open={openAcceptDialog}
+        onClose={handleCloseAcceptDialog}
+        fullWidth
+      >
         <DialogTitle>Edit Status Request</DialogTitle>
         <DialogContent>
           <TextField

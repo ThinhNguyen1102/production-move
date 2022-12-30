@@ -29,8 +29,17 @@ import SendIcon from "@mui/icons-material/Send";
 import { typeErrorCodeList } from "../../utils/constants";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 160 },
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "prod_id", headerName: "Product_ID", width: 110 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
+  {
+    field: "productLine_product",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
+  },
   {
     field: "error_report",
     headerName: "Error Report",
@@ -56,6 +65,10 @@ const initialShippingState = {
   warehouseId: "",
   statusCode: "STT-05",
 };
+const initialFieldValidator = {
+  unit: "",
+  warehouse: "",
+};
 const ProductsSold = () => {
   const { auth, product, user, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -67,12 +80,38 @@ const ProductsSold = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [isReport, setIsReport] = useState(true);
+  const [errorReportData, setErrorReportData] = useState(initialReportState);
+  const [shippingData, setShippingData] = useState(initialShippingState);
+  const { unitId, warehouseId } = shippingData;
+  const { errorDescription, typeErrorCode } = errorReportData;
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
+  const validateField = () => {
+    if (unitId === "" || warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        unit: unitId === "" ? "Please select a unit" : "",
+        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const isNotBlankFields = () => {
+    return errorDescription.trim() && typeErrorCode ? true : false;
+  };
+
   const handleClickOpenDialog = (prodId, isReport) => {
     chooseProduct(prodId);
     setIsReport(isReport);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
+    setErrorReportData(initialReportState);
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialShippingState);
     setOpenDialog(false);
   };
 
@@ -86,12 +125,6 @@ const ProductsSold = () => {
       prodId,
     });
   };
-
-  const [errorReportData, setErrorReportData] = useState(initialReportState);
-  const [shippingData, setShippingData] = useState(initialShippingState);
-  const { unitId, warehouseId } = shippingData;
-
-  const { errorDescription, typeErrorCode } = errorReportData;
 
   const onChangeErrorReportDataInput = (e) => {
     setErrorReportData({
@@ -118,8 +151,10 @@ const ProductsSold = () => {
   };
 
   const handleMoveToCenter = () => {
-    dispatch(moveProduct({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(moveProduct({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const rows = product.products.map((prod) => {
@@ -160,6 +195,7 @@ const ProductsSold = () => {
       ),
     };
   });
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
@@ -169,11 +205,17 @@ const ProductsSold = () => {
           getRowId={(row) => row.prod_id}
           pageSize={12}
           rowsPerPageOptions={[12]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
       {isReport ? (
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
           <DialogTitle>Error Report</DialogTitle>
           <DialogContent>
             <TextField
@@ -208,13 +250,17 @@ const ProductsSold = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button color="error" onClick={handleErrorReport}>
+            <Button
+              color="error"
+              onClick={handleErrorReport}
+              disabled={!isNotBlankFields()}
+            >
               Report
             </Button>
           </DialogActions>
         </Dialog>
       ) : (
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
           <DialogTitle>Transport to Service Center</DialogTitle>
           <DialogContent>
             <TextField
@@ -227,6 +273,8 @@ const ProductsSold = () => {
               name="unitId"
               value={unitId}
               onChange={onChangeShippingDataInput}
+              error={fieldValidator.unit ? true : false}
+              helperText={fieldValidator.unit}
             >
               {user.users.map((center) => (
                 <MenuItem key={center.id} value={center.id}>
@@ -245,6 +293,8 @@ const ProductsSold = () => {
               name="warehouseId"
               value={warehouseId}
               onChange={onChangeShippingDataInput}
+              error={fieldValidator.warehouse ? true : false}
+              helperText={fieldValidator.warehouse}
             >
               {warehouse.warehouses.map((wh) => (
                 <MenuItem key={wh.id} value={wh.id}>

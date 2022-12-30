@@ -26,6 +26,28 @@ export default function ProductLineCard({ productLine, warehouses }) {
   const navigate = useNavigate();
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [packageData, setPackageData] = useState({
+    productLineId: productLine.id,
+    warehouseId: "",
+    quantity: "",
+  });
+  const { productLineId, warehouseId, quantity } = packageData;
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
+  const validateField = () => {
+    if (warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        warehouse: "Please select a warehouse",
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const isNotBlankFields = () => {
+    return quantity && quantity !== 0 ? true : false;
+  };
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -44,28 +66,6 @@ export default function ProductLineCard({ productLine, warehouses }) {
   const handleDeleteProductLine = () => {
     handleCloseDialog();
     dispatch(deleteProductLineById({ auth, id: productLine.id }));
-  };
-
-  const [packageData, setPackageData] = useState({
-    productLineId: productLine.id,
-    warehouseId: "",
-    quantity: "",
-  });
-  const { productLineId, warehouseId, quantity } = packageData;
-  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
-  const validateField = () => {
-    if (warehouseId === "") {
-      setFieldValidator({
-        ...fieldValidator,
-        warehouse: "Please select a warehouse",
-      });
-      return true;
-    }
-    return false;
-  };
-
-  const isNotBlankFields = () => {
-    return quantity && quantity !== 0 ? true : false;
   };
 
   const onChangeDataInput = (e) => {
@@ -174,7 +174,7 @@ export default function ProductLineCard({ productLine, warehouses }) {
         </Dialog>
       )}
       {auth.user.role === 2 && (
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
           <DialogTitle>Create Package</DialogTitle>
           <DialogContent>
             <DialogContentText mb={1}>

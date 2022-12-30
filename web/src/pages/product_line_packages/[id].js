@@ -6,7 +6,7 @@ import {
   movePackage,
 } from "../../redux/actions/packageAction";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, MenuItem, TextField } from "@mui/material";
+import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -15,13 +15,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
 import SendIcon from "@mui/icons-material/Send";
+import BackButton from "../../components/Shared/BackButton";
+import { getProductLineById } from "../../redux/actions/productLineAction";
 
 const columns = [
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
-    field: "quantity",
-    headerName: "Quantity",
-    width: 80,
+    field: "quantity_in_stock",
+    headerName: "Quantity in Stock",
+    width: 140,
   },
   {
     field: "move_to_agent",
@@ -53,21 +55,24 @@ const initialFieldValidator = {
 };
 const ProductLinePackages = () => {
   const { id } = useParams();
-  const { auth, packageReducer, user, warehouse } = useSelector(
+  const { auth, packageReducer, user, warehouse, productLine } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
+
+  const [shippingData, setShippingData] = useState(initialState);
+  const { unitId, packageId, warehouseId } = shippingData;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
   useEffect(() => {
     dispatch(
       getAllPackageByProductLineUnit({ data: { productLineId: id }, auth })
     );
     dispatch(getUserByRole({ data: { role: 3 }, auth }));
+    dispatch(getProductLineById({ data: { productLineId: id }, auth }));
   }, [dispatch]);
 
-  const [shippingData, setShippingData] = useState(initialState);
-  const { unitId, packageId, warehouseId } = shippingData;
-
-  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
   const validateField = () => {
     if (unitId === "" || warehouseId === "") {
       setFieldValidator({
@@ -91,8 +96,6 @@ const ProductLinePackages = () => {
       [e.target.name]: e.target.value,
     });
   };
-
-  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClickOpenDialog = (packageId) => {
     choosePackage(packageId);
@@ -125,9 +128,19 @@ const ProductLinePackages = () => {
       onClick: () => handleClickOpenDialog(pk.package_id),
     },
   }));
+
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 175px)", width: "100%" }}>
+        <BackButton to="/product_line" />
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ fontWeight: 500, textAlign: "center" }}
+          gutterBottom
+        >
+          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram}GB - Memory: ${productLine.productLine.memory}GB - Color: ${productLine.productLine.color}`}
+        </Typography>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -137,7 +150,7 @@ const ProductLinePackages = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Export to Agent</DialogTitle>
         <DialogContent>
           <TextField

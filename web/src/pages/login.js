@@ -12,14 +12,10 @@ import { login } from "../redux/actions/authAction";
 const initialState = { email: "", password: "" };
 const Login = () => {
   const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const [userData, setUserData] = useState(initialState);
   const { email, password } = userData;
-
-  const onChangeUserData = (e) => {
-    console.log(e.target.name, e.target.value, email, password);
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -28,7 +24,9 @@ const Login = () => {
     }
   }, [auth.token, navigate]);
 
-  const dispatch = useDispatch();
+  const onChangeUserData = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

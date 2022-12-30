@@ -233,7 +233,7 @@ const fomatProductTransport = (rawTransports) => {
     soldStatus = val.dataValues.soldStatus_pTransport.dataValues;
     product_transport = val.dataValues.product_pTransport.dataValues;
 
-    const { id, old_STT_code, new_STT_code, is_shipping, ...rest } =
+    const { id, old_STT_code, new_STT_code, is_shipping, createdAt, ...rest } =
       val.dataValues;
     const transport = {
       id,
@@ -246,6 +246,7 @@ const fomatProductTransport = (rawTransports) => {
       newWH,
       soldStatus,
       product_transport,
+      createdAt,
     };
     transports.push(transport);
   });
@@ -259,7 +260,8 @@ const fomatPackageTransport = (rawTransports) => {
     oldWH = val.dataValues.oldWH_pkTransport.dataValues;
     newWH = val.dataValues.newWH_pkTransport.dataValues;
     package_transport = val.dataValues.package_pkTransport.dataValues;
-    const { id, old_STT_code, new_STT_code, is_shipping, ...rest } =
+
+    const { id, old_STT_code, new_STT_code, is_shipping, createdAt, ...rest } =
       val.dataValues;
     const transport = {
       id,
@@ -271,6 +273,7 @@ const fomatPackageTransport = (rawTransports) => {
       oldWH,
       newWH,
       package_transport,
+      createdAt,
     };
     transports.push(transport);
   });

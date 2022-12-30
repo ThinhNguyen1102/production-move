@@ -29,12 +29,21 @@ import BuildIcon from "@mui/icons-material/Build";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 120 },
-  { field: "package_id", headerName: "Package_ID", width: 120 },
+  { field: "prod_id", headerName: "Product_ID", width: 110 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
+  {
+    field: "productLine_product",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
+  },
   {
     field: "error_status",
     headerName: "Status",
-    width: 120,
+    width: 130,
     renderCell: ({ value }) => {
       const { errorStatus, errorDescription } = value;
       if (errorStatus === "error") {
@@ -48,13 +57,13 @@ const columns = [
         );
       } else if (errorStatus === "success") {
         return <Chip label="success" color="success" />;
-      } else if (errorStatus === "failure") {
+      } else if (errorStatus === "Unrepairable") {
         return (
           <Tooltip
             title={`Error Description: ${errorDescription}`}
             sx={{ cursor: "pointer" }}
           >
-            <Chip label="failure" color="neutral" />
+            <Chip label="Unrepairable" color="neutral" />
           </Tooltip>
         );
       }
@@ -90,7 +99,10 @@ const initialShippingState = {
 };
 const initialFixedState = {
   prodId: "",
-  isFixed: "",
+  isFixed: true,
+};
+const initialFieldValidator = {
+  warehouse: "",
 };
 const ProductGuarantee = () => {
   const { auth, product, warehouse } = useSelector((state) => state);
@@ -102,12 +114,24 @@ const ProductGuarantee = () => {
   const [fixedData, setFixedData] = useState(initialFixedState);
   const [errorDesc, setErrorDesc] = useState("");
   const { isFixed } = fixedData;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
 
   useEffect(() => {
     dispatch(getAllOwnProductSold({ auth }));
   }, [dispatch]);
 
-  const [openDialog, setOpenDialog] = useState(false);
+  const validateField = () => {
+    if (shippingData.warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        warehouse:
+          shippingData.warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
 
   const handleClickOpenDialog = (prod, statusCode) => {
     const unitSelected =
@@ -131,8 +155,22 @@ const ProductGuarantee = () => {
     setUnitName(unitSelected?.name);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialShippingState);
     setOpenDialog(false);
+  };
+
+  const handleClickOpenFixedDialog = (prod) => {
+    setFixedData({ ...fixedData, prodId: prod?.prod_id });
+    setErrorDesc(prod.soldStatus_product?.errors[0]?.description);
+    setOpenFixedDialog(true);
+  };
+
+  const handleCloseFixedDialog = () => {
+    setFixedData(initialFixedState);
+    setOpenFixedDialog(false);
   };
 
   const onChangeShippingDataInput = (e) => {
@@ -142,14 +180,6 @@ const ProductGuarantee = () => {
     });
   };
 
-  const handleClickOpenFixedDialog = (prod) => {
-    setFixedData({ ...fixedData, prodId: prod?.prod_id });
-    setErrorDesc(prod.soldStatus_product?.errors[0]?.description);
-    setOpenFixedDialog(true);
-  };
-  const handleCloseFixedDialog = () => {
-    setOpenFixedDialog(false);
-  };
   const onChangeFixedDataInput = (e) => {
     setFixedData({
       ...fixedData,
@@ -161,9 +191,12 @@ const ProductGuarantee = () => {
     dispatch(fixProduct({ data: { prodId: fixedData.prodId, isFixed }, auth }));
     handleCloseFixedDialog();
   };
+
   const handleMove = () => {
-    dispatch(moveProduct({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(moveProduct({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const generateErrorStatus = (prod) => {
@@ -175,7 +208,7 @@ const ProductGuarantee = () => {
     } else {
       return isFixed
         ? { errorStatus: "success", errorDescription }
-        : { errorStatus: "failure", errorDescription };
+        : { errorStatus: "Unrepairable", errorDescription };
     }
   };
 
@@ -228,10 +261,16 @@ const ProductGuarantee = () => {
           getRowId={(row) => row.prod_id}
           pageSize={10}
           rowsPerPageOptions={[10]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>{`${
           shippingData.statusCode === "STT-06"
             ? "Back to Agent"
@@ -249,6 +288,8 @@ const ProductGuarantee = () => {
             name="warehouseId"
             value={shippingData.warehouseId}
             onChange={onChangeShippingDataInput}
+            error={fieldValidator.warehouse ? true : false}
+            helperText={fieldValidator.warehouse}
           >
             {warehouse.warehouses.map((wh) => (
               <MenuItem key={wh.id} value={wh.id}>
@@ -264,7 +305,7 @@ const ProductGuarantee = () => {
       </Dialog>
 
       {/* fixed dialog */}
-      <Dialog open={openFixedDialog} onClose={handleCloseFixedDialog}>
+      <Dialog open={openFixedDialog} onClose={handleCloseFixedDialog} fullWidth>
         <DialogTitle>Edit Error Status</DialogTitle>
         <DialogContent>
           <DialogContentText>{`Error Description: ${errorDesc}`}</DialogContentText>
@@ -281,7 +322,7 @@ const ProductGuarantee = () => {
             onChange={onChangeFixedDataInput}
           >
             <MenuItem value={true}>Success</MenuItem>
-            <MenuItem value={false}>Failure</MenuItem>
+            <MenuItem value={false}>Unrepairable</MenuItem>
           </TextField>
         </DialogContent>
         <DialogActions>

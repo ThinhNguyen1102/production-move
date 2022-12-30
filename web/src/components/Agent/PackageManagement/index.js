@@ -22,11 +22,20 @@ import { TextField } from "@mui/material";
 import ReportIcon from "@mui/icons-material/Report";
 
 const columns = [
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
     field: "quantity_in_stock",
     headerName: "Quantity in Stock",
     width: 150,
+  },
+  {
+    field: "productLine_package",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
   },
   {
     field: "move_to_factory",
@@ -47,6 +56,10 @@ const initialState = {
   warehouseId: "",
   statusCode: "STT-10",
 };
+const initialFieldValidator = {
+  unit: "",
+  warehouse: "",
+};
 const AgentPackageManagement = () => {
   const { auth, packageReducer, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -54,12 +67,23 @@ const AgentPackageManagement = () => {
   const [shippingData, setShippingData] = useState(initialState);
   const [unitName, setUnitName] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
-
   const { unitId, warehouseId } = shippingData;
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
 
   useEffect(() => {
     dispatch(getAllPackageByUnit({ auth }));
   }, [dispatch]);
+
+  const validateField = () => {
+    if (warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
 
   const handleClickOpenDialog = (pk) => {
     setShippingData({
@@ -74,10 +98,13 @@ const AgentPackageManagement = () => {
         auth,
       })
     );
-    setUnitName(pk?.unit_created_id);
+    setUnitName(pk?.userCreated_package?.name);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialState);
     setOpenDialog(false);
   };
 
@@ -89,8 +116,10 @@ const AgentPackageManagement = () => {
   };
 
   const handleMove = () => {
-    dispatch(movePackage({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(movePackage({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const rows = packageReducer.packages.map((pk) => ({
@@ -120,10 +149,16 @@ const AgentPackageManagement = () => {
           getRowId={(row) => row.package_id}
           pageSize={12}
           rowsPerPageOptions={[12]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Back to Factory</DialogTitle>
         <DialogContent>
           <DialogContentText>{unitName}</DialogContentText>
@@ -137,6 +172,8 @@ const AgentPackageManagement = () => {
             name="warehouseId"
             value={warehouseId}
             onChange={onChangeShippingDataInput}
+            error={fieldValidator.warehouse ? true : false}
+            helperText={fieldValidator.warehouse}
           >
             {warehouse.warehouses.map((wh) => (
               <MenuItem key={wh.id} value={wh.id}>

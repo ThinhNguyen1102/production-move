@@ -1,1 +1,38 @@
+<<<<<<< HEAD
 
+=======
+30-12-2022	58:37:01-------POST-----/api/v1/auth/register-----Validation failed, entered data is incorrect.
+30-12-2022	48:38:01-------POST-----/api/v1/auth/login-----Validation failed, entered data is incorrect.
+30-12-2022	41:58:08-------POST-----/api/v1/auth/change_password-----Validation failed, entered data is incorrect.
+30-12-2022	29:15:09-------POST-----/api/v1/auth/change_password-----Incorrect old password.
+30-12-2022	20:17:09-------POST-----/api/v1/auth/change_password-----Incorrect old password.
+30-12-2022	26:17:09-------POST-----/api/v1/auth/change_password-----Incorrect old password.
+30-12-2022	15:18:09-------POST-----/api/v1/auth/change_password-----Incorrect old password.
+30-12-2022	33:18:09-------POST-----/api/v1/auth/change_password-----Validation failed, entered data is incorrect.
+30-12-2022	15:23:09-------POST-----/api/v1/productlines-----Validation failed, entered data is incorrect.
+30-12-2022	49:24:09-------POST-----/api/v1/productlines-----Validation failed, entered data is incorrect.
+30-12-2022	27:27:09-------POST-----/api/v1/productlines-----Validation failed, entered data is incorrect.
+30-12-2022	08:40:09-------POST-----/api/v1/auth/register-----Validation failed, entered data is incorrect.
+30-12-2022	28:41:09-------POST-----/api/v1/auth/register-----Email address already exists.
+30-12-2022	39:55:09-------POST-----/api/v1/auth/register-----Validation failed, entered data is incorrect.
+30-12-2022	57:58:09-------POST-----/api/v1/products-----Validation failed, entered data is incorrect.
+30-12-2022	02:59:09-------POST-----/api/v1/products-----Validation failed, entered data is incorrect.
+30-12-2022	56:16:10-------POST-----/api/v1/products-----Validation failed, entered data is incorrect.
+30-12-2022	37:33:10-------POST-----/api/v1/warehouses-----Validation failed, entered data is incorrect.
+30-12-2022	44:34:10-------POST-----/api/v1/warehouses-----Validation failed, entered data is incorrect.
+30-12-2022	40:48:10-------POST-----/api/v1/products/sell-----Validation failed, entered data is incorrect.
+30-12-2022	06:49:10-------POST-----/api/v1/products/sell-----Validation failed, entered data is incorrect.
+30-12-2022	31:15:11-------POST-----/api/v1/requests-----Content cannot be empty
+30-12-2022	35:15:11-------POST-----/api/v1/requests-----user is not defined
+30-12-2022	24:06:12-------POST-----/api/v1/warehouses-----Validation failed, entered data is incorrect.
+30-12-2022	52:14:12-------POST-----/api/v1/auth/login-----Incorrect email or password.
+30-12-2022	10:15:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
+30-12-2022	21:15:12-------POST-----/api/v1/auth/login-----Incorrect email or password.
+30-12-2022	33:15:12-------POST-----/api/v1/auth/login-----Incorrect email or password.
+30-12-2022	20:21:12-------POST-----/api/v1/auth/login-----Incorrect email or password.
+30-12-2022	47:25:12-------POST-----/api/v1/auth/register?email=admin01@gmail.com&name=admin01&password=123456&phone_number=0378592068&role=1&address=144%20-%20Xuan%20Thuy%20-%20Cau%20Giay-----Email address already exists.
+30-12-2022	37:55:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
+30-12-2022	41:55:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
+30-12-2022	21:29:13-------POST-----/api/v1/auth/login-----Incorrect email or password.
+30-12-2022	57:16:14-------POST-----/api/v1/requests-----Content cannot be empty
+>>>>>>> 99e8ec630b15f82e9a3b756f9f546915631c90a6

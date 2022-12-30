@@ -43,6 +43,7 @@ const UnitTable = ({ title, dataRows }) => {
     setSelectedUnit(unit);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -78,9 +79,7 @@ const UnitTable = ({ title, dataRows }) => {
         />
       </Box>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <List
-          sx={{ width: "100%", bgcolor: "background.paper", minWidth: "300px" }}
-        >
+        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
           <ListItem>
             <ListItemIcon>
               <FactoryIcon />
@@ -108,7 +107,7 @@ const UnitTable = ({ title, dataRows }) => {
         </List>
         <Divider />
         <List
-          sx={{ width: "100%", bgcolor: "background.paper", minWidth: "300px" }}
+          sx={{ width: "100%", bgcolor: "background.paper" }}
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">
               Warehouses
