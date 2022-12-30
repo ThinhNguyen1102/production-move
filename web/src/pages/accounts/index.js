@@ -243,7 +243,7 @@ const Accounts = () => {
             name="confirmPassword"
             value={confirmPassword}
             onChange={onChangeDataInput}
-            error={matchPassword}
+            error={matchPassword ? true : false}
             helperText={matchPassword}
           />
         </DialogContent>

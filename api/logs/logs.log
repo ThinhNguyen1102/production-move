@@ -11,3 +11,11 @@
 30-12-2022	27:27:09-------POST-----/api/v1/productlines-----Validation failed, entered data is incorrect.
 30-12-2022	08:40:09-------POST-----/api/v1/auth/register-----Validation failed, entered data is incorrect.
 30-12-2022	28:41:09-------POST-----/api/v1/auth/register-----Email address already exists.
+30-12-2022	39:55:09-------POST-----/api/v1/auth/register-----Validation failed, entered data is incorrect.
+30-12-2022	57:58:09-------POST-----/api/v1/products-----Validation failed, entered data is incorrect.
+30-12-2022	02:59:09-------POST-----/api/v1/products-----Validation failed, entered data is incorrect.
+30-12-2022	56:16:10-------POST-----/api/v1/products-----Validation failed, entered data is incorrect.
+30-12-2022	37:33:10-------POST-----/api/v1/warehouses-----Validation failed, entered data is incorrect.
+30-12-2022	44:34:10-------POST-----/api/v1/warehouses-----Validation failed, entered data is incorrect.
+30-12-2022	40:48:10-------POST-----/api/v1/products/sell-----Validation failed, entered data is incorrect.
+30-12-2022	06:49:10-------POST-----/api/v1/products/sell-----Validation failed, entered data is incorrect.
