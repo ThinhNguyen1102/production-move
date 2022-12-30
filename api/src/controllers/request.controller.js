@@ -15,6 +15,11 @@ const RequestController = {
     }
 
     try {
+      if (content === "") {
+        const err = new Error("Content cannot be empty");
+        err.statusCode = 400;
+        throw err;
+      }
       const request = {
         sender_id: +unitId,
         receiver_id: +receiverId,

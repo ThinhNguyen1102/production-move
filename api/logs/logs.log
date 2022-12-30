@@ -1,2 +1,6 @@
 30-12-2022	58:37:01-------POST-----/api/v1/auth/register-----Validation failed, entered data is incorrect.
 30-12-2022	48:38:01-------POST-----/api/v1/auth/login-----Validation failed, entered data is incorrect.
+30-12-2022	53:01:11-------POST-----/api/v1/requests-----jwt expired
+30-12-2022	01:02:11-------POST-----/api/v1/auth/login-----Validation failed, entered data is incorrect.
+30-12-2022	26:02:11-------POST-----/api/v1/requests-----Validation failed, entered data is incorrect.
+30-12-2022	32:08:11-------POST-----/api/v1/requests-----Content cannot be empty
