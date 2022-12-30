@@ -26,7 +26,7 @@ export const getAllTransportReceive =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -57,7 +57,7 @@ export const getAllTransportSend =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -84,7 +84,7 @@ export const acceptProduct =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -111,7 +111,7 @@ export const acceptPackage =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }

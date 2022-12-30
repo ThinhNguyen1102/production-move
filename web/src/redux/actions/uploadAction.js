@@ -21,7 +21,7 @@ export const uploadImage =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -47,7 +47,7 @@ export const destroyImage =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
