@@ -47,6 +47,10 @@ const initialState = {
   warehouseId: "",
   statusCode: "STT-02",
 };
+const initialFieldValidator = {
+  unit: "",
+  warehouse: "",
+};
 const ProductLinePackages = () => {
   const { id } = useParams();
   const { auth, packageReducer, user, warehouse } = useSelector(
@@ -62,6 +66,19 @@ const ProductLinePackages = () => {
 
   const [shippingData, setShippingData] = useState(initialState);
   const { unitId, packageId, warehouseId } = shippingData;
+
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+  const validateField = () => {
+    if (unitId === "" || warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        unit: unitId === "" ? "Please select a unit" : "",
+        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
 
   const onChangeDataInput = (e) => {
     if (e.target.name === "unitId") {
@@ -83,6 +100,8 @@ const ProductLinePackages = () => {
   };
 
   const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialState);
     setOpenDialog(false);
   };
 
@@ -94,8 +113,10 @@ const ProductLinePackages = () => {
   };
 
   const handleMoveToAgent = () => {
-    dispatch(movePackage({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(movePackage({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const rows = packageReducer.packages.map((pk) => ({
@@ -129,6 +150,8 @@ const ProductLinePackages = () => {
             name="unitId"
             value={unitId}
             onChange={onChangeDataInput}
+            error={fieldValidator.unit ? true : false}
+            helperText={fieldValidator.unit}
           >
             {user.users.map((agent) => (
               <MenuItem key={agent.id} value={agent.id}>
@@ -147,6 +170,8 @@ const ProductLinePackages = () => {
             name="warehouseId"
             value={warehouseId}
             onChange={onChangeDataInput}
+            error={fieldValidator.warehouse ? true : false}
+            helperText={fieldValidator.warehouse}
           >
             {warehouse.warehouses.map((wh) => (
               <MenuItem key={wh.id} value={wh.id}>

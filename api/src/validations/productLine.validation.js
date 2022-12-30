@@ -6,7 +6,7 @@ const productLineValidation = {
     body("ram").trim().isNumeric().withMessage("must enter numeric value"),
     body("memory").trim().isNumeric().withMessage("must enter numeric value"),
     body("price").trim().isNumeric().withMessage("must enter numeric value"),
-    body("imageUrl").trim().isURL().withMessage("must enter url string value"),
+    // body("imageUrl").trim().isURL().withMessage("must enter url string value"),
     body("model")
       .trim()
       .custom((value) => {
