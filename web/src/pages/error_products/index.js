@@ -7,8 +7,8 @@ import { Button, Chip, Tooltip, Typography } from "@mui/material";
 import BackButton from "../../components/Shared/BackButton";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 120 },
-  { field: "package_id", headerName: "Package_ID", width: 120 },
+  { field: "prod_id", headerName: "Product_ID", width: 110 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
     field: "error_status",
     headerName: "Status",

@@ -29,8 +29,17 @@ import SendIcon from "@mui/icons-material/Send";
 import { typeErrorCodeList } from "../../utils/constants";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 160 },
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "prod_id", headerName: "Product_ID", width: 110 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
+  {
+    field: "productLine_product",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
+  },
   {
     field: "error_report",
     headerName: "Error Report",
@@ -195,6 +204,12 @@ const ProductsSold = () => {
           getRowId={(row) => row.prod_id}
           pageSize={12}
           rowsPerPageOptions={[12]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}

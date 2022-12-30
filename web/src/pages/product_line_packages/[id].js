@@ -18,7 +18,7 @@ import SendIcon from "@mui/icons-material/Send";
 import BackButton from "../../components/Shared/BackButton";
 
 const columns = [
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
     field: "quantity_in_stock",
     headerName: "Quantity in Stock",

@@ -16,8 +16,8 @@ import { TextField } from "@mui/material";
 import BackButton from "../../components/Shared/BackButton";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 160 },
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "prod_id", headerName: "Product_ID", width: 110 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
     field: "sell_product",
     headerName: "Sell",
