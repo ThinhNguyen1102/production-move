@@ -216,6 +216,7 @@ const productController = {
       let soldStatusSaved = await soldStatus.save();
       if (soldStatusSaved) {
         soldStatusSaved = await db.SoldStatus.findByPk(product.sold_status_id, {
+          order: [[db.Error, "createdAt", "desc"]],
           include: [
             {
               model: db.User,
