@@ -87,8 +87,8 @@ export default function ProductLineCard({ productLine, warehouses }) {
       <Card>
         <img
           src={
-            productLine.image_url
-              ? productLine.image_url
+            productLine.imageUrl
+              ? productLine.imageUrl
               : "https://i.pinimg.com/564x/c5/a0/03/c5a00375d647591a14dd36e31151acb1.jpg"
           }
           alt=""
