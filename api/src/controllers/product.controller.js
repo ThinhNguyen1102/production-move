@@ -213,8 +213,21 @@ const productController = {
       soldStatus.guarantees = soldStatus.guarantees + 1;
       soldStatus.unit_manage_id = req.userId;
 
-      const soldStatusSaved = await soldStatus.save();
-      soldStatusSaved.dataValues.error_soldStatus = error;
+      let soldStatusSaved = await soldStatus.save();
+      if (soldStatusSaved) {
+        soldStatusSaved = await db.SoldStatus.findByPk(product.sold_status_id, {
+          include: [
+            {
+              model: db.User,
+              as: "store_soldStatus",
+              attributes: { exclude: ["password"] },
+            },
+            {
+              model: db.Error,
+            },
+          ],
+        });
+      }
 
       res.status(201).json({
         message: "Product will be under warranty.",
