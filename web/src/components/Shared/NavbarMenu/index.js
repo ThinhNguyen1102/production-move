@@ -33,7 +33,7 @@ const initialState = {
   confirmNewPassword: "",
 };
 function NavbarMenu() {
-  const { auth } = useSelector((state) => state);
+  const { auth, alert } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -44,12 +44,19 @@ function NavbarMenu() {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setChangePasswordData({ ...initialState });
     setOpenDialog(false);
   };
 
   const [changePasswordData, setChangePasswordData] = useState(initialState);
 
   const { oldPassword, newPassword, confirmNewPassword } = changePasswordData;
+
+  const isNotBlankFields = () => {
+    return oldPassword.trim() && newPassword.trim() && confirmNewPassword.trim()
+      ? true
+      : false;
+  };
 
   const onChangeDataInput = (e) => {
     setChangePasswordData({
@@ -232,13 +239,13 @@ function NavbarMenu() {
 
       {/* change password dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>パスワード変更</DialogTitle>
+        <DialogTitle>Change Password</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="oldPassword"
-            label="現在のパスワード"
+            label="Old Password"
             type="password"
             fullWidth
             variant="standard"
@@ -247,10 +254,10 @@ function NavbarMenu() {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="newPassword"
-            label="新しいパスワード"
+            label="New Password"
             type="password"
             fullWidth
             variant="standard"
@@ -259,10 +266,10 @@ function NavbarMenu() {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="confirmNewPassword"
-            label="新しいパスワード（確認用）"
+            label="Confirm Password"
             type="password"
             fullWidth
             variant="standard"
@@ -272,8 +279,13 @@ function NavbarMenu() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>キャンセル</Button>
-          <Button onClick={handleSubmitFormChangePassword}>保存</Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button
+            disabled={!isNotBlankFields()}
+            onClick={handleSubmitFormChangePassword}
+          >
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </>

@@ -86,20 +86,7 @@ const Accounts = () => {
   }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-  const handleSubmit = () => {
-    dispatch(createUser({ data: userData, auth }));
-    handleCloseDialog();
-  };
-
-  console.log(user.users);
-  const rows = user.users;
-
+  const [matchPassword, setMatchPassword] = useState("");
   const [userData, setUserData] = useState(initialState);
   const {
     name,
@@ -110,6 +97,36 @@ const Accounts = () => {
     password,
     confirmPassword,
   } = userData;
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setMatchPassword("");
+    setUserData(initialState);
+    setOpenDialog(false);
+  };
+  const handleSubmit = () => {
+    if (confirmPassword.trim() !== password.trim()) {
+      setMatchPassword("Please make sure passwords match");
+    } else {
+      dispatch(createUser({ data: userData, auth }));
+      handleCloseDialog();
+    }
+  };
+
+  const rows = user.users;
+
+  const isNotBlankFields = () => {
+    return name.trim() &&
+      email.trim() &&
+      address.trim() &&
+      email.trim() &&
+      phone_number.trim() &&
+      password.trim()
+      ? true
+      : false;
+  };
   const onChangeDataInput = (e) => {
     setUserData({
       ...userData,
@@ -142,7 +159,7 @@ const Accounts = () => {
         <DialogTitle>Add account</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="name"
             label="Name"
@@ -153,7 +170,7 @@ const Accounts = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="email"
             label="Email"
@@ -165,7 +182,7 @@ const Accounts = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="address"
             label="Address"
@@ -176,7 +193,7 @@ const Accounts = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="phone_number"
             label="Phone Number"
@@ -187,7 +204,6 @@ const Accounts = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="role"
             select
@@ -205,7 +221,7 @@ const Accounts = () => {
             ))}
           </TextField>
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="password"
             label="Password"
@@ -217,7 +233,7 @@ const Accounts = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="confirmPassword"
             label="Confirm Password"
@@ -227,11 +243,15 @@ const Accounts = () => {
             name="confirmPassword"
             value={confirmPassword}
             onChange={onChangeDataInput}
+            error={matchPassword}
+            helperText={matchPassword}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button disabled={!isNotBlankFields()} onClick={handleSubmit}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </>

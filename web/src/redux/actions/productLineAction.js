@@ -57,7 +57,7 @@ export const getAllOwnProductLine =
       const res = await getDataAPI(`productlines/own`, auth.token);
       dispatch({
         type: PRODUCT_LINE.GET_ALL_OWN_PRODUCT_LINE,
-        payload: res.result.map((item) => ({
+        payload: res.data.productLines.map((item) => ({
           ...item.productLine,
           quantity: item.amount,
         })),
