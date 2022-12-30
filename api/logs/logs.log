@@ -19,3 +19,5 @@
 30-12-2022	44:34:10-------POST-----/api/v1/warehouses-----Validation failed, entered data is incorrect.
 30-12-2022	40:48:10-------POST-----/api/v1/products/sell-----Validation failed, entered data is incorrect.
 30-12-2022	06:49:10-------POST-----/api/v1/products/sell-----Validation failed, entered data is incorrect.
+30-12-2022	31:15:11-------POST-----/api/v1/requests-----Content cannot be empty
+30-12-2022	35:15:11-------POST-----/api/v1/requests-----user is not defined
