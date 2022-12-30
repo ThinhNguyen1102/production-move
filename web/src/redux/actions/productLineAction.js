@@ -23,7 +23,7 @@ export const createProductLine =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -44,7 +44,7 @@ export const getAllProductLine =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -67,7 +67,7 @@ export const getAllOwnProductLine =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }

@@ -24,7 +24,7 @@ export const login = (data) => async (dispatch) => {
     dispatch({
       type: ALERT,
       payload: {
-        error: err.response.data.message,
+        error: err.response.data.errorList[0].msg,
       },
     });
   }
@@ -50,7 +50,7 @@ export const refreshToken = () => async (dispatch) => {
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -66,7 +66,7 @@ export const logout = () => async (dispatch) => {
     dispatch({
       type: ALERT,
       payload: {
-        error: err.response.data.message,
+        error: err.response.data.errorList[0].msg,
       },
     });
   }
@@ -97,7 +97,7 @@ export const changePassword =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }

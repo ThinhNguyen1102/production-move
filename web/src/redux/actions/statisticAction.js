@@ -17,7 +17,7 @@ export const getAllUnitInfomation =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -39,7 +39,7 @@ export const getAdminStatisticProduct =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -61,7 +61,7 @@ export const getAgentStatisticProduct =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -83,7 +83,7 @@ export const getFactoryStatisticProduct =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
@@ -105,7 +105,7 @@ export const getCenterStatisticProduct =
       dispatch({
         type: ALERT,
         payload: {
-          error: err.response.data.message,
+          error: err.response.data.errorList[0].msg,
         },
       });
     }
