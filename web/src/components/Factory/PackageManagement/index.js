@@ -25,7 +25,7 @@ import { typeErrorCodeList } from "../../../utils/constants";
 import ReportIcon from "@mui/icons-material/Report";
 
 const columns = [
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
   {
     field: "quantity_in_stock",
     headerName: "Quantity in Stock",

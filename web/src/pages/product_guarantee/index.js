@@ -29,8 +29,17 @@ import BuildIcon from "@mui/icons-material/Build";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
 const columns = [
-  { field: "prod_id", headerName: "Product_ID", width: 120 },
-  { field: "package_id", headerName: "Package_ID", width: 120 },
+  { field: "prod_id", headerName: "Product_ID", width: 110 },
+  { field: "package_id", headerName: "Package_ID", width: 110 },
+  {
+    field: "productLine_product",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
+  },
   {
     field: "error_status",
     headerName: "Status",
@@ -248,6 +257,12 @@ const ProductGuarantee = () => {
           getRowId={(row) => row.prod_id}
           pageSize={10}
           rowsPerPageOptions={[10]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}
