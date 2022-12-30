@@ -60,23 +60,8 @@ const initialState = {
 const Warehouse = () => {
   const { auth, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllOwnWarehouse({ auth }));
-  }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setWarehouseData(initialState);
-    setOpenDialog(false);
-  };
-  const handleSubmit = () => {
-    dispatch(createWarehouses({ data: warehouseData, auth }));
-    handleCloseDialog();
-  };
-
   const [warehouseData, setWarehouseData] = useState(initialState);
   const { address, phone_number } = warehouseData;
   const onChangeDataInput = (e) => {
@@ -86,7 +71,26 @@ const Warehouse = () => {
     });
   };
 
+  useEffect(() => {
+    dispatch(getAllOwnWarehouse({ auth }));
+  }, [dispatch]);
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setWarehouseData(initialState);
+    setOpenDialog(false);
+  };
+
+  const handleSubmit = () => {
+    dispatch(createWarehouses({ data: warehouseData, auth }));
+    handleCloseDialog();
+  };
+
   const rows = warehouse.warehouses;
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>

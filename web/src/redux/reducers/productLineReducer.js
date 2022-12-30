@@ -13,7 +13,6 @@ const productLineReducer = (state = initialState, action) => {
         productLines: action.payload,
       };
     case PRODUCT_LINE.GET_ALL_OWN_PRODUCT_LINE:
-      console.log("PRODUCTLINE MAPPED", state);
       return {
         ...state,
         productLines: action.payload,

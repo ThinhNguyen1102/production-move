@@ -43,6 +43,7 @@ const UnitTable = ({ title, dataRows }) => {
     setSelectedUnit(unit);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };

@@ -59,6 +59,12 @@ const ProductLinePackages = () => {
     (state) => state
   );
   const dispatch = useDispatch();
+
+  const [shippingData, setShippingData] = useState(initialState);
+  const { unitId, packageId, warehouseId } = shippingData;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
   useEffect(() => {
     dispatch(
       getAllPackageByProductLineUnit({ data: { productLineId: id }, auth })
@@ -67,10 +73,6 @@ const ProductLinePackages = () => {
     dispatch(getProductLineById({ data: { productLineId: id }, auth }));
   }, [dispatch]);
 
-  const [shippingData, setShippingData] = useState(initialState);
-  const { unitId, packageId, warehouseId } = shippingData;
-
-  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
   const validateField = () => {
     if (unitId === "" || warehouseId === "") {
       setFieldValidator({
@@ -94,8 +96,6 @@ const ProductLinePackages = () => {
       [e.target.name]: e.target.value,
     });
   };
-
-  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClickOpenDialog = (packageId) => {
     choosePackage(packageId);
@@ -128,6 +128,7 @@ const ProductLinePackages = () => {
       onClick: () => handleClickOpenDialog(pk.package_id),
     },
   }));
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 175px)", width: "100%" }}>
@@ -138,7 +139,7 @@ const ProductLinePackages = () => {
           sx={{ fontWeight: 500, textAlign: "center" }}
           gutterBottom
         >
-          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram} - Memory: ${productLine.productLine.memory} - Color: ${productLine.productLine.color}`}
+          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram}GB - Memory: ${productLine.productLine.memory}GB - Color: ${productLine.productLine.color}`}
         </Typography>
         <DataGrid
           rows={rows}

@@ -38,6 +38,7 @@ const columns = [
 const ErrorProducts = () => {
   const { auth, product } = useSelector((state) => state);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getAllOwnProductSold({ auth }));
   }, [dispatch]);

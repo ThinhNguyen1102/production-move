@@ -4,7 +4,6 @@ import { postDataAPI, getDataAPI, deleteDataAPI } from "../../utils/fetchData";
 export const createUser =
   ({ data, auth }) =>
   async (dispatch) => {
-    console.log("data: ", data);
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI("auth/register", data, auth.token);
@@ -76,7 +75,6 @@ export const deleteUserById =
   async (dispatch) => {
     try {
       const res = await deleteDataAPI(`users/${id}`, auth.token);
-      console.log(res);
       dispatch({
         type: USER.DELETE_USER_BY_ID,
         payload: id,

@@ -80,11 +80,34 @@ const ProductsSold = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [isReport, setIsReport] = useState(true);
+  const [errorReportData, setErrorReportData] = useState(initialReportState);
+  const [shippingData, setShippingData] = useState(initialShippingState);
+  const { unitId, warehouseId } = shippingData;
+  const { errorDescription, typeErrorCode } = errorReportData;
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
+  const validateField = () => {
+    if (unitId === "" || warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        unit: unitId === "" ? "Please select a unit" : "",
+        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const isNotBlankFields = () => {
+    return errorDescription.trim() && typeErrorCode ? true : false;
+  };
+
   const handleClickOpenDialog = (prodId, isReport) => {
     chooseProduct(prodId);
     setIsReport(isReport);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setErrorReportData(initialReportState);
     setFieldValidator(initialFieldValidator);
@@ -101,25 +124,6 @@ const ProductsSold = () => {
       ...shippingData,
       prodId,
     });
-  };
-
-  const [errorReportData, setErrorReportData] = useState(initialReportState);
-  const [shippingData, setShippingData] = useState(initialShippingState);
-  const { unitId, warehouseId } = shippingData;
-
-  const { errorDescription, typeErrorCode } = errorReportData;
-
-  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
-  const validateField = () => {
-    if (unitId === "" || warehouseId === "") {
-      setFieldValidator({
-        ...fieldValidator,
-        unit: unitId === "" ? "Please select a unit" : "",
-        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
-      });
-      return true;
-    }
-    return false;
   };
 
   const onChangeErrorReportDataInput = (e) => {
@@ -139,10 +143,6 @@ const ProductsSold = () => {
       ...shippingData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const isNotBlankFields = () => {
-    return errorDescription.trim() && typeErrorCode ? true : false;
   };
 
   const handleErrorReport = () => {
@@ -195,6 +195,7 @@ const ProductsSold = () => {
       ),
     };
   });
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>

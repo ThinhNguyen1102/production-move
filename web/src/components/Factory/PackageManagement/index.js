@@ -63,12 +63,15 @@ const FactoryPackageManagement = () => {
 
   const [errorReportData, setErrorReportData] = useState(initialReportState);
   const [openDialog, setOpenDialog] = useState(false);
-
   const { errorDescription, typeErrorCode } = errorReportData;
 
   useEffect(() => {
     dispatch(getAllPackageByCurrentFactory({ auth }));
   }, [dispatch]);
+
+  const isNotBlankFields = () => {
+    return errorDescription.trim() && typeErrorCode ? true : false;
+  };
 
   const choosePackage = (packageId) => {
     setErrorReportData({
@@ -78,7 +81,6 @@ const FactoryPackageManagement = () => {
   };
 
   const handleClickOpenDialog = (pk) => {
-    console.log(pk.package_id);
     choosePackage(pk.package_id);
     setOpenDialog(true);
   };
@@ -98,9 +100,7 @@ const FactoryPackageManagement = () => {
     dispatch(recallPackage({ data: errorReportData, auth }));
     handleCloseDialog();
   };
-  const isNotBlankFields = () => {
-    return errorDescription.trim() && typeErrorCode ? true : false;
-  };
+
   const rows = packageReducer.packages.map((pk) => ({
     ...pk,
     unit_manage: pk.user_package.name,
@@ -118,6 +118,7 @@ const FactoryPackageManagement = () => {
       </Tooltip>
     ),
   }));
+
   return (
     <>
       <Box p={3} sx={{ height: "calc(100vh - 72px)", width: "100%" }}>

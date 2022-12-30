@@ -24,7 +24,6 @@ const productReducer = (state = initialState, action) => {
         ),
       };
     case PRODUCT.REPORT_PRODUCT:
-      console.log("action.payload", action.payload);
       return {
         ...state,
         products: state.products.map((prod) => {
@@ -35,8 +34,6 @@ const productReducer = (state = initialState, action) => {
         }),
       };
     case PRODUCT.MOVE_PRODUCT:
-      console.log("action.payload", action.payload);
-      console.log("action.payload.product_id", action.payload.product_id);
       return {
         ...state,
         products: state.products.filter(

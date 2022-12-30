@@ -101,6 +101,7 @@ const Shipping = () => {
       width: 140,
     },
   ];
+
   const rows = transport?.transports?.map((tran) => ({
     ...tran,
     id: tran?.product_transport ? `P-${tran.id}` : `PK-${tran.id}`,
@@ -124,7 +125,6 @@ const Shipping = () => {
       )),
     time: moment(tran?.createdAt).fromNow(),
   }));
-  console.log(rows);
 
   useEffect(() => {
     if (showShippingState === "receive") {

@@ -69,7 +69,6 @@ export const acceptProduct =
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(`products/accept`, data, auth.token);
-      console.log("res.data.transport: ", res.data.transport);
       dispatch({
         type: TRANSPORT.ACCEPT_PRODUCT,
         payload: res.data.transport,
@@ -96,7 +95,6 @@ export const acceptPackage =
     try {
       dispatch({ type: ALERT, payload: { loading: true } });
       const res = await postDataAPI(`packages/accept`, data, auth.token);
-      console.log("res.data.transport: ", res.data.transport);
       dispatch({
         type: TRANSPORT.ACCEPT_PACKAGE,
         payload: res.data.transport,

@@ -67,10 +67,13 @@ const AgentPackageManagement = () => {
   const [shippingData, setShippingData] = useState(initialState);
   const [unitName, setUnitName] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
-
   const { unitId, warehouseId } = shippingData;
-
   const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+
+  useEffect(() => {
+    dispatch(getAllPackageByUnit({ auth }));
+  }, [dispatch]);
+
   const validateField = () => {
     if (warehouseId === "") {
       setFieldValidator({
@@ -81,10 +84,6 @@ const AgentPackageManagement = () => {
     }
     return false;
   };
-
-  useEffect(() => {
-    dispatch(getAllPackageByUnit({ auth }));
-  }, [dispatch]);
 
   const handleClickOpenDialog = (pk) => {
     setShippingData({
@@ -102,6 +101,7 @@ const AgentPackageManagement = () => {
     setUnitName(pk?.userCreated_package?.name);
     setOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setFieldValidator(initialFieldValidator);
     setShippingData(initialState);
