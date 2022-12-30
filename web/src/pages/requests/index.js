@@ -25,6 +25,7 @@ import {
 } from "../../redux/actions/requestAction";
 import { getUserByRole } from "../../redux/actions/userAction";
 import { roles } from "../../utils/constants";
+import moment from "moment";
 
 const initialRequestState = {
   receiverId: "",
@@ -123,7 +124,7 @@ const Requests = () => {
     {
       field: "content",
       headerName: "Content",
-      width: 300,
+      width: 250,
     },
     {
       field: "request_status",
@@ -141,9 +142,14 @@ const Requests = () => {
     },
     {
       field: "edit_status",
-      headerName: "Edit Status",
-      width: 140,
+      headerName: showRequestState === "receive" ? "Edit Status" : "",
+      width: showRequestState === "receive" ? 140 : 0,
       renderCell: (params) => params.value,
+    },
+    {
+      field: "time",
+      headerName: "Created At",
+      width: 140,
     },
   ];
 
@@ -165,6 +171,7 @@ const Requests = () => {
         Edit Status
       </Button>
     ),
+    time: moment(req?.createdAt).fromNow(),
   }));
   return (
     <>

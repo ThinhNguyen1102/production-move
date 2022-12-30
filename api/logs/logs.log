@@ -31,3 +31,4 @@
 30-12-2022	37:55:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
 30-12-2022	41:55:12-------POST-----/api/v1/auth/login-----A user with email could not be found!
 30-12-2022	21:29:13-------POST-----/api/v1/auth/login-----Incorrect email or password.
+30-12-2022	57:16:14-------POST-----/api/v1/requests-----Content cannot be empty

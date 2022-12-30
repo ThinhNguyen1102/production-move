@@ -20,6 +20,7 @@ import {
   getAllTransportReceive,
   getAllTransportSend,
 } from "../../redux/actions/transportAction";
+import moment from "moment";
 
 const Shipping = () => {
   const { auth, transport } = useSelector((state) => state);
@@ -63,7 +64,7 @@ const Shipping = () => {
     {
       field: "description",
       headerName: "Description",
-      width: 320,
+      width: 250,
       renderCell: ({ row }) => {
         let id,
           model,
@@ -90,9 +91,14 @@ const Shipping = () => {
     },
     {
       field: "accept_action",
-      headerName: "Accept",
-      width: 140,
+      headerName: showShippingState === "receive" ? "Accept" : "",
+      width: showShippingState === "receive" ? 125 : 0,
       renderCell: (params) => params.value,
+    },
+    {
+      field: "time",
+      headerName: "Time",
+      width: 140,
     },
   ];
   const rows = transport?.transports?.map((tran) => ({
@@ -116,6 +122,7 @@ const Shipping = () => {
       ) : (
         ""
       )),
+    time: moment(tran?.createdAt).fromNow(),
   }));
   console.log(rows);
 
