@@ -30,7 +30,7 @@ const initialState = {
   color: "",
   description: "",
   price: "",
-  image_url: "",
+  imageUrl: "",
 };
 const ProductLine = () => {
   const { auth, productLine, warehouse, upload } = useSelector(
@@ -91,7 +91,7 @@ const ProductLine = () => {
   const handleSubmit = () => {
     dispatch(
       createProductLine({
-        data: { ...productLineData, image_url: upload.images?.secure_url },
+        data: { ...productLineData, imageUrl: upload.images?.secure_url },
         auth,
       })
     );
