@@ -47,6 +47,10 @@ const initialState = {
   warehouseId: "",
   statusCode: "STT-10",
 };
+const initialFieldValidator = {
+  unit: "",
+  warehouse: "",
+};
 const AgentPackageManagement = () => {
   const { auth, packageReducer, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -56,6 +60,18 @@ const AgentPackageManagement = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const { unitId, warehouseId } = shippingData;
+
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+  const validateField = () => {
+    if (warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
 
   useEffect(() => {
     dispatch(getAllPackageByUnit({ auth }));
@@ -74,10 +90,12 @@ const AgentPackageManagement = () => {
         auth,
       })
     );
-    setUnitName(pk?.unit_created_id);
+    setUnitName(pk?.userCreated_package?.name);
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialState);
     setOpenDialog(false);
   };
 
@@ -89,8 +107,10 @@ const AgentPackageManagement = () => {
   };
 
   const handleMove = () => {
-    dispatch(movePackage({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(movePackage({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const rows = packageReducer.packages.map((pk) => ({
@@ -137,6 +157,8 @@ const AgentPackageManagement = () => {
             name="warehouseId"
             value={warehouseId}
             onChange={onChangeShippingDataInput}
+            error={fieldValidator.warehouse ? true : false}
+            helperText={fieldValidator.warehouse}
           >
             {warehouse.warehouses.map((wh) => (
               <MenuItem key={wh.id} value={wh.id}>

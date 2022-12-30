@@ -90,7 +90,10 @@ const initialShippingState = {
 };
 const initialFixedState = {
   prodId: "",
-  isFixed: "",
+  isFixed: true,
+};
+const initialFieldValidator = {
+  warehouse: "",
 };
 const ProductGuarantee = () => {
   const { auth, product, warehouse } = useSelector((state) => state);
@@ -108,6 +111,18 @@ const ProductGuarantee = () => {
   }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+  const validateField = () => {
+    if (shippingData.warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        warehouse:
+          shippingData.warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
 
   const handleClickOpenDialog = (prod, statusCode) => {
     const unitSelected =
@@ -132,6 +147,8 @@ const ProductGuarantee = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialShippingState);
     setOpenDialog(false);
   };
 
@@ -148,6 +165,7 @@ const ProductGuarantee = () => {
     setOpenFixedDialog(true);
   };
   const handleCloseFixedDialog = () => {
+    setFixedData(initialFixedState);
     setOpenFixedDialog(false);
   };
   const onChangeFixedDataInput = (e) => {
@@ -162,8 +180,10 @@ const ProductGuarantee = () => {
     handleCloseFixedDialog();
   };
   const handleMove = () => {
-    dispatch(moveProduct({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(moveProduct({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const generateErrorStatus = (prod) => {
@@ -249,6 +269,8 @@ const ProductGuarantee = () => {
             name="warehouseId"
             value={shippingData.warehouseId}
             onChange={onChangeShippingDataInput}
+            error={fieldValidator.warehouse ? true : false}
+            helperText={fieldValidator.warehouse}
           >
             {warehouse.warehouses.map((wh) => (
               <MenuItem key={wh.id} value={wh.id}>

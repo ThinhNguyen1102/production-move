@@ -74,6 +74,7 @@ const FactoryPackageManagement = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setErrorReportData(initialReportState);
     setOpenDialog(false);
   };
 
@@ -88,7 +89,9 @@ const FactoryPackageManagement = () => {
     dispatch(recallPackage({ data: errorReportData, auth }));
     handleCloseDialog();
   };
-
+  const isNotBlankFields = () => {
+    return errorDescription.trim() && typeErrorCode ? true : false;
+  };
   const rows = packageReducer.packages.map((pk) => ({
     ...pk,
     unit_manage: pk.user_package.name,
@@ -153,7 +156,11 @@ const FactoryPackageManagement = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button color="error" onClick={handleRecall}>
+          <Button
+            color="error"
+            onClick={handleRecall}
+            disabled={!isNotBlankFields()}
+          >
             Recall
           </Button>
         </DialogActions>

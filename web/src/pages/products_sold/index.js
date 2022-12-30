@@ -56,6 +56,10 @@ const initialShippingState = {
   warehouseId: "",
   statusCode: "STT-05",
 };
+const initialFieldValidator = {
+  unit: "",
+  warehouse: "",
+};
 const ProductsSold = () => {
   const { auth, product, user, warehouse } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -73,6 +77,9 @@ const ProductsSold = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setErrorReportData(initialReportState);
+    setFieldValidator(initialFieldValidator);
+    setShippingData(initialShippingState);
     setOpenDialog(false);
   };
 
@@ -93,6 +100,19 @@ const ProductsSold = () => {
 
   const { errorDescription, typeErrorCode } = errorReportData;
 
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+  const validateField = () => {
+    if (unitId === "" || warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        unit: unitId === "" ? "Please select a unit" : "",
+        warehouse: warehouseId === "" ? "Please select a warehouse" : "",
+      });
+      return true;
+    }
+    return false;
+  };
+
   const onChangeErrorReportDataInput = (e) => {
     setErrorReportData({
       ...errorReportData,
@@ -112,14 +132,20 @@ const ProductsSold = () => {
     });
   };
 
+  const isNotBlankFields = () => {
+    return errorDescription.trim() && typeErrorCode ? true : false;
+  };
+
   const handleErrorReport = () => {
     dispatch(reportErrorProduct({ data: errorReportData, auth }));
     handleCloseDialog();
   };
 
   const handleMoveToCenter = () => {
-    dispatch(moveProduct({ data: shippingData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(moveProduct({ data: shippingData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const rows = product.products.map((prod) => {
@@ -208,7 +234,11 @@ const ProductsSold = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button color="error" onClick={handleErrorReport}>
+            <Button
+              color="error"
+              onClick={handleErrorReport}
+              disabled={!isNotBlankFields()}
+            >
               Report
             </Button>
           </DialogActions>
@@ -227,6 +257,8 @@ const ProductsSold = () => {
               name="unitId"
               value={unitId}
               onChange={onChangeShippingDataInput}
+              error={fieldValidator.unit ? true : false}
+              helperText={fieldValidator.unit}
             >
               {user.users.map((center) => (
                 <MenuItem key={center.id} value={center.id}>
@@ -245,6 +277,8 @@ const ProductsSold = () => {
               name="warehouseId"
               value={warehouseId}
               onChange={onChangeShippingDataInput}
+              error={fieldValidator.warehouse ? true : false}
+              helperText={fieldValidator.warehouse}
             >
               {warehouse.warehouses.map((wh) => (
                 <MenuItem key={wh.id} value={wh.id}>
