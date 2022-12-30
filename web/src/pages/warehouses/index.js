@@ -69,6 +69,7 @@ const Warehouse = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setWarehouseData(initialState);
     setOpenDialog(false);
   };
   const handleSubmit = () => {
@@ -133,7 +134,9 @@ const Warehouse = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button disabled={address ? false : true} onClick={handleSubmit}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </>

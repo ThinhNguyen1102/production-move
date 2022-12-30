@@ -24,22 +24,22 @@ const HomeFactoryOverview = ({ statisticProduct, failureProduct }) => {
 
   const overviewData = [
     {
-      text: "San pham san xuat",
+      text: "Created products",
       value: calculateNumOfProducts(),
       color: "primary.light",
     },
     {
-      text: "San pham ban duoc",
+      text: "Sold products",
       value: calculateNumOfSoldProducts(),
       color: "success.light",
     },
     {
-      text: "San pham loi",
+      text: "Defective products",
       value: calculateNumOfErrorProducts(),
       color: "error.light",
     },
     {
-      text: "San pham loi khong sua duoc",
+      text: "Unrepairable defective products",
       value: failureProduct?.length,
       color: "neutral.main",
       typeCard: "card-link",

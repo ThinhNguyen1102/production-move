@@ -49,6 +49,10 @@ const Requests = () => {
   );
   const { requestId, isAccept } = acceptRequestData;
 
+  const isNotBlankFields = () => {
+    return receiverId && role ? true : false;
+  };
+
   useEffect(() => {
     if (showRequestState === "receive") {
       dispatch(getAllRequestReceive({ auth }));
@@ -264,7 +268,9 @@ const Requests = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmitRequest}>Create</Button>
+          <Button disabled={!isNotBlankFields()} onClick={handleSubmitRequest}>
+            Create
+          </Button>
         </DialogActions>
       </Dialog>
 

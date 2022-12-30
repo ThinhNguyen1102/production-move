@@ -24,17 +24,17 @@ const HomeAgentOverview = ({ statisticProduct }) => {
 
   const overviewData = [
     {
-      text: "San pham da nhap",
+      text: "Imported products",
       value: calculateNumOfProducts(),
       color: "primary.light",
     },
     {
-      text: "San pham ban duoc",
+      text: "Sold products",
       value: calculateNumOfSoldProducts(),
       color: "success.light",
     },
     {
-      text: "San pham loi",
+      text: "Defective products",
       value: calculateNumOfErrorProducts(),
       color: "error.light",
     },

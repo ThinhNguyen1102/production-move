@@ -24,17 +24,17 @@ const HomeCenterOverview = ({ statisticProduct }) => {
 
   const overviewData = [
     {
-      text: "Luot bao hanh",
+      text: "Warranty tickets",
       value: calculateNumOfRepairs(),
       color: "primary.light",
     },
     {
-      text: "Luot bao hanh thanh cong",
+      text: "Successful warranty tickets",
       value: calculateNumOfSuccessRepairs(),
       color: "success.light",
     },
     {
-      text: "Luot bao hanh that bai",
+      text: "Failed warranty tickets",
       value: calculateNumOfFailureRepairs(),
       color: "neutral.main",
     },

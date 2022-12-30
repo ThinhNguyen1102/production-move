@@ -24,17 +24,17 @@ const HomeAdminOverview = ({ statisticProduct }) => {
 
   const overviewData = [
     {
-      text: "San pham toan quoc",
+      text: "Nationwide products",
       value: calculateNumOfProducts(),
       color: "primary.light",
     },
     {
-      text: "San pham ban duoc toan quoc",
+      text: "Nationwide sold products",
       value: calculateNumOfSoldProducts(),
       color: "success.light",
     },
     {
-      text: "San pham loi toan quoc",
+      text: "Nationwide defective products",
       value: calculateNumOfErrorProducts(),
       color: "error.light",
     },

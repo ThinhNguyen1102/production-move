@@ -17,6 +17,9 @@ import { useNavigate } from "react-router-dom";
 import { createPackage } from "../../../redux/actions/packageAction";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
+const initialFieldValidator = {
+  warehouse: "",
+};
 export default function ProductLineCard({ productLine, warehouses }) {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -29,6 +32,12 @@ export default function ProductLineCard({ productLine, warehouses }) {
   };
 
   const handleCloseDialog = () => {
+    setFieldValidator(initialFieldValidator);
+    setPackageData({
+      productLineId: productLine.id,
+      warehouseId: "",
+      quantity: "",
+    });
     setOpenDialog(false);
   };
 
@@ -43,6 +52,22 @@ export default function ProductLineCard({ productLine, warehouses }) {
     quantity: "",
   });
   const { productLineId, warehouseId, quantity } = packageData;
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+  const validateField = () => {
+    if (warehouseId === "") {
+      setFieldValidator({
+        ...fieldValidator,
+        warehouse: "Please select a warehouse",
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const isNotBlankFields = () => {
+    return quantity && quantity !== 0 ? true : false;
+  };
+
   const onChangeDataInput = (e) => {
     setPackageData({
       ...packageData,
@@ -51,8 +76,10 @@ export default function ProductLineCard({ productLine, warehouses }) {
   };
 
   const handleCreatePackage = () => {
-    handleCloseDialog();
-    dispatch(createPackage({ data: packageData, auth }));
+    if (!validateField()) {
+      handleCloseDialog();
+      dispatch(createPackage({ data: packageData, auth }));
+    }
   };
 
   return (
@@ -163,6 +190,8 @@ export default function ProductLineCard({ productLine, warehouses }) {
               name="warehouseId"
               value={warehouseId}
               onChange={onChangeDataInput}
+              error={fieldValidator.warehouse ? true : false}
+              helperText={fieldValidator.warehouse}
             >
               {warehouses.map((warehouseElement) => (
                 <MenuItem key={warehouseElement.id} value={warehouseElement.id}>
@@ -184,7 +213,12 @@ export default function ProductLineCard({ productLine, warehouses }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button onClick={handleCreatePackage}>Create</Button>
+            <Button
+              disabled={!isNotBlankFields()}
+              onClick={handleCreatePackage}
+            >
+              Create
+            </Button>
           </DialogActions>
         </Dialog>
       )}

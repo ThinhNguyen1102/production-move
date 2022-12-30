@@ -29,7 +29,7 @@ const initialState = {
   memory: "",
   color: "",
   description: "",
-  price: 0,
+  price: "",
   image_url: "",
 };
 const ProductLine = () => {
@@ -51,6 +51,7 @@ const ProductLine = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setProductLineData({ ...initialState });
     dispatch(resetImage());
     setOpenDialog(false);
   };
@@ -66,6 +67,12 @@ const ProductLine = () => {
 
   const [productLineData, setProductLineData] = useState(initialState);
   const { model, ram, memory, color, description, price } = productLineData;
+  const isNotBlankFields = () => {
+    return model.trim() && ram && memory && color.trim() && price
+      ? true
+      : false;
+  };
+
   const onChangeDataInput = (e) => {
     setProductLineData({
       ...productLineData,
@@ -116,7 +123,7 @@ const ProductLine = () => {
         <DialogTitle>Add product line</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="model"
             label="Model"
@@ -127,7 +134,7 @@ const ProductLine = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="ram"
             label="RAM"
@@ -139,7 +146,7 @@ const ProductLine = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="memory"
             label="Memory"
@@ -151,7 +158,7 @@ const ProductLine = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="color"
             label="Color"
@@ -173,7 +180,7 @@ const ProductLine = () => {
             onChange={onChangeDataInput}
           />
           <TextField
-            autoFocus
+            required
             margin="dense"
             id="price"
             label="Price"
@@ -232,7 +239,9 @@ const ProductLine = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button disabled={!isNotBlankFields()} onClick={handleSubmit}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </>
