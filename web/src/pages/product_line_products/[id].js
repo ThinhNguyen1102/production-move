@@ -14,6 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
 import BackButton from "../../components/Shared/BackButton";
+import { getProductLineById } from "../../redux/actions/productLineAction";
 
 const columns = [
   { field: "prod_id", headerName: "Product_ID", width: 110 },
@@ -43,13 +44,20 @@ const initialState = {
   customerAddress: "",
   customerEmail: "",
 };
+const initialFieldValidator = {
+  name: "",
+  phoneNumber: "",
+  address: "",
+  email: "",
+};
 const ProductLineProducts = () => {
-  const { auth, product } = useSelector((state) => state);
+  const { auth, product, productLine } = useSelector((state) => state);
   const { id } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllOwnProductByPl({ data: { productLineId: id }, auth }));
+    dispatch(getProductLineById({ data: { productLineId: id }, auth }));
   }, [dispatch]);
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -58,6 +66,7 @@ const ProductLineProducts = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    setSalesData(initialState);
     setOpenDialog(false);
   };
 
@@ -69,8 +78,10 @@ const ProductLineProducts = () => {
   };
 
   const handleSellProduct = () => {
-    dispatch(sellProduct({ data: salesData, auth }));
-    handleCloseDialog();
+    if (!validateField()) {
+      dispatch(sellProduct({ data: salesData, auth }));
+      handleCloseDialog();
+    }
   };
 
   const [salesData, setSalesData] = useState(initialState);
@@ -81,6 +92,27 @@ const ProductLineProducts = () => {
     customerAddress,
     customerEmail,
   } = salesData;
+
+  const [fieldValidator, setFieldValidator] = useState(initialFieldValidator);
+  const validateField = () => {
+    if (
+      customerName.trim() === "" ||
+      customerPhone.trim() === "" ||
+      customerAddress.trim() === "" ||
+      customerEmail.trim() === ""
+    ) {
+      setFieldValidator({
+        ...fieldValidator,
+        name: customerName === "" ? "Name cannot be blank" : "",
+        phoneNumber: customerPhone === "" ? "Phone Number cannot be blank" : "",
+        address: customerAddress === "" ? "Address cannot be blank" : "",
+        email: customerEmail === "" ? "Email cannot be blank" : "",
+      });
+      return true;
+    }
+    return false;
+  };
+
   const onChangeDataInput = (e) => {
     setSalesData({
       ...salesData,
@@ -94,7 +126,7 @@ const ProductLineProducts = () => {
   }));
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 175px)", width: "100%" }}>
         <BackButton to="/product_line" />
         <Typography
           variant="h5"
@@ -102,7 +134,7 @@ const ProductLineProducts = () => {
           sx={{ fontWeight: 500, textAlign: "center" }}
           gutterBottom
         >
-          Product list by product line
+          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram} - Memory: ${productLine.productLine.memory} - Color: ${productLine.productLine.color}`}
         </Typography>
         <DataGrid
           rows={rows}
@@ -127,6 +159,8 @@ const ProductLineProducts = () => {
             name="customerName"
             value={customerName}
             onChange={onChangeDataInput}
+            error={fieldValidator.name ? true : false}
+            helperText={fieldValidator.name}
           />
           <TextField
             autoFocus
@@ -138,6 +172,8 @@ const ProductLineProducts = () => {
             name="customerPhone"
             value={customerPhone}
             onChange={onChangeDataInput}
+            error={fieldValidator.phoneNumber ? true : false}
+            helperText={fieldValidator.phoneNumber}
           />
           <TextField
             autoFocus
@@ -150,6 +186,8 @@ const ProductLineProducts = () => {
             name="customerEmail"
             value={customerEmail}
             onChange={onChangeDataInput}
+            error={fieldValidator.email ? true : false}
+            helperText={fieldValidator.email}
           />
           <TextField
             autoFocus
@@ -161,6 +199,8 @@ const ProductLineProducts = () => {
             name="customerAddress"
             value={customerAddress}
             onChange={onChangeDataInput}
+            error={fieldValidator.address ? true : false}
+            helperText={fieldValidator.address}
           />
         </DialogContent>
         <DialogActions>

@@ -16,6 +16,7 @@ import { getUserByRole } from "../../redux/actions/userAction";
 import { getAllWarehouseByUnit } from "../../redux/actions/warehouseAction";
 import SendIcon from "@mui/icons-material/Send";
 import BackButton from "../../components/Shared/BackButton";
+import { getProductLineById } from "../../redux/actions/productLineAction";
 
 const columns = [
   { field: "package_id", headerName: "Package_ID", width: 110 },
@@ -54,7 +55,7 @@ const initialFieldValidator = {
 };
 const ProductLinePackages = () => {
   const { id } = useParams();
-  const { auth, packageReducer, user, warehouse } = useSelector(
+  const { auth, packageReducer, user, warehouse, productLine } = useSelector(
     (state) => state
   );
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ const ProductLinePackages = () => {
       getAllPackageByProductLineUnit({ data: { productLineId: id }, auth })
     );
     dispatch(getUserByRole({ data: { role: 3 }, auth }));
+    dispatch(getProductLineById({ data: { productLineId: id }, auth }));
   }, [dispatch]);
 
   const [shippingData, setShippingData] = useState(initialState);
@@ -128,7 +130,7 @@ const ProductLinePackages = () => {
   }));
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 150px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 175px)", width: "100%" }}>
         <BackButton to="/product_line" />
         <Typography
           variant="h5"
@@ -136,7 +138,7 @@ const ProductLinePackages = () => {
           sx={{ fontWeight: 500, textAlign: "center" }}
           gutterBottom
         >
-          Package list by product line
+          {`${productLine.productLine.model} - RAM: ${productLine.productLine.ram} - Memory: ${productLine.productLine.memory} - Color: ${productLine.productLine.color}`}
         </Typography>
         <DataGrid
           rows={rows}

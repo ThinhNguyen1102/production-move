@@ -2,6 +2,7 @@ import { PRODUCT_LINE } from "../types";
 
 const initialState = {
   productLines: [],
+  productLine: {},
 };
 
 const productLineReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ const productLineReducer = (state = initialState, action) => {
         productLines: state.productLines.filter(
           (item) => item.id !== action.payload
         ),
+      };
+    case PRODUCT_LINE.GET_A_PRODUCT_LINE:
+      return {
+        ...state,
+        productLine: action.payload,
       };
     default:
       return state;

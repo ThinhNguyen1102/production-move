@@ -96,3 +96,27 @@ export const deleteProductLineById =
       });
     }
   };
+
+export const getProductLineById =
+  ({ data, auth }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALERT, payload: { loading: true } });
+      const res = await getDataAPI(
+        `productlines/${data.productLineId}`,
+        auth.token
+      );
+      dispatch({
+        type: PRODUCT_LINE.GET_A_PRODUCT_LINE,
+        payload: res.data.productLine,
+      });
+      dispatch({ type: ALERT, payload: { loading: false } });
+    } catch (err) {
+      dispatch({
+        type: ALERT,
+        payload: {
+          error: err.response.data.errorList[0].msg,
+        },
+      });
+    }
+  };

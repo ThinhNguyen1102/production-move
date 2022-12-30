@@ -43,7 +43,7 @@ const columns = [
   {
     field: "error_status",
     headerName: "Status",
-    width: 120,
+    width: 130,
     renderCell: ({ value }) => {
       const { errorStatus, errorDescription } = value;
       if (errorStatus === "error") {
@@ -57,13 +57,13 @@ const columns = [
         );
       } else if (errorStatus === "success") {
         return <Chip label="success" color="success" />;
-      } else if (errorStatus === "failure") {
+      } else if (errorStatus === "Unrepairable") {
         return (
           <Tooltip
             title={`Error Description: ${errorDescription}`}
             sx={{ cursor: "pointer" }}
           >
-            <Chip label="failure" color="neutral" />
+            <Chip label="Unrepairable" color="neutral" />
           </Tooltip>
         );
       }
@@ -204,7 +204,7 @@ const ProductGuarantee = () => {
     } else {
       return isFixed
         ? { errorStatus: "success", errorDescription }
-        : { errorStatus: "failure", errorDescription };
+        : { errorStatus: "Unrepairable", errorDescription };
     }
   };
 
@@ -318,7 +318,7 @@ const ProductGuarantee = () => {
             onChange={onChangeFixedDataInput}
           >
             <MenuItem value={true}>Success</MenuItem>
-            <MenuItem value={false}>Failure</MenuItem>
+            <MenuItem value={false}>Unrepairable</MenuItem>
           </TextField>
         </DialogContent>
         <DialogActions>
