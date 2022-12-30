@@ -5,7 +5,15 @@ export const roles = [
   { roleValue: 4, text: "Service Center" },
 ];
 
-export const typeErrorCodeList = ["ERR-SC", "ERR-HE", "ERR-CH"];
+export const typeErrorCodeList = [
+  "ERR-SC",
+  "ERR-HE",
+  "ERR-CH",
+  "ERR-BA",
+  "ERR-SP",
+  "ERR-MA",
+  "ERR-MI",
+];
 
 export const defineRoutesByRole = [
   ["/", "/product_line", "/accounts"],
