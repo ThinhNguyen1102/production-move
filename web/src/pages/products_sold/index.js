@@ -157,16 +157,19 @@ const ProductsSold = () => {
     }
   };
 
-  const rows = product.products.map((prod) => {
+  const rows = product.products?.map((prod, index) => {
     let currentErrorIsDone =
-      prod.soldStatus_product?.errors[0]?.error_soldStt?.isDone;
+      prod?.soldStatus_product?.errors[0]?.error_soldStt?.isDone;
     let currentErrorIsFixed =
-      prod.soldStatus_product?.errors[0]?.error_soldStt?.isFixed;
+      prod?.soldStatus_product?.errors[0]?.error_soldStt?.isFixed;
 
     let isNotError =
       (currentErrorIsDone && currentErrorIsFixed) ||
-      prod.soldStatus_product?.errors.length === 0;
-    let errDesc = prod.soldStatus_product?.errors[0]?.description;
+      prod?.soldStatus_product?.errors.length === 0;
+    let errDesc = "";
+    if (prod?.soldStatus_product?.errors.length > 0) {
+      errDesc = prod?.soldStatus_product?.errors[0]?.description;
+    }
 
     return {
       ...prod,
