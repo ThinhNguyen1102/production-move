@@ -22,11 +22,20 @@ import { TextField } from "@mui/material";
 import ReportIcon from "@mui/icons-material/Report";
 
 const columns = [
-  { field: "package_id", headerName: "Package_ID", width: 160 },
+  { field: "package_id", headerName: "Package_ID", width: 120 },
   {
     field: "quantity_in_stock",
     headerName: "Quantity in Stock",
     width: 150,
+  },
+  {
+    field: "productLine_package",
+    headerName: "Product Line",
+    width: 230,
+    valueGetter: ({ value }) => {
+      const productLine = { ...value };
+      return `${productLine.model} - RAM: ${productLine.ram} - Memory: ${productLine.memory} - Color: ${productLine.color}`;
+    },
   },
   {
     field: "move_to_factory",
@@ -140,6 +149,12 @@ const AgentPackageManagement = () => {
           getRowId={(row) => row.package_id}
           pageSize={12}
           rowsPerPageOptions={[12]}
+          sx={{
+            "&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell": {
+              py: "8px",
+            },
+          }}
+          getRowHeight={() => "auto"}
         />
       </Box>
       {/* dialog */}

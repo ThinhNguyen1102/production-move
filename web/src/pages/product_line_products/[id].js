@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, DialogContentText } from "@mui/material";
+import { Box, Button, DialogContentText, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOwnProductByPl,
@@ -96,6 +96,14 @@ const ProductLineProducts = () => {
     <>
       <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
         <BackButton to="/product_line" />
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ fontWeight: 500, textAlign: "center" }}
+          gutterBottom
+        >
+          Product list by product line
+        </Typography>
         <DataGrid
           rows={rows}
           columns={columns}

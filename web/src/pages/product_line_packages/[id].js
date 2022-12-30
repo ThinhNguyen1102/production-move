@@ -6,7 +6,7 @@ import {
   movePackage,
 } from "../../redux/actions/packageAction";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, MenuItem, TextField } from "@mui/material";
+import { Box, Button, MenuItem, TextField, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -20,9 +20,9 @@ import BackButton from "../../components/Shared/BackButton";
 const columns = [
   { field: "package_id", headerName: "Package_ID", width: 160 },
   {
-    field: "quantity",
-    headerName: "Quantity",
-    width: 80,
+    field: "quantity_in_stock",
+    headerName: "Quantity in Stock",
+    width: 140,
   },
   {
     field: "move_to_agent",
@@ -128,8 +128,16 @@ const ProductLinePackages = () => {
   }));
   return (
     <>
-      <Box p={3} sx={{ height: "calc(100vh - 144px)", width: "100%" }}>
+      <Box p={3} sx={{ height: "calc(100vh - 150px)", width: "100%" }}>
         <BackButton to="/product_line" />
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ fontWeight: 500, textAlign: "center" }}
+          gutterBottom
+        >
+          Package list by product line
+        </Typography>
         <DataGrid
           rows={rows}
           columns={columns}
