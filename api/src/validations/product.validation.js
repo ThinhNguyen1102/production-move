@@ -19,8 +19,8 @@ const productValidation = {
   postSoldProductVali: [
     body("prodId")
       .trim()
-      .isLength({ min: 9, max: 9 })
-      .withMessage("prodductId must have 9 characters")
+      .isLength({ min: 8, max: 8 })
+      .withMessage("prodductId must have 8 characters")
       .custom((value) => {
         if (isHtml(value)) throw new Error("HTML strings input is not allowed");
         else return true;
@@ -54,8 +54,8 @@ const productValidation = {
   postGuarenteesVali: [
     body("prodId")
       .trim()
-      .isLength({ min: 9, max: 9 })
-      .withMessage("prodductId must have 9 characters")
+      .isLength({ min: 8, max: 8 })
+      .withMessage("prodductId must have 8 characters")
       .custom((value) => {
         if (isHtml(value)) throw new Error("HTML strings input is not allowed");
         else return true;
@@ -84,8 +84,8 @@ const productValidation = {
       .withMessage("Please enter valid numeric value"),
     body("prodId")
       .trim()
-      .isLength({ min: 9, max: 9 })
-      .withMessage("prodductId must have 9 characters")
+      .isLength({ min: 8, max: 8 })
+      .withMessage("prodductId must have 8 characters")
       .custom((value) => {
         if (isHtml(value)) throw new Error("HTML strings input is not allowed");
         else return true;
@@ -106,8 +106,8 @@ const productValidation = {
   fixedProductVali: [
     body("prodId")
       .trim()
-      .isLength({ min: 9, max: 9 })
-      .withMessage("prodductId must have 9 characters")
+      .isLength({ min: 8, max: 8 })
+      .withMessage("prodductId must have 8 characters")
       .custom((value) => {
         if (isHtml(value)) throw new Error("HTML strings input is not allowed");
         else return true;

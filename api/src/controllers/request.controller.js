@@ -15,6 +15,20 @@ const RequestController = {
     }
 
     try {
+      if (content === "") {
+        const err = new Error("Content cannot be empty");
+        err.statusCode = 400;
+        throw err;
+      }
+
+      const unit = await db.User.findByPk(receiverId, {
+        attributes: { exclude: ["password"] },
+      });
+      if (!unit) {
+        const err = new Error("Could not find unit.");
+        err.statusCode = 400;
+        throw err;
+      }
       const request = {
         sender_id: +unitId,
         receiver_id: +receiverId,
@@ -22,6 +36,7 @@ const RequestController = {
       };
 
       const requestSaved = await db.Request.create(request);
+      requestSaved.dataValues.sender_request = unit.dataValues;
 
       res.status(200).json({
         success: true,
