@@ -37,19 +37,19 @@ const HomeAdminChart = ({ statisticProduct }) => {
         {
           type: "column",
           color: "#42a5f5",
-          name: "numOfProduct",
+          name: "Nationwide products",
           data: statisticProduct?.map((item) => item.numOfProduct),
         },
         {
           type: "column",
           color: "#4caf50",
-          name: "numOfSoldProduct",
+          name: "Nationwide sold products",
           data: statisticProduct?.map((item) => item.numOfSoldProduct),
         },
         {
           type: "column",
           color: "#ef5350",
-          name: "numOfErrorProduct",
+          name: "Nationwide defective products",
           data: statisticProduct?.map((item) => item.numOfErrorProduct),
         },
       ],
