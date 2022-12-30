@@ -12,7 +12,7 @@ const warehouseValidation = {
     body("phone_number")
       .trim()
       .isMobilePhone()
-      .withMessage("Please enter valid phone number value"),
+      .withMessage("Required is valid phone number value"),
   ],
 };
 

@@ -6,15 +6,15 @@ const productValidation = {
     body("productLineId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("warehouseId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("quantity")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
   ],
   postSoldProductVali: [
     body("prodId")
@@ -37,19 +37,15 @@ const productValidation = {
         if (isHtml(value)) throw new Error("HTML strings input is not allowed");
         else return true;
       }),
-    body("customerAddress")
+    body("customerPhone")
       .trim()
       .isMobilePhone()
-      .withMessage("Please enter valid phone number value"),
+      .withMessage("Required is valid phone number value"),
     body("customerEmail")
       .trim()
       .isEmail()
-      .withMessage("Please enter a valid email.")
+      .withMessage("Required is a valid email.")
       .normalizeEmail(),
-    body("oldCustomerId")
-      .trim()
-      .isNumeric()
-      .withMessage("Please enter valid numeric value"),
   ],
   postGuarenteesVali: [
     body("prodId")
@@ -77,11 +73,11 @@ const productValidation = {
     body("unitId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("warehouseId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("prodId")
       .trim()
       .isLength({ min: 8, max: 8 })
@@ -101,7 +97,7 @@ const productValidation = {
     body("transportId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
   ],
   fixedProductVali: [
     body("prodId")
@@ -115,7 +111,7 @@ const productValidation = {
     body("isFixed")
       .trim()
       .isBoolean()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
   ],
 };
 

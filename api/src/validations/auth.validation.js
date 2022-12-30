@@ -6,7 +6,7 @@ const authValidation = {
     body("email")
       .trim()
       .isEmail()
-      .withMessage("Please enter a valid email.")
+      .withMessage("Required is a valid email.")
       .normalizeEmail(),
     body("password")
       .trim()
@@ -27,17 +27,17 @@ const authValidation = {
     body("phone_number")
       .trim()
       .isMobilePhone()
-      .withMessage("Please enter valid phone number value"),
+      .withMessage("Required is valid phone number value"),
     body("role")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numberic value"),
+      .withMessage("Required is valid numberic value"),
   ],
   loginVali: [
     body("email")
       .trim()
       .isEmail()
-      .withMessage("Please enter a valid email.")
+      .withMessage("Required is a valid email.")
       .normalizeEmail(),
     body("password")
       .trim()

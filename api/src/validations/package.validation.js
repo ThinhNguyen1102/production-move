@@ -6,17 +6,17 @@ const packageValidation = {
     body("transportId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
   ],
   movePackage: [
     body("unitId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("warehouseId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("packageId")
       .trim()
       .isLength({ min: 9, max: 9 })

@@ -18,11 +18,11 @@ const requestValidation = {
     body("requestId")
       .trim()
       .isNumeric()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
     body("isAccept")
       .trim()
       .isBoolean()
-      .withMessage("Please enter valid numeric value"),
+      .withMessage("Required is valid numeric value"),
   ],
 };
 
