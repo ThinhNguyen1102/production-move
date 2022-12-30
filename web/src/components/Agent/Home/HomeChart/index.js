@@ -63,19 +63,19 @@ const HomeAgentChart = ({ statisticProduct }) => {
         {
           type: "column",
           color: "#42a5f5",
-          name: "numOfRecieveProduct",
+          name: "Imported products",
           data: numOfProduct,
         },
         {
           type: "column",
           color: "#4caf50",
-          name: "numOfSoldProduct",
+          name: "Sold products",
           data: numOfSoldProduct,
         },
         {
           type: "column",
           color: "#ef5350",
-          name: "numOfErrorProduct",
+          name: "Defective products",
           data: numOfErrorProduct,
         },
       ],

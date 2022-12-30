@@ -37,19 +37,19 @@ const HomeCenterChart = ({ statisticProduct }) => {
         {
           type: "column",
           color: "#42a5f5",
-          name: "numOfRepairs",
+          name: "Warranty tickets",
           data: statisticProduct?.map((item) => item.numOfRepairs),
         },
         {
           type: "column",
           color: "#4caf50",
-          name: "numOfSuccessRepairs",
+          name: "Successful warranty tickets",
           data: statisticProduct?.map((item) => item.numOfSuccessRepairs),
         },
         {
           type: "column",
           color: "#64748B",
-          name: "numOfFailureRepairs",
+          name: "Failed warranty tickets",
           data: statisticProduct?.map((item) => item.numOfFailureRepairs),
         },
       ],
