@@ -251,7 +251,7 @@ const ProductGuarantee = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>{`${
           shippingData.statusCode === "STT-06"
             ? "Back to Agent"
@@ -286,7 +286,7 @@ const ProductGuarantee = () => {
       </Dialog>
 
       {/* fixed dialog */}
-      <Dialog open={openFixedDialog} onClose={handleCloseFixedDialog}>
+      <Dialog open={openFixedDialog} onClose={handleCloseFixedDialog} fullWidth>
         <DialogTitle>Edit Error Status</DialogTitle>
         <DialogContent>
           <DialogContentText>{`Error Description: ${errorDesc}`}</DialogContentText>

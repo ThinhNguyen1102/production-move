@@ -106,7 +106,7 @@ const Warehouse = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Add Warehouse</DialogTitle>
         <DialogContent>
           <TextField

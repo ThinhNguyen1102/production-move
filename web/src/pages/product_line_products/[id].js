@@ -103,7 +103,7 @@ const ProductLineProducts = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Sell Product</DialogTitle>
         <DialogContent>
           <DialogContentText>Customer Information:</DialogContentText>

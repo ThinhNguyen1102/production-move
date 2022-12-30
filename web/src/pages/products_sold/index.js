@@ -199,7 +199,7 @@ const ProductsSold = () => {
       </Box>
       {/* dialog */}
       {isReport ? (
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
           <DialogTitle>Error Report</DialogTitle>
           <DialogContent>
             <TextField
@@ -244,7 +244,7 @@ const ProductsSold = () => {
           </DialogActions>
         </Dialog>
       ) : (
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
           <DialogTitle>Transport to Service Center</DialogTitle>
           <DialogContent>
             <TextField

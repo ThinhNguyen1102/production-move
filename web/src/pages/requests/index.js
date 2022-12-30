@@ -32,7 +32,7 @@ const initialRequestState = {
 };
 const initialAcceptRequestState = {
   requestId: "",
-  isAccept: "",
+  isAccept: "true",
 };
 const Requests = () => {
   const { auth, request, user } = useSelector((state) => state);
@@ -69,6 +69,7 @@ const Requests = () => {
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setRequestData(initialRequestState);
   };
 
   const handleClickOpenAcceptDialog = (requestId) => {
@@ -77,6 +78,7 @@ const Requests = () => {
   };
   const handleCloseAcceptDialog = () => {
     setOpenAcceptDialog(false);
+    setAcceptRequestData(initialAcceptRequestState);
   };
 
   const onChangeRoleInput = (e) => {
@@ -211,7 +213,7 @@ const Requests = () => {
         />
       </Box>
       {/* dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
         <DialogTitle>Create Request</DialogTitle>
         <DialogContent>
           <TextField
@@ -275,7 +277,11 @@ const Requests = () => {
       </Dialog>
 
       {/* accept dialog */}
-      <Dialog open={openAcceptDialog} onClose={handleCloseAcceptDialog}>
+      <Dialog
+        open={openAcceptDialog}
+        onClose={handleCloseAcceptDialog}
+        fullWidth
+      >
         <DialogTitle>Edit Status Request</DialogTitle>
         <DialogContent>
           <TextField
