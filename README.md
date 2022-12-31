@@ -1,9 +1,3 @@
-> ## Thành viên
-
-- Nguyễn Văn Thịnh - 20020477
-- Trần Anh Tú -
-- Ngô Thành Văn -
-
 > ## SERVER
 
 ### Công nghệ sử dụng
@@ -36,6 +30,9 @@ REFRESH_TOKEN_SECRET="thinh"
 > ## CLIENT
 
 ### Công nghệ sử dụng
+
+- react, redux
+- material ui, highcharts ...
 
 ### Start client productmove app
 
