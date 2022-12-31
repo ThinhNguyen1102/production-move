@@ -1,9 +1,3 @@
-> ## Thành viên
-
-- Nguyễn Văn Thịnh - 20020477
-- Trần Anh Tú -
-- Ngô Thành Văn -
-
 > ## SERVER
 
 ### Công nghệ sử dụng
@@ -11,7 +5,7 @@
 - nodejs, express framework
 - mysql database, sequelize ORM
 
-### Start server productmove app
+### Start server production-move app
 
 ```
 npm install
@@ -37,7 +31,10 @@ REFRESH_TOKEN_SECRET="thinh"
 
 ### Công nghệ sử dụng
 
-### Start client productmove app
+- react, redux
+- material ui, highcharts ...
+
+### Start client production-move app
 
 ```
 npm install
