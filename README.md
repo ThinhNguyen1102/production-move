@@ -5,7 +5,7 @@
 - nodejs, express framework
 - mysql database, sequelize ORM
 
-### Start server productmove app
+### Start server production-move app
 
 ```
 npm install
@@ -34,7 +34,7 @@ REFRESH_TOKEN_SECRET="thinh"
 - react, redux
 - material ui, highcharts ...
 
-### Start client productmove app
+### Start client production-move app
 
 ```
 npm install
