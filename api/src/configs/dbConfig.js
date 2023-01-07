@@ -4,7 +4,7 @@ module.exports = {
   DB: process.env.DATABASE_NAME,
   PORT: process.env.DATABASE_PORT,
   HOST: process.env.DATABASE_HOST,
-  dialect: "mysql",
+  dialect: process.env.DATABASE_DIALECT,
 
   pool: {
     max: 5,
