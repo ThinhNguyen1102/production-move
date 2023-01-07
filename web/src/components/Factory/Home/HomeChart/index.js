@@ -7,6 +7,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const initOptions = {
   chart: {
@@ -34,6 +35,8 @@ const initOptions = {
 };
 
 const HomeFactoryChart = ({ statisticProduct }) => {
+  const { t } = useTranslation(["home"]);
+
   const [viewChartStatus, setViewChartStatus] = useState("all");
 
   const onChangeViewChartStatus = (e) => {
@@ -92,7 +95,7 @@ const HomeFactoryChart = ({ statisticProduct }) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
       <Typography variant="h5" component="div" sx={{ fontWeight: 500 }}>
-        Statistics by product line
+        {t("statistics by product line")}
       </Typography>
       <ToggleButtonGroup
         sx={{ mx: "auto" }}

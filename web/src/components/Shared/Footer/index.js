@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import React from "react";
 
 const Footer = () => {
@@ -17,7 +17,7 @@ const Footer = () => {
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {"Copyright © "}
-          {/* <Link
+          <Link
             color="inherit"
             href="https://github.com/tuchan2002"
             sx={{ fontWeight: 600, textDecoration: "none" }}
@@ -32,7 +32,7 @@ const Footer = () => {
           >
             ThinhNguyen1102
           </Link>
-          {"."} */}
+          {"."}
         </Typography>
       </Container>
     </Box>

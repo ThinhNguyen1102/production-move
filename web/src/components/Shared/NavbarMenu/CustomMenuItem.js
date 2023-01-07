@@ -2,7 +2,7 @@ import { Link, Typography } from "@mui/material";
 import React from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
-const CustomMenuItem = ({ navbarMenuItem }) => {
+const CustomMenuItem = ({ t, navbarMenuItem }) => {
   const location = useLocation();
   let routePathPattern = location.pathname;
 
@@ -28,7 +28,9 @@ const CustomMenuItem = ({ navbarMenuItem }) => {
       }}
     >
       {navbarMenuItem.icon}
-      <Typography sx={{ fontSize: "12px" }}>{navbarMenuItem.text}</Typography>
+      <Typography sx={{ fontSize: "12px" }}>
+        {t(navbarMenuItem.text, { ns: "navbar" })}
+      </Typography>
     </Link>
   );
 };
