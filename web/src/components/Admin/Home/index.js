@@ -1,5 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAdminStatisticProduct,
@@ -10,6 +11,7 @@ import HomeAdminOverview from "./Overview";
 import UnitManagement from "./UnitManagement";
 
 const AgentHome = () => {
+  const { t } = useTranslation(["home"]);
   const { auth, statistic } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -31,8 +33,8 @@ const AgentHome = () => {
           gap: 4,
         }}
       >
-        <HomeAdminOverview statisticProduct={statisticProduct} />
-        <HomeAdminChart statisticProduct={statisticProduct} />
+        <HomeAdminOverview t={t} statisticProduct={statisticProduct} />
+        <HomeAdminChart t={t} statisticProduct={statisticProduct} />
         <UnitManagement unitsByRole={unitsByRole} />
       </Box>
     </Container>

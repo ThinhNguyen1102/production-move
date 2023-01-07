@@ -7,7 +7,6 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
 
 const initOptions = {
   chart: {
@@ -34,9 +33,7 @@ const initOptions = {
   series: [],
 };
 
-const HomeFactoryChart = ({ statisticProduct }) => {
-  const { t } = useTranslation(["home"]);
-
+const HomeFactoryChart = ({ t, statisticProduct }) => {
   const [viewChartStatus, setViewChartStatus] = useState("all");
 
   const onChangeViewChartStatus = (e) => {
@@ -66,19 +63,19 @@ const HomeFactoryChart = ({ statisticProduct }) => {
         {
           type: "column",
           color: "#42a5f5",
-          name: "Created products",
+          name: t("created products"),
           data: numOfProduct,
         },
         {
           type: "column",
           color: "#4caf50",
-          name: "Sold products",
+          name: t("sold products"),
           data: numOfSoldProduct,
         },
         {
           type: "column",
           color: "#ef5350",
-          name: "Defective products",
+          name: t("defective products"),
           data: numOfErrorProduct,
         },
       ],
@@ -105,8 +102,8 @@ const HomeFactoryChart = ({ statisticProduct }) => {
         value={viewChartStatus}
         onChange={onChangeViewChartStatus}
       >
-        <ToggleButton value="all">All</ToggleButton>
-        <ToggleButton value="last-month">Last Month</ToggleButton>
+        <ToggleButton value="all">{t("all")}</ToggleButton>
+        <ToggleButton value="last-month">{t("last month")}</ToggleButton>
       </ToggleButtonGroup>
       <HighchartsReact highcharts={Highcharts} options={generateOptions()} />
     </Box>

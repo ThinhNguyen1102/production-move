@@ -28,7 +28,7 @@ const initOptions = {
   series: [],
 };
 
-const HomeAdminChart = ({ statisticProduct }) => {
+const HomeAdminChart = ({ t, statisticProduct }) => {
   const generateOptions = () => {
     const productLineList = statisticProduct?.map((item) => item.model);
     return {
@@ -37,19 +37,19 @@ const HomeAdminChart = ({ statisticProduct }) => {
         {
           type: "column",
           color: "#42a5f5",
-          name: "Nationwide products",
+          name: t("nationwide products"),
           data: statisticProduct?.map((item) => item.numOfProduct),
         },
         {
           type: "column",
           color: "#4caf50",
-          name: "Nationwide sold products",
+          name: t("nationwide sold products"),
           data: statisticProduct?.map((item) => item.numOfSoldProduct),
         },
         {
           type: "column",
           color: "#ef5350",
-          name: "Nationwide defective products",
+          name: t("nationwide defective products"),
           data: statisticProduct?.map((item) => item.numOfErrorProduct),
         },
       ],
@@ -71,7 +71,7 @@ const HomeAdminChart = ({ statisticProduct }) => {
         sx={{ fontWeight: 500 }}
         gutterBottom
       >
-        Statistics by product line
+        {t("statistics by product line")}
       </Typography>
       <HighchartsReact highcharts={Highcharts} options={generateOptions()} />
     </Box>

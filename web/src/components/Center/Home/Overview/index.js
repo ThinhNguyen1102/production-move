@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import Overview from "../../../Shared/Home/Overview";
 
-const HomeCenterOverview = ({ statisticProduct }) => {
+const HomeCenterOverview = ({ t, statisticProduct }) => {
   const calculateNumOfRepairs = () => {
     return statisticProduct?.reduce(
       (total, item) => total + item.numOfRepairs,
@@ -24,17 +24,17 @@ const HomeCenterOverview = ({ statisticProduct }) => {
 
   const overviewData = [
     {
-      text: "Warranty tickets",
+      text: t("warranty tickets"),
       value: calculateNumOfRepairs(),
       color: "primary.light",
     },
     {
-      text: "Successful warranty tickets",
+      text: t("successful warranty tickets"),
       value: calculateNumOfSuccessRepairs(),
       color: "success.light",
     },
     {
-      text: "Failed warranty tickets",
+      text: t("failed warranty tickets"),
       value: calculateNumOfFailureRepairs(),
       color: "neutral.main",
     },

@@ -45,7 +45,9 @@ function NavbarMenu() {
   const [openDialog, setOpenDialog] = useState(false);
   const [openLangDialog, setOpenLangDialog] = useState(false);
   const [changePasswordData, setChangePasswordData] = useState(initialState);
-  const [currentLang, setCurrentLang] = useState("en");
+  const [currentLang, setCurrentLang] = useState(
+    localStorage.getItem("currentLanguage") || "en"
+  );
   const { oldPassword, newPassword, confirmNewPassword } = changePasswordData;
 
   useEffect(() => {

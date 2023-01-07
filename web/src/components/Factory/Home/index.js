@@ -5,8 +5,10 @@ import { getAllOwnProductSold } from "../../../redux/actions/productAction";
 import { getFactoryStatisticProduct } from "../../../redux/actions/statisticAction";
 import HomeFactoryChart from "./HomeChart";
 import HomeFactoryOverview from "./Overview";
+import { useTranslation } from "react-i18next";
 
 const FactoryHome = () => {
+  const { t } = useTranslation(["home"]);
   const { auth, statistic, product } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -29,10 +31,11 @@ const FactoryHome = () => {
         }}
       >
         <HomeFactoryOverview
+          t={t}
           statisticProduct={statisticProduct}
           failureProduct={product.products}
         />
-        <HomeFactoryChart statisticProduct={statisticProduct} />
+        <HomeFactoryChart t={t} statisticProduct={statisticProduct} />
       </Box>
     </Container>
   );
