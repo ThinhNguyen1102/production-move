@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import React from "react";
 
 const Footer = () => {
@@ -12,12 +12,10 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="sm">
-        <Typography variant="body1">
-          Big exercises for semester 1 year 3.
-        </Typography>
+        <Typography variant="body1">BigCorp website</Typography>
         <Typography variant="body2" color="text.secondary">
           {"Copyright © "}
-          {/* <Link
+          <Link
             color="inherit"
             href="https://github.com/tuchan2002"
             sx={{ fontWeight: 600, textDecoration: "none" }}
@@ -32,7 +30,7 @@ const Footer = () => {
           >
             ThinhNguyen1102
           </Link>
-          {"."} */}
+          {"."}
         </Typography>
       </Container>
     </Box>

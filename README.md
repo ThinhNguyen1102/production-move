@@ -23,8 +23,8 @@ CLOUDINARY_API_SECRET=1ASeKBnWsrLp5XX6a2qkyMKNzR0
 ### Access token secret
 
 ```
-ACCESS_TOKEN_SECRET="thinh"
-REFRESH_TOKEN_SECRET="thinh"
+ACCESS_TOKEN_SECRET="secret"
+REFRESH_TOKEN_SECRET="secret"
 ```
 
 > ## CLIENT

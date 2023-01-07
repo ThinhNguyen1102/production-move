@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 import Overview from "../../../Shared/Home/Overview";
 
-const HomeAdminOverview = ({ statisticProduct }) => {
+const HomeAdminOverview = ({ t, statisticProduct }) => {
   const calculateNumOfProducts = () => {
     return statisticProduct?.reduce(
       (total, item) => total + item.numOfProduct,
@@ -24,17 +24,17 @@ const HomeAdminOverview = ({ statisticProduct }) => {
 
   const overviewData = [
     {
-      text: "Nationwide products",
+      text: t("nationwide products"),
       value: calculateNumOfProducts(),
       color: "primary.light",
     },
     {
-      text: "Nationwide sold products",
+      text: t("nationwide sold products"),
       value: calculateNumOfSoldProducts(),
       color: "success.light",
     },
     {
-      text: "Nationwide defective products",
+      text: t("nationwide defective products"),
       value: calculateNumOfErrorProducts(),
       color: "error.light",
     },

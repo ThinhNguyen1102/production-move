@@ -10,6 +10,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 import DataProvider from "./redux/store";
+import "./i18n/i18n";
 
 const customTheme = createTheme({
   palette: {
