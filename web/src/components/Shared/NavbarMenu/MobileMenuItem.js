@@ -2,7 +2,7 @@ import { Link, MenuItem, Typography } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-const MobileMenuItem = ({ navbarMenuItem, handleCloseNavMenu }) => {
+const MobileMenuItem = ({ t, navbarMenuItem, handleCloseNavMenu }) => {
   return (
     <Link
       component={RouterLink}
@@ -16,7 +16,7 @@ const MobileMenuItem = ({ navbarMenuItem, handleCloseNavMenu }) => {
       <MenuItem>
         {navbarMenuItem.icon}
         <Typography ml={1} textAlign="center">
-          {navbarMenuItem.text}
+          {t(navbarMenuItem.text, { ns: "navbar" })}
         </Typography>
       </MenuItem>
     </Link>

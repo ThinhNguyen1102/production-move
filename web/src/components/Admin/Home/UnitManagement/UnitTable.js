@@ -20,6 +20,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import FactoryIcon from "@mui/icons-material/Factory";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
+import { useTranslation } from "react-i18next";
 
 const columns = [
   { field: "idx", headerName: "No", width: 50 },
@@ -36,6 +37,8 @@ const columns = [
   },
 ];
 const UnitTable = ({ title, dataRows }) => {
+  const { t } = useTranslation(["common"]);
+
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState("");
 
@@ -110,7 +113,7 @@ const UnitTable = ({ title, dataRows }) => {
           sx={{ width: "100%", bgcolor: "background.paper" }}
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">
-              Warehouses
+              {t("warehouses")}
             </ListSubheader>
           }
         >

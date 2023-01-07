@@ -1,0 +1,11 @@
+30-12-2022	51:50:21-------POST-----/api/v1/auth/login-----Incorrect email or password.
+07-01-2023	27:57:00-------POST-----/api/v1/auth/refresh_token-----Please Login or Register.
+07-01-2023	27:57:00-------POST-----/api/v1/auth/refresh_token-----Please Login or Register.
+07-01-2023	35:57:00-------POST-----/api/v1/auth/refresh_token-----Please Login or Register.
+07-01-2023	35:57:00-------POST-----/api/v1/auth/refresh_token-----Please Login or Register.
+07-01-2023	44:57:00-------POST-----/api/v1/auth/refresh_token-----Please Login or Register.
+07-01-2023	44:57:00-------POST-----/api/v1/auth/refresh_token-----Please Login or Register.
+07-01-2023	31:59:21-------GET-----/api/v1/productlines/own-----column "productLine_package.id" must appear in the GROUP BY clause or be used in an aggregate function
+07-01-2023	31:59:21-------GET-----/api/v1/productlines/own-----column "productLine_package.id" must appear in the GROUP BY clause or be used in an aggregate function
+07-01-2023	35:59:21-------GET-----/api/v1/productlines/own-----column "productLine_package.id" must appear in the GROUP BY clause or be used in an aggregate function
+07-01-2023	35:59:21-------GET-----/api/v1/productlines/own-----column "productLine_package.id" must appear in the GROUP BY clause or be used in an aggregate function

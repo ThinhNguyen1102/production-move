@@ -9,11 +9,12 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LanguageIcon from "@mui/icons-material/Language";
 import EditIcon from "@mui/icons-material/Edit";
 import { changePassword, logout } from "../../../redux/actions/authAction";
 import Dialog from "@mui/material/Dialog";
@@ -26,6 +27,7 @@ import MobileMenuItem from "./MobileMenuItem";
 import navbarMenuItems from "./navbarMenuItems";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const initialState = {
   oldPassword: "",
@@ -36,11 +38,22 @@ function NavbarMenu() {
   const { auth, alert } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const { i18n, t } = useTranslation(["common", "navbar"]);
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openLangDialog, setOpenLangDialog] = useState(false);
   const [changePasswordData, setChangePasswordData] = useState(initialState);
+  const [currentLang, setCurrentLang] = useState(
+    localStorage.getItem("currentLanguage") || "en"
+  );
   const { oldPassword, newPassword, confirmNewPassword } = changePasswordData;
+
+  useEffect(() => {
+    const currentLanguage = localStorage.getItem("currentLanguage") || "en";
+    i18n.changeLanguage(currentLanguage);
+  }, []);
 
   const isNotBlankFields = () => {
     return oldPassword.trim() && newPassword.trim() && confirmNewPassword.trim()
@@ -56,6 +69,15 @@ function NavbarMenu() {
   const handleCloseDialog = () => {
     setChangePasswordData({ ...initialState });
     setOpenDialog(false);
+  };
+
+  const handleClickOpenLangDialog = () => {
+    handleCloseUserMenu();
+    setOpenLangDialog(true);
+  };
+
+  const handleCloseLangDialog = () => {
+    setOpenLangDialog(false);
   };
 
   const onChangeDataInput = (e) => {
@@ -83,6 +105,12 @@ function NavbarMenu() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleChangeLanguage = () => {
+    i18n.changeLanguage(currentLang);
+    localStorage.setItem("currentLanguage", currentLang);
+    handleCloseLangDialog();
   };
 
   return (
@@ -148,6 +176,7 @@ function NavbarMenu() {
                   (navbarMenuItem, index) => (
                     <MobileMenuItem
                       key={index}
+                      t={t}
                       navbarMenuItem={navbarMenuItem}
                       handleCloseNavMenu={handleCloseNavMenu}
                     />
@@ -182,7 +211,11 @@ function NavbarMenu() {
             >
               {navbarMenuItems[auth.user.role - 1].map(
                 (navbarMenuItem, index) => (
-                  <CustomMenuItem key={index} navbarMenuItem={navbarMenuItem} />
+                  <CustomMenuItem
+                    key={index}
+                    t={t}
+                    navbarMenuItem={navbarMenuItem}
+                  />
                 )
               )}
             </Box>
@@ -218,17 +251,24 @@ function NavbarMenu() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
+                <MenuItem onClick={handleClickOpenLangDialog}>
+                  <LanguageIcon />
+                  <Typography ml={1} textAlign="center">
+                    {t("language", { ns: "navbar" })}
+                  </Typography>
+                </MenuItem>
+
                 <MenuItem onClick={handleClickOpenDialog}>
                   <EditIcon />
                   <Typography ml={1} textAlign="center">
-                    Change Password
+                    {t("change password", { ns: "navbar" })}
                   </Typography>
                 </MenuItem>
 
                 <MenuItem onClick={() => dispatch(logout())}>
                   <LogoutIcon />
                   <Typography ml={1} textAlign="center">
-                    Logout
+                    {t("logout", { ns: "navbar" })}
                   </Typography>
                 </MenuItem>
               </Menu>
@@ -239,13 +279,13 @@ function NavbarMenu() {
 
       {/* change password dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth>
-        <DialogTitle>Change Password</DialogTitle>
+        <DialogTitle>{t("change password", { ns: "navbar" })}</DialogTitle>
         <DialogContent>
           <TextField
             required
             margin="dense"
             id="oldPassword"
-            label="Old Password"
+            label={t("old password", { ns: "navbar" })}
             type="password"
             fullWidth
             variant="standard"
@@ -257,7 +297,7 @@ function NavbarMenu() {
             required
             margin="dense"
             id="newPassword"
-            label="New Password"
+            label={t("new password", { ns: "navbar" })}
             type="password"
             fullWidth
             variant="standard"
@@ -269,7 +309,7 @@ function NavbarMenu() {
             required
             margin="dense"
             id="confirmNewPassword"
-            label="Confirm Password"
+            label={t("confirm password", { ns: "navbar" })}
             type="password"
             fullWidth
             variant="standard"
@@ -279,12 +319,43 @@ function NavbarMenu() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleCloseDialog}>
+            {t("cancel", { ns: "common" })}
+          </Button>
           <Button
             disabled={!isNotBlankFields()}
             onClick={handleSubmitFormChangePassword}
           >
-            Save
+            {t("save", { ns: "common" })}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* change password dialog */}
+      <Dialog open={openLangDialog} onClose={handleCloseLangDialog} fullWidth>
+        <DialogTitle>{t("language", { ns: "navbar" })}</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            id="language"
+            select
+            label={t("language", { ns: "navbar" })}
+            fullWidth
+            variant="standard"
+            name="currentLang"
+            value={currentLang}
+            onChange={(e) => setCurrentLang(e.target.value)}
+          >
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="ja">日本語</MenuItem>
+          </TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseLangDialog}>
+            {t("cancel", { ns: "common" })}
+          </Button>
+          <Button onClick={handleChangeLanguage}>
+            {t("save", { ns: "common" })}
           </Button>
         </DialogActions>
       </Dialog>

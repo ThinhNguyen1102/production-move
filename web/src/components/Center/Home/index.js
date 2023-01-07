@@ -1,11 +1,14 @@
 import { Box, Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getCenterStatisticProduct } from "../../../redux/actions/statisticAction";
 import HomeCenterChart from "./HomeChart";
 import HomeCenterOverview from "./Overview";
 
 const AgentHome = () => {
+  const { t } = useTranslation(["home"]);
+
   const { auth, statistic } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -26,8 +29,8 @@ const AgentHome = () => {
           gap: 4,
         }}
       >
-        <HomeCenterOverview statisticProduct={statisticProduct} />
-        <HomeCenterChart statisticProduct={statisticProduct} />
+        <HomeCenterOverview t={t} statisticProduct={statisticProduct} />
+        <HomeCenterChart t={t} statisticProduct={statisticProduct} />
       </Box>
     </Container>
   );

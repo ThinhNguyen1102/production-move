@@ -1,8 +1,10 @@
 import { Box, Card, CardContent, Grid, Typography, Link } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 
 const Overview = ({ overviewData }) => {
+  const { t } = useTranslation(["home"]);
   const generateCardByType = (item) => {
     if (item.typeCard === "card-link") {
       return (
@@ -49,7 +51,7 @@ const Overview = ({ overviewData }) => {
         sx={{ fontWeight: 500 }}
         gutterBottom
       >
-        Overview
+        {t("overview")}
       </Typography>
       <Grid container spacing={3}>
         {overviewData.map((item, index) => (
