@@ -12,9 +12,7 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="sm">
-        <Typography variant="body1">
-          Big exercises for semester 1 year 3.
-        </Typography>
+        <Typography variant="body1">BigCorp website</Typography>
         <Typography variant="body2" color="text.secondary">
           {"Copyright © "}
           <Link

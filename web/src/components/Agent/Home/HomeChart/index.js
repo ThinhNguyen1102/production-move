@@ -33,7 +33,7 @@ const initOptions = {
   series: [],
 };
 
-const HomeAgentChart = ({ statisticProduct }) => {
+const HomeAgentChart = ({ t, statisticProduct }) => {
   const [viewChartStatus, setViewChartStatus] = useState("all");
 
   const onChangeViewChartStatus = (e) => {
@@ -63,19 +63,19 @@ const HomeAgentChart = ({ statisticProduct }) => {
         {
           type: "column",
           color: "#42a5f5",
-          name: "Imported products",
+          name: t("imported products"),
           data: numOfProduct,
         },
         {
           type: "column",
           color: "#4caf50",
-          name: "Sold products",
+          name: t("sold products"),
           data: numOfSoldProduct,
         },
         {
           type: "column",
           color: "#ef5350",
-          name: "Defective products",
+          name: t("defective products"),
           data: numOfErrorProduct,
         },
       ],
@@ -92,7 +92,7 @@ const HomeAgentChart = ({ statisticProduct }) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
       <Typography variant="h5" component="div" sx={{ fontWeight: 500 }}>
-        Statistics by product line
+        {t("statistics by product line")}
       </Typography>
       <ToggleButtonGroup
         sx={{ mx: "auto" }}
@@ -102,8 +102,8 @@ const HomeAgentChart = ({ statisticProduct }) => {
         value={viewChartStatus}
         onChange={onChangeViewChartStatus}
       >
-        <ToggleButton value="all">All</ToggleButton>
-        <ToggleButton value="last-month">Last Month</ToggleButton>
+        <ToggleButton value="all">{t("all")}</ToggleButton>
+        <ToggleButton value="last-month">{t("last month")}</ToggleButton>
       </ToggleButtonGroup>
       <HighchartsReact highcharts={Highcharts} options={generateOptions()} />
     </Box>

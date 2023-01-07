@@ -1,11 +1,13 @@
 import { Box, Container, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getAgentStatisticProduct } from "../../../redux/actions/statisticAction";
 import HomeAgentChart from "./HomeChart";
 import HomeAgentOverview from "./Overview";
 
 const AdminHome = () => {
+  const { t } = useTranslation(["home"]);
   const { auth, statistic } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -26,8 +28,8 @@ const AdminHome = () => {
           gap: 4,
         }}
       >
-        <HomeAgentOverview statisticProduct={statisticProduct} />
-        <HomeAgentChart statisticProduct={statisticProduct} />
+        <HomeAgentOverview t={t} statisticProduct={statisticProduct} />
+        <HomeAgentChart t={t} statisticProduct={statisticProduct} />
       </Box>
     </Container>
   );
