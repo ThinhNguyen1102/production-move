@@ -8,6 +8,7 @@ const authController = {
   register: async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors);
       const err = new Error("Validation failed, entered data is incorrect.");
       err.statusCode = 422;
       err.data = errors.array();

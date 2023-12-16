@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  dev-db:
+    image: mysql
+    container_name: product-move-db
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${DB_PORT}:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+  node-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-move-api
+    # command: npm start
+    depends_on:
+      - "dev-db"
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    networks:
+      - backend
+networks:
+  backend:
+volumes:
+  db-data:
